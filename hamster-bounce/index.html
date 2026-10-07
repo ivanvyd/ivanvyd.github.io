@@ -43,6 +43,8 @@ section h2 { font-size: 1.9rem; margin: 0 0 18px; }
 .shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; margin: 0 -4px; }
 .shots img { flex: 0 0 auto; width: min(62vw, 240px); height: auto; aspect-ratio: 9 / 16; border-radius: 18px; scroll-snap-align: start;
   box-shadow: 0 8px 24px rgba(48, 26, 71, .22); }
+.trailer { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 24px; border: 6px solid var(--card); background: var(--grape-deep);
+  box-shadow: 0 14px 40px rgba(48, 26, 71, .25); }
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
 .card { background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 20px; }
 .card h3 { margin: 0 0 8px; font-size: 1.3rem; }
@@ -73,6 +75,14 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px;
     </div>
     <figure><img src="img/feature.jpg" width="1024" height="500" alt="Hamster Bounce: a hamster in a clear ball rolling across a candy island, with the line &quot;Last hamster rolling wins!&quot;"></figure>
   </div>
+
+  <section class="wrap" aria-labelledby="trailer-title">
+    <h2 id="trailer-title">Watch the trailer</h2>
+    <video class="trailer" controls playsinline preload="metadata" width="1280" height="720" poster="video/hamster-bounce-trailer-poster.jpg">
+      <source src="video/hamster-bounce-trailer.mp4" type="video/mp4">
+      <track kind="captions" src="video/hamster-bounce-trailer.en.vtt" srclang="en" label="English" default>
+    </video>
+  </section>
 
   <section class="wrap" aria-labelledby="shots-title">
     <h2 id="shots-title">Take a look</h2>

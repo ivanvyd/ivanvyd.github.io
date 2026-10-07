@@ -5,7 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce</title>
 <meta name="description" content="Hold to charge and bonk rival hamsters into the holes on 4 crumbling islands. Boom, Stone and Float skills, 60 looks and computer-controlled rivals. Coming soon to Google Play.">
-<meta name="theme-color" content="#301a47">
+<meta name="theme-color" content="#170a28">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/">
+<link rel="alternate" hreflang="en" href="https://ivanvyd.github.io/hamster-bounce/">
+<link rel="alternate" hreflang="ru" href="https://ivanvyd.github.io/hamster-bounce/ru/">
+<link rel="alternate" hreflang="es" href="https://ivanvyd.github.io/hamster-bounce/es/">
+<link rel="alternate" hreflang="de" href="https://ivanvyd.github.io/hamster-bounce/de/">
+<link rel="alternate" hreflang="fr" href="https://ivanvyd.github.io/hamster-bounce/fr/">
+<link rel="alternate" hreflang="ja" href="https://ivanvyd.github.io/hamster-bounce/ja/">
+<link rel="alternate" hreflang="ko" href="https://ivanvyd.github.io/hamster-bounce/ko/">
+<link rel="alternate" hreflang="zh-Hans" href="https://ivanvyd.github.io/hamster-bounce/zh-hans/">
+<link rel="alternate" hreflang="tr" href="https://ivanvyd.github.io/hamster-bounce/tr/">
+<link rel="alternate" hreflang="it" href="https://ivanvyd.github.io/hamster-bounce/it/">
+<link rel="alternate" hreflang="pt-BR" href="https://ivanvyd.github.io/hamster-bounce/pt-br/">
+<link rel="alternate" hreflang="pl" href="https://ivanvyd.github.io/hamster-bounce/pl/">
+<link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
+<link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce">
 <meta property="og:description" content="Hold to charge and bonk rival hamsters into the holes on 4 crumbling islands!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
@@ -17,230 +33,552 @@
 <style>
 @font-face { font-family: "Fredoka"; src: url("Fredoka-Bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
 :root {
-  --grape: #301a47; --grape-deep: #1c0e2c; --raspberry: #f74a78; --aqua: #5cd9c9; --lemon: #ffdb54; --cream: #fffae6;
-  --bg: var(--cream); --text: var(--grape); --muted: #5d4a72; --card: #ffffff; --line: #eadff0;
-  --raspberry-ink: #c8204f; --stat: var(--raspberry-ink);
-  color-scheme: light;
+  color-scheme: dark;
+  --ink: #170a28; --ink-text: #2a1440; --cream: #fffae6; --lemon: #ffdb54; --raspberry: #f74a78; --aqua: #5cd9c9;
+  --text: #fffae6; --soft: #efe6fa; --on-cream: #4a3562;
+  --frame: linear-gradient(160deg, #fffdf4, #ffeec2);
+  --display: "Fredoka", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif; --dw: 700; --title-lh: .98;
+  --body: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --bg1: #4c2b8c; --bg2: #1a0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .4);
 }
-@media (prefers-color-scheme: dark) {
-  :root { --bg: var(--grape-deep); --text: #fdf6ff; --muted: #c9b8dc; --card: #2a1840; --line: #3d2a57; --stat: var(--raspberry); color-scheme: dark; }
-  .media-card img { outline: 2px solid var(--line); outline-offset: -2px; }
-}
+/* Fredoka Bold covers Latin only (no Cyrillic, no Turkish or Polish extras): those pages use one heavy system face for whole words. */
+:root:lang(ru), :root:lang(uk), :root:lang(tr), :root:lang(pl) { --display: ui-rounded, "Segoe UI", Roboto, "Noto Sans", system-ui, sans-serif; --dw: 800; }
+:root:lang(ja) { --display: "Fredoka", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  --body: system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+:root:lang(ko) { --display: "Fredoka", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR", sans-serif;
+  --body: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR", sans-serif; word-break: keep-all; }
+:root:lang(zh-Hans) { --display: "Fredoka", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif;
+  --body: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif; }
+:root:lang(ja), :root:lang(ko), :root:lang(zh-Hans) { --title-lh: 1.14; }
+
+.t-candy   { --bg1: #4c2b8c; --bg2: #1a0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .38); }
+.t-cosmos  { --bg1: #3e2a9a; --bg2: #0d0828; --accent: #9d7bff; --hot: #ffd75e; --glow: rgba(157, 123, 255, .42); }
+.t-bonk    { --bg1: #6c2178; --bg2: #1c0a2c; --accent: #f74a78; --hot: #ffdb54; --glow: rgba(247, 74, 120, .38); }
+.t-boom    { --bg1: #7a2f52; --bg2: #200c24; --accent: #ff9d2e; --hot: #ffdb54; --glow: rgba(255, 157, 46, .32); }
+.t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
+.t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
+.t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+html { background: var(--ink); scroll-behavior: smooth; }
+body { margin: 0; background: #140926; color: var(--text); font: 17px/1.6 var(--body); -webkit-text-size-adjust: 100%; overflow-wrap: break-word; }
+img, video { max-width: 100%; }
 a { color: inherit; }
-h1, h2, h3, .brand { font-family: "Fredoka", system-ui, sans-serif; font-weight: 700; line-height: 1.15; }
-.wrap { max-width: 64rem; margin: 0 auto; padding: 0 16px; }
-header { padding: 18px 0; }
-.brand { display: inline-flex; align-items: center; gap: 12px; font-size: 1.15rem; text-decoration: none; }
-.brand img { width: 44px; height: 44px; border-radius: 12px; }
-.brand small { display: block; font: 600 .8rem/1.2 system-ui, sans-serif; color: var(--muted); }
-.hero { display: grid; gap: 28px; align-items: center; padding-top: 24px; padding-bottom: 40px; }
-@media (min-width: 52rem) { .hero { grid-template-columns: 1fr 1.1fr; } }
-.hero h1 { font-size: clamp(2.6rem, 8vw, 4.2rem); margin: 0 0 12px; color: var(--raspberry); text-shadow: 0 3px 0 var(--grape); }
-.hero p.lead { font-size: 1.2rem; margin: 0 0 18px; }
-.stats { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0 0 22px; }
-.stats li { padding: 4px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); font: 700 1rem/1.6 "Fredoka", sans-serif; }
-.stats b { color: var(--stat); }
-.status { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--aqua);
-  color: var(--grape); font-family: "Fredoka", sans-serif; font-weight: 700; box-shadow: 0 4px 0 #2f9e91; }
-.status::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--grape); }
-.hero figure { margin: 0; }
-.hero figure img { width: 100%; height: auto; display: block; border-radius: 24px; border: 6px solid var(--card); box-shadow: 0 14px 40px rgba(48, 26, 71, .25); }
-section.wrap { padding-top: 32px; padding-bottom: 32px; }
-section h2 { font-size: 1.9rem; margin: 0 0 12px; }
-.intro { margin: 0 0 20px; max-width: 42rem; }
-.trailer { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 24px; border: 6px solid var(--card); background: var(--grape-deep);
-  box-shadow: 0 14px 40px rgba(48, 26, 71, .25); }
-.media-row { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; margin: 0 -4px; }
-.media-card { flex: 0 0 min(64vw, 14.5rem); scroll-snap-align: start; margin: 0; }
-.media-card img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 18px; background: var(--grape-deep);
-  box-shadow: 0 8px 24px rgba(48, 26, 71, .22); }
-.media-card .tag { margin: 14px 0 6px; }
-.media-card h3 { margin: 0 0 6px; font-size: 1.25rem; }
-.media-card p { margin: 0; color: var(--muted); }
-@media (min-width: 52rem) {
-  .media-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 14.5rem)); justify-content: space-between; overflow: visible; padding: 4px 0 0; margin: 0; }
+h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
+:focus-visible { outline: 3px solid var(--lemon); outline-offset: 3px; box-shadow: 0 0 0 7px var(--ink); border-radius: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.wrap { width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 48rem) { .wrap { padding: 0 32px; } }
+
+/* Scenes: the store panels' radial glow and light rays */
+.scene { position: relative; isolation: isolate; overflow: hidden; overflow: clip; padding: 68px 0 76px;
+  --ray-x: 50%; --ray-y: 66%;
+  background: radial-gradient(130% 75% at var(--ray-x) var(--ray-y), var(--bg1) 0%, var(--bg2) 80%); }
+.scene::before, .scene::after { content: ""; position: absolute; z-index: -1; left: var(--ray-x); top: var(--ray-y); pointer-events: none; transform: translate(-50%, -50%); }
+.scene::before { width: 1100px; height: 1100px; border-radius: 50%; background: radial-gradient(circle, var(--glow) 0%, transparent 62%); }
+.scene::after { width: 2200px; height: 2200px;
+  background: repeating-conic-gradient(from 3deg, rgba(255, 250, 230, .085) 0deg 7deg, rgba(255, 250, 230, 0) 7deg 16deg);
+  -webkit-mask: radial-gradient(circle, #000 0, #000 15%, transparent 48%); mask: radial-gradient(circle, #000 0, #000 15%, transparent 48%); }
+.scene > .wrap { position: relative; z-index: 1; }
+@media (min-width: 60rem) {
+  .scene { padding: 96px 0 104px; }
+  .scene.vis-right { --ray-x: 72%; --ray-y: 60%; }
+  .scene.vis-left { --ray-x: 28%; --ray-y: 60%; }
 }
-.grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
-.card { background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 20px; }
-.card h3 { margin: 0 0 8px; font-size: 1.3rem; }
-.card p { margin: 0; color: var(--muted); }
-.tag { display: inline-block; margin-bottom: 10px; padding: 2px 12px; border-radius: 999px; font: 700 .8rem/1.8 "Fredoka", sans-serif; color: var(--grape); }
-.tag.hot { background: var(--raspberry-ink); color: #fff; }
-.skills { margin-top: 20px; }
-.skill { border-left: 10px solid var(--accent); }
-.skill h3 { color: var(--text); }
-.split { display: grid; gap: 24px; }
-@media (min-width: 52rem) {
-  .split { grid-template-columns: 1fr auto; align-items: start; }
-  .split .media-row { grid-template-columns: repeat(2, 14.5rem); }
+
+/* Floating sparkles */
+.sparks { position: absolute; inset: 0; z-index: 0; pointer-events: none; font-family: system-ui, sans-serif;
+  background: linear-gradient(180deg, #140926 0, rgba(20, 9, 38, 0) 120px, rgba(20, 9, 38, 0) calc(100% - 120px), #140926 100%); }
+.sparks i { position: absolute; left: var(--x); top: var(--y); font-style: normal; font-size: var(--s, 18px); line-height: 1; color: var(--c, var(--lemon));
+  text-shadow: 0 3px 0 var(--ink); animation: float 7s ease-in-out var(--d, 0s) infinite alternate; }
+@keyframes float { from { transform: translateY(0) rotate(0deg); } to { transform: translateY(-14px) rotate(16deg); } }
+
+/* Panel headline: caps, cream or hot gradient fill on a thick grape outline. data-text repeats the line's text for the outline layer. */
+.head { position: relative; z-index: 2; margin: 0 auto 30px; text-align: center; }
+.title { margin: 0; font-family: var(--display); font-weight: var(--dw); font-size: clamp(2.3rem, 11.2vw, 5.25rem); line-height: var(--title-lh); letter-spacing: -.01em;
+  text-transform: uppercase; transform: rotate(-2.5deg); isolation: isolate; text-wrap: balance; hyphens: auto; overflow-wrap: anywhere; }
+.title .line { position: relative; display: block; color: var(--cream); }
+.title .hot { color: var(--hot); }
+.title .line::before { content: attr(data-text); content: attr(data-text) / ""; position: absolute; inset: 0; z-index: -1; color: var(--ink);
+  -webkit-text-stroke: .17em var(--ink); text-shadow: 0 .1em 0 var(--ink), 0 .2em .32em rgba(0, 0, 0, .5); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .title .line { background: linear-gradient(180deg, #fff 0%, #fffae6 48%, #ffe9a8 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .title .hot { background-image: linear-gradient(180deg, #fff4a8 0%, var(--hot) 55%, #ff9a2e 100%); }
 }
-.facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.facts li { padding-left: 30px; position: relative; }
-.facts li::before { content: ""; position: absolute; left: 6px; top: .55em; width: 12px; height: 12px; border-radius: 50%; background: var(--raspberry); }
-footer { border-top: 2px solid var(--line); margin-top: 24px; padding: 28px 0 48px; color: var(--muted); font-size: .95rem; }
-footer p { margin: 6px 0; }
-footer nav { display: flex; flex-wrap: wrap; gap: 0 20px; margin-bottom: 12px; font-weight: 600; color: var(--text); }
-footer nav a { display: inline-block; padding: 10px 0; }
+@media (forced-colors: active) {
+  .title .line { background: none; color: CanvasText; }
+  .title .line::before { display: none; }
+}
+.pill { display: inline-block; max-width: 100%; margin: 26px 0 0; padding: .45em 1.15em .5em; border-radius: 2em; background: var(--hot); color: var(--ink-text);
+  font: var(--dw) clamp(.95rem, 3.6vw, 1.45rem)/1.15 var(--display); letter-spacing: .02em; text-transform: uppercase; text-wrap: balance;
+  border: 4px solid var(--ink); box-shadow: 0 6px 0 var(--ink), 0 12px 24px rgba(0, 0, 0, .4); transform: rotate(1.5deg); }
+.pill span { white-space: nowrap; }
+.intro { max-width: 40rem; margin: 0 auto 36px; text-align: center; font-size: 1.1rem; text-shadow: 0 1px 2px rgba(23, 10, 40, .6); }
+
+/* Cream-framed, tilted screenshots */
+.shot { position: relative; margin: 0; padding: 6px; border-radius: 28px; background: var(--frame); line-height: 0;
+  box-shadow: 0 0 0 4px var(--ink), 0 20px 38px rgba(0, 0, 0, .55), 0 0 64px var(--glow);
+  transform: rotate(var(--tilt, 0deg)); transition: transform .45s cubic-bezier(.34, 1.56, .64, 1); }
+.shot img { display: block; width: 100%; height: auto; border-radius: 22px; background: var(--ink); }
+@media (min-width: 48rem) { .shot { padding: 8px; border-radius: 34px; } .shot img { border-radius: 26px; } }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .shot:hover { transform: rotate(0deg) translateY(-6px) scale(1.02); z-index: 5; }
+  .ui:hover { transform: translateY(-4px); }
+}
+/* A close-up inset cut from the same screenshot by CSS, so each language only swaps the shot file */
+.zoom .clip { position: relative; overflow: hidden; aspect-ratio: 1; border-radius: 22px; background: var(--ink); }
+.zoom .clip img { position: absolute; width: calc(var(--zs) * 100%); max-width: none; height: auto; border-radius: 0;
+  left: calc(50% - var(--cx) * var(--zs) * 100%); top: calc(50% - var(--cy) * var(--zs) * 177.78%); }
+@media (min-width: 48rem) { .zoom .clip { border-radius: 26px; } }
+.stage { position: relative; width: min(100%, 25rem); margin: 0 auto; }
+.stage > .mini { position: absolute; }
+@media (min-width: 60rem) { .stage { width: min(100%, 28rem); } }
+.burst { position: absolute; z-index: 6; display: grid; place-items: center; aspect-ratio: 1; transform: rotate(-12deg); animation: pulse 2.4s ease-in-out infinite alternate; }
+.burst svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 5px 0 var(--ink)); }
+.burst b { position: relative; font: var(--dw) clamp(1.1rem, 5vw, 1.8rem)/1 var(--display); color: var(--ink-text); text-transform: uppercase; }
+@keyframes pulse { from { transform: rotate(-12deg) scale(1); } to { transform: rotate(-8deg) scale(1.07); } }
+
+/* Tags and cream game-UI cards */
+.tag { display: inline-block; max-width: 100%; padding: 5px 14px 6px; border-radius: 999px; background: var(--tag, var(--cream)); color: var(--ink-text);
+  font: var(--dw) .85rem/1.1 var(--display); letter-spacing: .05em; text-transform: uppercase; border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.ui { position: relative; padding: 22px 22px 24px; border-radius: 26px; background: var(--frame); color: var(--ink-text);
+  box-shadow: 0 0 0 4px var(--ink), 0 8px 0 4px var(--ink), 0 24px 40px rgba(0, 0, 0, .45); transition: transform .35s ease; }
+.ui h3 { margin: 12px 0 6px; font-size: 1.4rem; color: var(--ink-text); }
+.ui p { margin: 0; color: var(--on-cream); }
+.stack { display: grid; gap: 32px; }
+
+/* Layout */
+.split { display: grid; gap: 48px; align-items: center; }
+@media (min-width: 60rem) {
+  .split { grid-template-columns: 1fr 1fr; gap: 64px; }
+  .split.flip > :first-child { order: 2; }
+}
+
+/* Header and language menu */
+.top { position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+.top-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; padding-bottom: 14px; }
+.brand { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; text-decoration: none; font: var(--dw) 1.15rem/1.15 var(--display); }
+.brand img { width: 44px; height: 44px; border-radius: 12px; box-shadow: 0 0 0 3px var(--cream), 0 0 0 6px var(--ink); }
+.brand small { display: block; font: 600 .8rem/1.3 var(--body); color: var(--soft); }
+.lang { position: relative; }
+.lang summary { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 12px 0 11px; border-radius: 999px; cursor: pointer; list-style: none;
+  background: var(--cream); color: var(--ink-text); font: 700 .95rem/1 var(--body); letter-spacing: .03em; border: 3px solid var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.lang summary::-webkit-details-marker { display: none; }
+.lang svg { width: 20px; height: 20px; flex: none; }
+.lang .caret { width: 12px; height: 12px; transition: transform .2s ease; }
+.lang[open] .caret { transform: rotate(180deg); }
+.lang ul { position: absolute; right: 0; top: calc(100% + 12px); width: min(23rem, calc(100vw - 32px)); display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+  margin: 0; padding: 10px; list-style: none; border-radius: 22px; background: #26123d; border: 3px solid rgba(255, 250, 230, .3);
+  box-shadow: 0 0 0 4px var(--ink), 0 22px 44px rgba(0, 0, 0, .6); }
+.lang a { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 12px; border-radius: 14px; text-decoration: none; font: 600 1rem/1.2 var(--body); color: var(--text); }
+.lang a:hover { background: rgba(255, 250, 230, .12); }
+.lang a[aria-current="page"] { background: var(--lemon); color: var(--ink-text); font-weight: 700; }
+
+/* Hero */
+.hero { padding: 104px 0 84px; --ray-y: 76%; }
+.hero-grid { display: grid; gap: 44px; align-items: center; text-align: center; }
+.hero h1 { font-size: clamp(3.4rem, 17vw, 7.4rem); }
+.hero .lead { max-width: 34rem; margin: 26px auto 22px; font-size: 1.15rem; text-shadow: 0 1px 2px rgba(23, 10, 40, .6); }
+.stats { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0 0 24px; }
+.stats li { padding: 6px 16px; border-radius: 999px; background: rgba(23, 10, 40, .72); border: 3px solid rgba(255, 250, 230, .28); font: var(--dw) 1.05rem/1.5 var(--display); }
+.stats b { color: var(--lemon); font-size: 1.2em; }
+.status { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; padding: 10px 20px; border-radius: 999px; background: var(--aqua); color: var(--ink-text);
+  font: var(--dw) 1.05rem/1.2 var(--display); border: 4px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
+.status::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ink-text); animation: blink 1.6s ease-in-out infinite alternate; }
+@keyframes blink { to { opacity: .35; } }
+.fan { width: min(100%, 27rem); padding: 10px 0 18px; }
+.fan .main { position: relative; z-index: 3; width: 56%; margin: 0 auto; }
+.fan .side { position: absolute; z-index: 1; top: 12%; width: 44%; }
+.fan .left { left: 0; }
+.fan .right { right: 0; }
+@media (min-width: 60rem) {
+  .hero { padding: 132px 0 112px; --ray-x: 73%; --ray-y: 52%; }
+  .hero-grid { grid-template-columns: 1.05fr .95fr; text-align: left; }
+  .hero .lead { margin-left: 0; }
+  .stats { justify-content: flex-start; }
+  .fan { width: min(100%, 31rem); }
+}
+
+@media (min-width: 100rem) {
+  .wrap { max-width: 80rem; }
+  .stage { width: min(100%, 31rem); }
+  .fan { width: min(100%, 35rem); }
+}
+
+/* Tape divider */
+.tape-wrap { position: relative; z-index: 3; overflow: hidden; overflow: clip; margin: -30px 0; padding: 30px 0; pointer-events: none; }
+.tape { width: calc(100% + 140px); margin-left: -70px; padding: 12px 0; transform: rotate(-2deg); background: var(--lemon); color: var(--ink-text);
+  border-block: 5px solid var(--ink); box-shadow: 0 8px 0 rgba(23, 10, 40, .55); white-space: nowrap; overflow: hidden; text-align: center;
+  font: var(--dw) clamp(1rem, 2.6vw, 1.35rem)/1 var(--display); letter-spacing: .05em; text-transform: uppercase; }
+.tape.pink { background: #ff8fb1; transform: rotate(1.5deg); }
+
+/* Trailer */
+.screen { max-width: 56rem; margin: 0 auto; padding: 8px; border-radius: 30px; background: var(--frame); transform: rotate(-1deg);
+  box-shadow: 0 0 0 4px var(--ink), 0 26px 50px rgba(0, 0, 0, .6), 0 0 90px var(--glow); }
+.trailer { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 22px; background: var(--ink); }
+
+/* How it plays */
+.play-stage { padding-bottom: 24px; }
+.play-stage .main { width: 66%; }
+.play-stage .mini { width: 46%; right: 0; top: 46%; }
+.play-stage .burst { width: 36%; right: 16%; top: 28%; }
+
+/* Skills */
+.skill-stage .main { width: 72%; margin: 0 auto; }
+.skills { display: grid; gap: 28px; margin-top: 64px; }
+.skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
+.skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+.skill h3 { margin-top: 0; }
+@media (min-width: 60rem) {
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
+  .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
+}
+
+/* Islands rail: a sideways scroller until four columns fit */
+.rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
+  padding: 20px 16px 28px; margin: 0 -16px; scrollbar-width: thin; scrollbar-color: var(--lemon) transparent; }
+.rail::after { content: ""; flex: 0 0 1px; }
+.rail > figure { flex: 0 0 min(68vw, 15rem); scroll-snap-align: start; margin: 0; }
+.rail:focus-visible { outline-offset: -3px; box-shadow: none; }
+@media (min-width: 48rem) { .rail { margin: 0 -32px; padding-inline: 32px; scroll-padding-inline: 32px; } }
+@media (min-width: 64rem) {
+  .rail { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; overflow: visible; margin: 0; padding: 20px 0 0; }
+  .rail::after { display: none; }
+}
+.isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
+.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
+.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
+
+/* Modes */
+.modes .shot { max-width: 34rem; margin: 0 auto; }
+
+/* Looks */
+.counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
+.counts li { display: grid; padding: 14px 8px 12px; text-align: center; border-radius: 22px; background: rgba(23, 10, 40, .72); border: 3px solid rgba(255, 250, 230, .28);
+  font: var(--dw) 1rem/1.2 var(--display); hyphens: auto; }
+.counts b { font-size: clamp(2.2rem, 9vw, 3rem); line-height: 1; color: var(--lemon); text-shadow: 0 4px 0 var(--ink); }
+.copy p { margin: 0 0 16px; font-size: 1.1rem; text-shadow: 0 1px 2px rgba(23, 10, 40, .6); }
+.copy .note { display: inline-block; margin: 6px 0 0; padding: 8px 16px; border-radius: 22px; background: rgba(23, 10, 40, .72); border: 3px solid rgba(255, 250, 230, .28);
+  font: var(--dw) 1rem/1.3 var(--display); }
+@media (min-width: 60rem) {
+  .copy { max-width: 30rem; justify-self: end; }
+  .counts { gap: 16px; }
+  .counts li { padding: 20px 10px 16px; font-size: 1.1rem; }
+  .counts b { font-size: 3.6rem; }
+  .copy p { font-size: 1.2rem; }
+}
+.look-fig { margin: 0 auto; width: min(100%, 19rem); text-align: center; }
+.look-fig figcaption { position: relative; z-index: 2; margin-top: -16px; }
+.look-fig h3 { margin: 16px 0 0; font-size: 1.4rem; }
+
+/* Gift */
+.gift-stage { padding-bottom: 40px; }
+.gift-stage .main { width: 66%; }
+.gift-stage .mini { width: 44%; right: 0; bottom: 0; }
+.gift-fig { margin: 0; text-align: center; }
+.gift-fig figcaption { margin-top: 18px; }
+.facts { list-style: none; display: grid; gap: 14px; padding: 0; margin: 0; }
+.facts > li { position: relative; padding-left: 34px; }
+.facts > li::before { content: "\2605"; position: absolute; left: 0; top: 0; font: 1.3rem/1.25 system-ui, sans-serif; color: var(--raspberry); text-shadow: 0 2px 0 var(--ink); }
+.odds { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 10px 0; }
+.odds li { padding: 4px 12px; border-radius: 999px; background: var(--rar); color: var(--ink-text); font: var(--dw) .95rem/1.4 var(--display); border: 3px solid var(--ink); }
+
+/* Good to know */
+.know { max-width: 60rem; margin: 0 auto; padding: 28px 24px; }
+@media (min-width: 60rem) {
+  .know { padding: 40px 44px; }
+  .know .facts { display: block; columns: 2; column-gap: 48px; }
+  .know .facts > li { break-inside: avoid; margin-bottom: 18px; }
+}
+
+/* Closing band */
+.finale { text-align: center; padding-bottom: 84px; }
+.finale .badge { width: 96px; height: 96px; margin: 0 auto 28px; border-radius: 26px; box-shadow: 0 0 0 5px var(--cream), 0 0 0 10px var(--ink), 0 18px 40px rgba(0, 0, 0, .5), 0 0 80px var(--glow);
+  transform: rotate(-6deg); }
+.finale .title { font-size: clamp(2.1rem, 9.4vw, 4.4rem); }
+
+/* Footer */
+footer { padding: 36px 0 48px; background: var(--ink); color: var(--soft); font-size: .95rem; border-top: 4px solid #2a1440; }
+footer p { margin: 6px 0; max-width: 46rem; }
+footer nav { display: flex; flex-wrap: wrap; gap: 0 24px; margin-bottom: 12px; font-weight: 600; color: var(--text); }
+footer a { text-underline-offset: 4px; }
+footer nav a { display: inline-flex; align-items: center; min-height: 44px; }
+footer p a { padding-block: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
-<header class="wrap">
-  <a class="brand" href="../">
-    <img src="img/icon.png" alt="" width="44" height="44">
-    <span>Hamster Bounce<small>by ivanvyd games</small></span>
-  </a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="../">
+      <img src="img/icon.png" alt="" width="44" height="44">
+      <span>Hamster Bounce<small>by ivanvyd games</small></span>
+    </a>
+    <details class="lang">
+      <summary>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.6 3.9 5.8 3.9 9.5s-1.3 6.9-3.9 9.5c-2.6-2.6-3.9-5.8-3.9-9.5S9.4 5.1 12 2.5z"/></svg>
+        <span class="sr-only">Language: English</span><span aria-hidden="true">EN</span>
+        <svg class="caret" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4.5l4 4 4-4"/></svg>
+      </summary>
+      <ul>
+        <li><a href="./" hreflang="en" lang="en" aria-current="page">English</a></li>
+        <li><a href="ru/" hreflang="ru" lang="ru">Русский</a></li>
+        <li><a href="es/" hreflang="es" lang="es">Español</a></li>
+        <li><a href="de/" hreflang="de" lang="de">Deutsch</a></li>
+        <li><a href="fr/" hreflang="fr" lang="fr">Français</a></li>
+        <li><a href="ja/" hreflang="ja" lang="ja">日本語</a></li>
+        <li><a href="ko/" hreflang="ko" lang="ko">한국어</a></li>
+        <li><a href="zh-hans/" hreflang="zh-Hans" lang="zh-Hans">简体中文</a></li>
+        <li><a href="tr/" hreflang="tr" lang="tr">Türkçe</a></li>
+        <li><a href="it/" hreflang="it" lang="it">Italiano</a></li>
+        <li><a href="pt-br/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+        <li><a href="pl/" hreflang="pl" lang="pl">Polski</a></li>
+        <li><a href="uk/" hreflang="uk" lang="uk">Українська</a></li>
+      </ul>
+    </details>
+  </div>
 </header>
 
 <main>
-  <div class="wrap hero">
-    <div>
-      <h1>Hamster Bounce</h1>
-      <p class="lead">12 hamsters roll onto a crumbling island. Hold to charge, BONK your rivals into the holes and be the last one rolling!</p>
-      <ul class="stats">
-        <li><b>4</b> islands</li>
-        <li><b>3</b> skills</li>
-        <li><b>60</b> looks</li>
-      </ul>
-      <span class="status">Coming soon to Google Play</span>
+  <section class="scene t-candy hero" aria-labelledby="game-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:4%;--y:16%;--s:20px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:93%;--y:22%;--s:16px;--c:#f74a78;--d:-2s">&#9733;</i>
+      <i style="--x:90%;--y:58%;--s:12px;--c:#5cd9c9;--d:-4s">&#9679;</i>
+      <i style="--x:3%;--y:70%;--s:14px;--c:#fffae6;--d:-1s">&#9733;</i>
+      <i style="--x:52%;--y:96%;--s:12px;--c:#ffdb54;--d:-3s">&#9679;</i>
     </div>
-    <figure><img src="img/feature.jpg" width="1024" height="500" fetchpriority="high" alt="Hamster Bounce: a hamster in a clear ball rolling across a candy island, with the line &quot;Last hamster rolling wins!&quot;"></figure>
-  </div>
-
-  <section class="wrap" aria-labelledby="trailer-title">
-    <h2 id="trailer-title">Watch the trailer</h2>
-    <video class="trailer" aria-labelledby="trailer-title" controls playsinline preload="metadata" width="1280" height="720" poster="video/hamster-bounce-trailer-poster.jpg">
-      <source src="video/hamster-bounce-trailer.mp4" type="video/mp4">
-      <track kind="captions" src="video/hamster-bounce-trailer.en.vtt" srclang="en" label="English" default>
-    </video>
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
+        <p class="pill">Last hamster rolling wins!</p>
+        <p class="lead">12 hamsters roll onto a crumbling island. Hold to charge, BONK your rivals into the holes and be the last one rolling!</p>
+        <ul class="stats">
+          <li><b>4</b> islands</li>
+          <li><b>3</b> skills</li>
+          <li><b>60</b> looks</li>
+        </ul>
+        <span class="status">Coming soon to Google Play</span>
+      </div>
+      <div class="stage fan">
+        <figure class="shot side left" style="--tilt:-9deg"><img src="img/shot-5.jpg" width="540" height="960" decoding="async" alt="A round on Volcano Isle."></figure>
+        <figure class="shot side right" style="--tilt:9deg"><img src="img/shot-7.jpg" width="540" height="960" decoding="async" alt="A round on Cosmos."></figure>
+        <figure class="shot main" style="--tilt:-2deg"><img src="img/shot-1.jpg" width="540" height="960" fetchpriority="high" decoding="async" alt="Twelve hamsters in clear balls dash and bump around a hole that has just opened in a grassy island."></figure>
+      </div>
+    </div>
   </section>
 
-  <section class="wrap" aria-labelledby="play-title">
-    <h2 id="play-title">How it plays</h2>
-    <p class="intro">Drag to roll. Hold Dash to charge, let go and BONK! Your rival goes tumbling, and no amount of steering stops the slide. Knock the 11 computer-controlled rivals into the holes before they knock you in.</p>
-    <div class="media-row" role="region" tabindex="0" aria-label="How it plays, scroll sideways">
-      <figure class="media-card">
-        <img src="img/shot-1.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Twelve hamsters in clear balls dash and bump around a hole that has just opened in a grassy island.">
-        <figcaption>
-          <span class="tag hot">Survival</span>
-          <h3>Last one rolling wins</h3>
-          <p>The ground flashes a warning, then drops away. Holes open in waves and grow wider while the shore crumbles in. Every round pays Stars, plus a bonus for the win.</p>
-        </figcaption>
-      </figure>
-      <figure class="media-card">
-        <img src="img/shot-2.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Hold… BONK! A fully charged dash slams into a rival and sends it tumbling.">
-        <figcaption>
-          <span class="tag" style="background: var(--lemon)">Dash</span>
-          <h3>Hold… BONK!</h3>
-          <p>A tap gives a quick nudge. Hold for 0.9 seconds and your hit sends a rival more than three times as far. Rivals charge with the same glowing ring, so watch for it.</p>
-        </figcaption>
-      </figure>
-      <figure class="media-card">
-        <img src="img/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boom! A hamster's Boom skill blasts the rivals around it away. Boom, Stone and Float are the three skills.">
-        <figcaption>
-          <span class="tag" style="background: #ffb36b">Skills</span>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733;</div></div>
+
+  <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:12%;--s:18px;--c:#f74a78">&#9733;</i>
+      <i style="--x:92%;--y:10%;--s:14px;--c:#5cd9c9;--d:-3s">&#9733;</i>
+      <i style="--x:95%;--y:84%;--s:12px;--c:#ffdb54;--d:-5s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="trailer-title"><span class="line" data-text="Watch the">Watch the</span> <span class="line hot" data-text="trailer">trailer</span></h2>
+      </div>
+      <div class="screen">
+        <video class="trailer" aria-labelledby="trailer-title" controls playsinline preload="metadata" width="1280" height="720" poster="video/hamster-bounce-trailer-poster.jpg">
+          <source src="video/hamster-bounce-trailer.mp4" type="video/mp4">
+          <track kind="captions" src="video/hamster-bounce-trailer.en.vtt" srclang="en" label="English" default>
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene t-bonk vis-right" aria-labelledby="play-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:5%;--y:8%;--s:16px;--c:#b48cff;--d:-1s">&#9733;</i>
+      <i style="--x:93%;--y:14%;--s:20px;--c:#f74a78;--d:-4s">&#9733;</i>
+      <i style="--x:4%;--y:92%;--s:14px;--c:#ffdb54;--d:-2s">&#9733;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="play-title"><span class="line" data-text="Hold. Charge.">Hold. Charge.</span> <span class="line hot" data-text="Bonk!">Bonk!</span></h2>
+        <p class="pill">Hold Dash, let go to bonk</p>
+      </div>
+      <p class="intro">Drag to roll. Hold Dash to charge, let go and BONK! Your rival goes tumbling, and no amount of steering stops the slide. Knock the 11 computer-controlled rivals into the holes before they knock you in.</p>
+      <div class="split">
+        <div class="stack">
+          <article class="ui">
+            <span class="tag" style="--tag:#ff9bbb">Survival</span>
+            <h3>Last one rolling wins</h3>
+            <p>The ground flashes a warning, then drops away. Holes open in waves and grow wider while the shore crumbles in. Every round pays Stars, plus a bonus for the win.</p>
+          </article>
+          <article class="ui">
+            <span class="tag" style="--tag:var(--lemon)">Dash</span>
+            <h3>Hold&hellip; BONK!</h3>
+            <p>A tap gives a quick nudge. Hold for 0.9 seconds and your hit sends a rival more than three times as far. Rivals charge with the same glowing ring, so watch for it.</p>
+          </article>
+        </div>
+        <div class="stage play-stage">
+          <figure class="shot main" style="--tilt:-3deg"><img src="img/shot-2.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Hold… BONK! A fully charged dash slams into a rival and sends it tumbling."></figure>
+          <div class="shot mini zoom" style="--tilt:4deg;--cx:.56;--cy:.34;--zs:2.2" aria-hidden="true"><div class="clip"><img src="img/shot-2.jpg" width="540" height="960" loading="lazy" decoding="async" alt=""></div></div>
+          <div class="burst" aria-hidden="true"><svg viewBox="0 0 100 100"><polygon points="50.0,0.0 58.2,13.9 71.7,5.0 73.1,21.1 89.1,18.8 83.3,33.9 98.7,38.9 87.0,50.0 98.7,61.1 83.3,66.1 89.1,81.2 73.1,78.9 71.7,95.0 58.2,86.1 50.0,100.0 41.8,86.1 28.3,95.0 26.9,78.9 10.9,81.2 16.7,66.1 1.3,61.1 13.0,50.0 1.3,38.9 16.7,33.9 10.9,18.8 26.9,21.1 28.3,5.0 41.8,13.9" fill="#ffdb54" stroke="#170a28" stroke-width="3.2" stroke-linejoin="round"/></svg><b>Bonk!</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene t-boom vis-left" aria-labelledby="skills-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:92%;--y:6%;--s:18px;--c:#fffae6;--d:-2s">&#9733;</i>
+      <i style="--x:4%;--y:30%;--s:14px;--c:#5cd9c9">&#9733;</i>
+      <i style="--x:94%;--y:52%;--s:12px;--c:#b48cff;--d:-5s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="skills-title"><span class="line hot" data-text="Boom!">Boom!</span> <span class="line" data-text="Grab skills">Grab skills</span></h2>
+        <p class="pill">Boom &middot; Stone &middot; Float</p>
+      </div>
+      <div class="split flip">
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Skills</span>
           <h3>Grab it, keep it, fire it</h3>
           <p>Roll into a skill bubble. It waits on the skill button until you fire it. Caught in a tumble? Fire Stone or Float for a last-second save.</p>
-        </figcaption>
-      </figure>
-    </div>
-    <div class="grid skills">
-      <article class="card skill" style="--accent: #ff9a3c">
-        <h3>Boom</h3>
-        <p>Wind up for half a second, then blast nearby hamsters away from you.</p>
-      </article>
-      <article class="card skill" style="--accent: #9aa0ad">
-        <h3>Stone</h3>
-        <p>Turn to rock for 4 seconds. Nobody can push you, and a rival who dashes into you bounces back.</p>
-      </article>
-      <article class="card skill" style="--accent: #6cc4ff">
-        <h3>Float</h3>
-        <p>A balloon lifts you for 3 seconds. Sail over holes and through other hamsters, then drift down onto solid ground.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="wrap" aria-labelledby="islands-title">
-    <h2 id="islands-title">4 islands</h2>
-    <p class="intro">Candy Garden is where it all starts: holes, bumpers, rivals and you. Then Volcano Isle, Frost Rink and Cosmos join in, each with a trick of its own.</p>
-    <div class="media-row" role="region" tabindex="0" aria-label="The islands, scroll sideways">
-      <figure class="media-card">
-        <img src="img/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 islands: the reveal reel lands on the island for the next round.">
-        <figcaption>
-          <span class="tag" style="background: #d8cdf5">The reveal</span>
-          <h3>Where to next?</h3>
-          <p>Start a round from the menu and a reel rolls through the islands to pick yours. After a round, a face-down card hides the next island. Tap One more round to flip it.</p>
-        </figcaption>
-      </figure>
-      <figure class="media-card">
-        <img src="img/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Volcano Isle: a steam vent blasts nearby hamsters away, with lava all around the island.">
-        <figcaption>
-          <span class="tag" style="background: #ff8a3d">Volcano Isle</span>
-          <h3>Steam vents</h3>
-          <p>Lava all around. A ring fills around a steam vent, then the vent blasts nearby hamsters away.</p>
-        </figcaption>
-      </figure>
-      <figure class="media-card">
-        <img src="img/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Frost Rink: hamsters slide across the slippery ice rink in the middle of the island.">
-        <figcaption>
-          <span class="tag" style="background: #bfe6ff">Frost Rink</span>
-          <h3>Slippery ice</h3>
-          <p>An ice rink in the middle. Slow to speed up, slow to stop, quick to slide into trouble.</p>
-        </figcaption>
-      </figure>
-      <figure class="media-card">
-        <img src="img/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: a comet streaks across the island and flicks hamsters out of its path.">
-        <figcaption>
-          <span class="tag" style="background: #c3b1ff">Cosmos</span>
-          <h3>Comets</h3>
-          <p>A dotted line warns you, then a comet streaks across the island and flicks everyone in its path aside.</p>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="wrap" aria-labelledby="modes-title">
-    <h2 id="modes-title">Free Roam and Practice</h2>
-    <div class="grid">
-      <article class="card">
-        <span class="tag" style="background: var(--aqua)">Free Roam</span>
-        <h3>Grab every star</h3>
-        <p>Fell in? Roll right back. Star charms sprout across the island, and each one counts the moment you touch it. Grab them fast and the chime climbs higher. Skill bubbles keep popping up and rivals keep bonking for as long as you like.</p>
-      </article>
-      <article class="card">
-        <span class="tag" style="background: var(--lemon)">Practice</span>
-        <h3>Warm up</h3>
-        <p>A calmer round on Candy Garden against 3 rivals who aim slower and hit softer. Learn the dash here, then go big.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="wrap" aria-labelledby="looks-title">
-    <h2 id="looks-title">60 looks to collect</h2>
-    <div class="split">
-      <div>
-        <p class="intro">16 hamster styles, 21 balls and 23 trails. Earn Stars from rounds and charms, then open a gift for 60 Stars.</p>
-        <ul class="facts">
-          <li>The reel rolls past the looks and stops on your new one.</li>
-          <li>A gift never repeats a look you already own.</li>
-          <li>The gift screen shows the odds before you open it: Common 60%, Rare 25%, Epic 12%, Legendary 3%. Once you own every look of a rarity, its share goes to the others.</li>
-          <li>After 7 gifts in a row with no Epic or Legendary, the next one is Epic or better.</li>
-          <li>Looks change your style, not your speed.</li>
-        </ul>
+        </article>
+        <div class="stage skill-stage">
+          <figure class="shot main" style="--tilt:2deg"><img src="img/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boom! A hamster's Boom skill blasts the rivals around it away. Boom, Stone and Float are the three skills."></figure>
+        </div>
       </div>
-      <div class="media-row" role="region" tabindex="0" aria-label="Gifts and looks, scroll sideways">
-        <figure class="media-card">
-          <img src="img/shot-8.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Open a gift: the reel of looks rolls and stops on a new look.">
+      <div class="skills">
+        <article class="ui skill" style="--tint:#ff9a3c">
+          <img class="bubble" src="img/skill-boom.jpg" width="240" height="240" loading="lazy" decoding="async" alt="The Boom skill bubble: an orange blast icon on the grass.">
+          <div>
+            <h3>Boom</h3>
+            <p>Wind up for half a second, then blast nearby hamsters away from you.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#9aa0ad">
+          <img class="bubble" src="img/skill-stone.jpg" width="240" height="240" loading="lazy" decoding="async" alt="The Stone skill bubble: a grey rock icon on the grass.">
+          <div>
+            <h3>Stone</h3>
+            <p>Turn to rock for 4 seconds. Nobody can push you, and a rival who dashes into you bounces back.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#6cc4ff">
+          <img class="bubble" src="img/skill-float.jpg" width="240" height="240" loading="lazy" decoding="async" alt="The Float skill bubble: a blue balloon icon on the grass.">
+          <div>
+            <h3>Float</h3>
+            <p>A balloon lifts you for 3 seconds. Sail over holes and through other hamsters, then drift down onto solid ground.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene t-islands" aria-labelledby="islands-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:7%;--s:18px;--c:#ffdb54;--d:-3s">&#9733;</i>
+      <i style="--x:91%;--y:12%;--s:14px;--c:#f74a78">&#9733;</i>
+      <i style="--x:50%;--y:97%;--s:12px;--c:#5cd9c9;--d:-1s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 wild">4 wild</span> <span class="line" data-text="islands">islands</span></h2>
+        <p class="pill"><span>Candy Garden</span> &middot; <span>Volcano Isle</span> &middot; <span>Frost Rink</span> &middot; <span>Cosmos</span></p>
+      </div>
+      <p class="intro">Candy Garden is where it all starts: holes, bumpers, rivals and you. Then Volcano Isle, Frost Rink and Cosmos join in, each with a trick of its own.</p>
+      <div class="rail" role="region" tabindex="0" aria-label="The islands, scroll sideways">
+        <figure class="isle">
+          <div class="shot" style="--tilt:-2deg"><img src="img/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 islands: the reveal reel lands on the island for the next round."></div>
           <figcaption>
-            <span class="tag" style="background: #d8cdf5">Gifts</span>
-            <h3>Open a gift</h3>
+            <span class="tag" style="--tag:#d8cdf5">The reveal</span>
+            <h3>Where to next?</h3>
+            <p>Start a round from the menu and a reel rolls through the islands to pick yours. After a round, a face-down card hides the next island. Tap One more round to flip it.</p>
           </figcaption>
         </figure>
-        <figure class="media-card">
-          <img src="img/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="The Your looks screen: the worn Fireball ball at the top, Hamsters, Balls and Trails tabs, a grid of looks and the Open a gift button.">
+        <figure class="isle">
+          <div class="shot" style="--tilt:2deg"><img src="img/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Volcano Isle: a steam vent blasts nearby hamsters away, with lava all around the island."></div>
           <figcaption>
-            <span class="tag hot">Looks</span>
+            <span class="tag" style="--tag:#ffa66b">Volcano Isle</span>
+            <h3>Steam vents</h3>
+            <p>Lava all around. A ring fills around a steam vent, then the vent blasts nearby hamsters away.</p>
+          </figcaption>
+        </figure>
+        <figure class="isle">
+          <div class="shot" style="--tilt:-2deg"><img src="img/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Frost Rink: hamsters slide across the slippery ice rink in the middle of the island."></div>
+          <figcaption>
+            <span class="tag" style="--tag:#bfe6ff">Frost Rink</span>
+            <h3>Slippery ice</h3>
+            <p>An ice rink in the middle. Slow to speed up, slow to stop, quick to slide into trouble.</p>
+          </figcaption>
+        </figure>
+        <figure class="isle">
+          <div class="shot" style="--tilt:2deg"><img src="img/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: a comet streaks across the island and flicks hamsters out of its path."></div>
+          <figcaption>
+            <span class="tag" style="--tag:#c3b1ff">Cosmos</span>
+            <h3>Comets</h3>
+            <p>A dotted line warns you, then a comet streaks across the island and flicks everyone in its path aside.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene t-candy vis-left modes" aria-labelledby="modes-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:93%;--y:8%;--s:18px;--c:#ffdb54;--d:-2s">&#9733;</i>
+      <i style="--x:5%;--y:14%;--s:14px;--c:#fffae6">&#9733;</i>
+      <i style="--x:95%;--y:90%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Free Roam">Free Roam</span> <span class="line" data-text="and Practice">and Practice</span></h2>
+      </div>
+      <div class="split flip">
+        <div class="stack">
+          <article class="ui">
+            <span class="tag" style="--tag:var(--aqua)">Free Roam</span>
+            <h3>Grab every star</h3>
+            <p>Fell in? Roll right back. Star charms sprout across the island, and each one counts the moment you touch it. Grab them fast and the chime climbs higher. Skill bubbles keep popping up and rivals keep bonking for as long as you like.</p>
+          </article>
+          <article class="ui">
+            <span class="tag" style="--tag:var(--lemon)">Practice</span>
+            <h3>Warm up</h3>
+            <p>A calmer round on Candy Garden against 3 rivals who aim slower and hit softer. Learn the dash here, then go big.</p>
+          </article>
+        </div>
+        <figure class="shot" style="--tilt:-2deg"><img src="img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Free Roam: star charms scattered across Candy Garden, and one flying to the star counter after the hamster touches it."></figure>
+      </div>
+    </div>
+  </section>
+
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733;</div></div>
+
+  <section class="scene t-looks vis-right" aria-labelledby="looks-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:5%;--y:9%;--s:16px;--c:#5cd9c9;--d:-1s">&#9733;</i>
+      <i style="--x:93%;--y:16%;--s:20px;--c:#ffdb54;--d:-3s">&#9733;</i>
+      <i style="--x:4%;--y:88%;--s:12px;--c:#fffae6">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 looks">60 looks</span> <span class="line" data-text="to collect">to collect</span></h2>
+        <p class="pill">Hamsters &middot; Balls &middot; Trails</p>
+      </div>
+      <div class="split">
+        <div class="copy">
+          <ul class="counts">
+            <li><b>16</b> hamster styles</li>
+            <li><b>21</b> balls</li>
+            <li><b>23</b> trails</li>
+          </ul>
+          <p>Earn Stars from rounds and charms, then open a gift for 60 Stars.</p>
+          <p class="note">Looks change your style, not your speed.</p>
+        </div>
+        <figure class="look-fig">
+          <div class="shot" style="--tilt:3deg"><img src="img/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="The Your looks screen: the worn Fireball ball at the top, Hamsters, Balls and Trails tabs, a grid of looks and the Open a gift button."></div>
+          <figcaption>
+            <span class="tag" style="--tag:#ff9bbb">Looks</span>
             <h3>Dress up your hamster</h3>
           </figcaption>
         </figure>
@@ -248,27 +586,91 @@ footer nav a { display: inline-block; padding: 10px 0; }
     </div>
   </section>
 
-  <section class="wrap" aria-labelledby="facts-title">
-    <h2 id="facts-title">Good to know</h2>
-    <ul class="facts">
-      <li>Every rival is a computer-controlled hamster. No account needed.</li>
-      <li>Ads are child-safe for every player: Google AdMob ads rated G and never personalised. Ads never interrupt a round. You may see one between rounds, and the Stars ad plays only when you tap it.</li>
-      <li>Watch an optional ad for 10 Stars. A one-time Remove ads purchase turns off the ads between rounds; the optional Stars ad stays.</li>
-      <li>The Prism ball and the Rainbow trail are sold through Google Play. Gifts never contain them, and Stars can't be bought.</li>
-      <li>Play upright or sideways, on phones and tablets.</li>
-      <li>Separate switches for music, sound and vibration, a Calm motion setting, and the Dash button on either side.</li>
-      <li>13 languages: English, Russian, Spanish, German, French, Japanese, Korean, Simplified Chinese, Turkish, Italian, Brazilian Portuguese, Polish and Ukrainian.</li>
-    </ul>
+  <section class="scene t-gift vis-left" aria-labelledby="gift-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:92%;--y:8%;--s:18px;--c:#f74a78;--d:-2s">&#9733;</i>
+      <i style="--x:5%;--y:18%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:70%;--s:14px;--c:#fffae6;--d:-4s">&#9733;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="gift-title"><span class="line" data-text="Open a">Open a</span> <span class="line hot" data-text="gift!">gift!</span></h2>
+        <p class="pill">The reel rolls, a new look lands</p>
+      </div>
+      <div class="split flip">
+        <div class="ui">
+          <ul class="facts">
+            <li>The reel rolls past the looks and stops on your new one.</li>
+            <li>A gift never repeats a look you already own.</li>
+            <li>The gift screen shows the odds before you open it:
+              <ul class="odds">
+                <li style="--rar:#5cd9c9">Common 60%</li>
+                <li style="--rar:#ffb3d1">Rare 25%</li>
+                <li style="--rar:#cdb2ff">Epic 12%</li>
+                <li style="--rar:#ffdb54">Legendary 3%</li>
+              </ul>
+              Once you own every look of a rarity, its share goes to the others.</li>
+            <li>After 7 gifts in a row with no Epic or Legendary, the next one is Epic or better.</li>
+          </ul>
+        </div>
+        <figure class="gift-fig">
+          <div class="stage gift-stage">
+            <div class="shot main" style="--tilt:-3deg"><img src="img/shot-8.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Open a gift: the reel of looks rolls and stops on a new look."></div>
+            <div class="shot mini zoom" style="--tilt:4deg;--cx:.4;--cy:.474;--zs:2" aria-hidden="true"><div class="clip"><img src="img/shot-8.jpg" width="540" height="960" loading="lazy" decoding="async" alt=""></div></div>
+          </div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">Gifts</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene t-islands" aria-labelledby="facts-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:8%;--s:16px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:92%;--y:12%;--s:14px;--c:#5cd9c9;--d:-3s">&#9733;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="facts-title"><span class="line" data-text="Good to">Good to</span> <span class="line hot" data-text="know">know</span></h2>
+      </div>
+      <div class="ui know">
+        <ul class="facts">
+          <li>Every rival is a computer-controlled hamster. No account needed.</li>
+          <li>Ads are child-safe for every player: Google AdMob ads rated G and never personalised. Ads never interrupt a round. You may see one between rounds, and the Stars ad plays only when you tap it.</li>
+          <li>Watch an optional ad for 10 Stars. A one-time Remove ads purchase turns off the ads between rounds; the optional Stars ad stays.</li>
+          <li>The Prism ball and the Rainbow trail are sold through Google Play. Gifts never contain them, and Stars can't be bought.</li>
+          <li>Play upright or sideways, on phones and tablets.</li>
+          <li>Separate switches for music, sound and vibration, a Calm motion setting, and the Dash button on either side.</li>
+          <li>13 languages: English, Russian, Spanish, German, French, Japanese, Korean, Simplified Chinese, Turkish, Italian, Brazilian Portuguese, Polish and Ukrainian.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene t-candy finale" aria-labelledby="soon-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:8%;--y:20%;--s:20px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:90%;--y:26%;--s:16px;--c:#f74a78;--d:-2s">&#9733;</i>
+      <i style="--x:14%;--y:78%;--s:12px;--c:#5cd9c9;--d:-4s">&#9679;</i>
+      <i style="--x:86%;--y:74%;--s:14px;--c:#fffae6;--d:-1s">&#9733;</i>
+    </div>
+    <div class="wrap">
+      <img class="badge" src="img/icon.png" width="96" height="96" loading="lazy" decoding="async" alt="The Hamster Bounce app icon.">
+      <h2 class="title" id="soon-title"><span class="line" data-text="Coming soon">Coming soon</span> <span class="line hot" data-text="to Google Play">to Google Play</span></h2>
+      <p class="pill">Last hamster rolling wins!</p>
+    </div>
   </section>
 </main>
 
-<footer class="wrap">
-  <nav>
-    <a href="privacy.html">Privacy policy</a>
-    <a href="mailto:ivan.vydrin.99@gmail.com">Support: ivan.vydrin.99@gmail.com</a>
-  </nav>
-  <p>Hamster Bounce is made by ivanvyd games, the game studio of Vydrin Ivan Denysovych, an individual entrepreneur (FOP) registered in Ukraine.</p>
-  <p>Google Play is a trademark of Google LLC. The Fredoka font is used under the <a href="Fredoka-OFL.txt">SIL Open Font License</a>.</p>
+<footer>
+  <div class="wrap">
+    <nav aria-label="Legal and support">
+      <a href="privacy.html">Privacy policy</a>
+      <a href="mailto:ivan.vydrin.99@gmail.com">Support: ivan.vydrin.99@gmail.com</a>
+    </nav>
+    <p>Hamster Bounce is made by ivanvyd games, the game studio of Vydrin Ivan Denysovych, an individual entrepreneur (FOP) registered in Ukraine.</p>
+    <p>Google Play is a trademark of Google LLC. The Fredoka font is used under the <a href="Fredoka-OFL.txt">SIL Open Font License</a>.</p>
+  </div>
 </footer>
 </body>
 </html>

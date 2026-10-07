@@ -4,11 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce</title>
-<meta name="description" content="Hold to charge, bonk 11 hamster rivals into the holes and grab Boom, Stone and Float skills. Last one rolling wins! A game for Android by ivanvyd games.">
+<meta name="description" content="Hold to charge and bonk rival hamsters into the holes on 4 crumbling islands. Boom, Stone and Float skills, 60 looks and computer-controlled rivals. Coming soon to Google Play.">
+<meta name="theme-color" content="#301a47">
 <meta property="og:title" content="Hamster Bounce">
-<meta property="og:description" content="Hold to charge, bonk your rivals into the holes and grab Boom, Stone and Float skills. Last one rolling wins!">
+<meta property="og:description" content="Hold to charge and bonk rival hamsters into the holes on 4 crumbling islands!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
+<meta property="og:image:alt" content="A hamster in a clear ball rolling across a candy island, with the line &quot;Last hamster rolling wins!&quot;">
+<meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="img/icon.png">
 <style>
 @font-face { font-family: "Fredoka"; src: url("Fredoka-Bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
@@ -29,27 +33,46 @@ header { padding: 18px 0; }
 .brand { display: flex; align-items: center; gap: 12px; font-size: 1.15rem; text-decoration: none; }
 .brand img { width: 44px; height: 44px; border-radius: 12px; }
 .brand small { display: block; font: 600 .8rem/1.2 system-ui, sans-serif; color: var(--muted); }
-.hero { display: grid; gap: 28px; align-items: center; padding: 24px 0 40px; }
+.hero { display: grid; gap: 28px; align-items: center; padding-top: 24px; padding-bottom: 40px; }
 @media (min-width: 52rem) { .hero { grid-template-columns: 1fr 1.1fr; } }
 .hero h1 { font-size: clamp(2.6rem, 8vw, 4.2rem); margin: 0 0 12px; color: var(--raspberry); text-shadow: 0 3px 0 var(--grape); }
-.hero p.lead { font-size: 1.2rem; margin: 0 0 22px; }
+.hero p.lead { font-size: 1.2rem; margin: 0 0 18px; }
+.stats { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0 0 22px; }
+.stats li { padding: 4px 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--line); font: 700 1rem/1.6 "Fredoka", sans-serif; }
+.stats b { color: var(--raspberry); }
 .status { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: var(--aqua);
   color: var(--grape); font-family: "Fredoka", sans-serif; font-weight: 700; box-shadow: 0 4px 0 #2f9e91; }
 .status::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--grape); }
 .hero figure { margin: 0; }
 .hero figure img { width: 100%; height: auto; display: block; border-radius: 24px; border: 6px solid var(--card); box-shadow: 0 14px 40px rgba(48, 26, 71, .25); }
-section { padding: 36px 0; }
-section h2 { font-size: 1.9rem; margin: 0 0 18px; }
-.shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; margin: 0 -4px; }
-.shots img { flex: 0 0 auto; width: min(62vw, 240px); height: auto; aspect-ratio: 9 / 16; border-radius: 18px; scroll-snap-align: start;
-  box-shadow: 0 8px 24px rgba(48, 26, 71, .22); }
+section.wrap { padding-top: 32px; padding-bottom: 32px; }
+section h2 { font-size: 1.9rem; margin: 0 0 12px; }
+.intro { margin: 0 0 20px; max-width: 42rem; }
 .trailer { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 24px; border: 6px solid var(--card); background: var(--grape-deep);
   box-shadow: 0 14px 40px rgba(48, 26, 71, .25); }
+.media-row { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 4px 18px; margin: 0 -4px; }
+.media-card { flex: 0 0 min(64vw, 15rem); scroll-snap-align: start; margin: 0; }
+.media-card img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 18px; background: var(--grape-deep);
+  box-shadow: 0 8px 24px rgba(48, 26, 71, .22); }
+.media-card .tag { margin: 14px 0 6px; }
+.media-card h3 { margin: 0 0 6px; font-size: 1.25rem; }
+.media-card p { margin: 0; color: var(--muted); }
+@media (min-width: 52rem) {
+  .media-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 14.5rem)); overflow: visible; padding: 4px 0 0; margin: 0; }
+}
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
 .card { background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 20px; }
 .card h3 { margin: 0 0 8px; font-size: 1.3rem; }
 .card p { margin: 0; color: var(--muted); }
-.card .tag { display: inline-block; margin-bottom: 10px; padding: 2px 12px; border-radius: 999px; font: 700 .8rem/1.8 "Fredoka", sans-serif; color: var(--grape); }
+.tag { display: inline-block; margin-bottom: 10px; padding: 2px 12px; border-radius: 999px; font: 700 .8rem/1.8 "Fredoka", sans-serif; color: var(--grape); }
+.skills { margin-top: 20px; }
+.skill { border-left: 10px solid var(--accent); }
+.skill h3 { color: var(--text); }
+.split { display: grid; gap: 24px; }
+@media (min-width: 52rem) {
+  .split { grid-template-columns: 1fr auto; align-items: start; }
+  .split .media-row { grid-template-columns: repeat(2, 14.5rem); }
+}
 .facts { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .facts li { padding-left: 30px; position: relative; }
 .facts li::before { content: ""; position: absolute; left: 6px; top: .55em; width: 12px; height: 12px; border-radius: 50%; background: var(--raspberry); }
@@ -70,7 +93,12 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px;
   <div class="wrap hero">
     <div>
       <h1>Hamster Bounce</h1>
-      <p class="lead">Hold to charge, bonk 11 hamster rivals into the holes and grab skills that blast, harden or float. Last one rolling wins!</p>
+      <p class="lead">12 hamsters roll onto a crumbling island. Hold to charge, BONK your rivals into the holes and be the last one rolling!</p>
+      <ul class="stats">
+        <li><b>4</b> islands</li>
+        <li><b>3</b> skills</li>
+        <li><b>60</b> looks</li>
+      </ul>
       <span class="status">Coming soon to Google Play</span>
     </div>
     <figure><img src="img/feature.jpg" width="1024" height="500" alt="Hamster Bounce: a hamster in a clear ball rolling across a candy island, with the line &quot;Last hamster rolling wins!&quot;"></figure>
@@ -84,57 +112,147 @@ footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px;
     </video>
   </section>
 
-  <section class="wrap" aria-labelledby="shots-title">
-    <h2 id="shots-title">Take a look</h2>
-    <div class="shots" tabindex="0" aria-label="Screenshots, scroll sideways">
-      <img src="img/shot-1.jpg" width="540" height="960" loading="lazy" alt="Hold, then bonk: a hamster charges its dash, with a charge ring and a bold aim arrow.">
-      <img src="img/shot-2.jpg" width="540" height="960" loading="lazy" alt="Bonk! A charged dash hits a rival with a big impact star.">
-      <img src="img/shot-3.jpg" width="540" height="960" loading="lazy" alt="Boom, Stone and Float skill bubbles on the island, and each skill ready on the skill button.">
-      <img src="img/shot-4.jpg" width="540" height="960" loading="lazy" alt="Don't fall: a hamster floats on a balloon over a hole in the crumbling island.">
-      <img src="img/shot-5.jpg" width="540" height="960" loading="lazy" alt="Grab stars: in Free Roam a touched charm's star flies into the star counter, with more charms nearby.">
-      <img src="img/shot-6.jpg" width="540" height="960" loading="lazy" alt="Over 50 looks: hamsters, balls and trails in the collection.">
-      <img src="img/shot-7.jpg" width="540" height="960" loading="lazy" alt="One winner: the last hamster rolling wins the round.">
+  <section class="wrap" aria-labelledby="play-title">
+    <h2 id="play-title">How it plays</h2>
+    <p class="intro">Drag to roll. Hold Dash to charge, let go and BONK! Your rival goes tumbling, and no amount of steering stops the slide. Knock the 11 computer-controlled rivals into the holes before they knock you in.</p>
+    <div class="media-row" tabindex="0" aria-label="How it plays, scroll sideways">
+      <figure class="media-card">
+        <img src="img/shot-1.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Last one rolling wins: 12 hamsters in clear balls scramble across a crumbling island while holes open around them.">
+        <figcaption>
+          <span class="tag" style="background: var(--raspberry); color: #fff">Survival</span>
+          <h3>Last one rolling wins</h3>
+          <p>The ground flashes a warning, then drops away. Holes open in waves and grow wider while the shore crumbles in. Every round pays Stars, plus a bonus for the win.</p>
+        </figcaption>
+      </figure>
+      <figure class="media-card">
+        <img src="img/shot-2.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Hold… BONK! A fully charged dash slams into a rival and sends it tumbling.">
+        <figcaption>
+          <span class="tag" style="background: var(--lemon)">Dash</span>
+          <h3>Hold… BONK!</h3>
+          <p>A tap gives a quick nudge. Hold for 0.9 seconds and your hit sends a rival more than three times as far. Rivals charge with the same glowing ring, so watch for it.</p>
+        </figcaption>
+      </figure>
+      <figure class="media-card">
+        <img src="img/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boom! A hamster's Boom skill blasts the rivals around it away. Boom, Stone and Float are the three skills.">
+        <figcaption>
+          <span class="tag" style="background: #ffb36b">Skills</span>
+          <h3>Grab it, keep it, fire it</h3>
+          <p>Roll into a skill bubble. It waits on the skill button until you fire it. Caught in a tumble? Fire Stone or Float for a last-second save.</p>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="grid skills">
+      <article class="card skill" style="--accent: #ff9a3c">
+        <h3>Boom</h3>
+        <p>Wind up for half a second, then blast nearby hamsters away from you.</p>
+      </article>
+      <article class="card skill" style="--accent: #9aa0ad">
+        <h3>Stone</h3>
+        <p>Turn to rock for 4 seconds. Nobody can push you, and a rival who dashes into you bounces back.</p>
+      </article>
+      <article class="card skill" style="--accent: #6cc4ff">
+        <h3>Float</h3>
+        <p>A balloon lifts you for 3 seconds. Sail over holes and through other hamsters, then drift down onto solid ground.</p>
+      </article>
     </div>
   </section>
 
-  <section class="wrap" aria-labelledby="play-title">
-    <h2 id="play-title">How it plays</h2>
+  <section class="wrap" aria-labelledby="islands-title">
+    <h2 id="islands-title">4 islands</h2>
+    <p class="intro">Candy Garden is where it all starts: holes, bumpers, rivals and you. Then Volcano Isle, Frost Rink and Cosmos join in, each with a trick of its own.</p>
+    <div class="media-row" tabindex="0" aria-label="The islands, scroll sideways">
+      <figure class="media-card">
+        <img src="img/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 islands: the reveal reel lands on the island for the next round.">
+        <figcaption>
+          <span class="tag" style="background: #d8cdf5">The reveal</span>
+          <h3>Where to next?</h3>
+          <p>Start a round from the menu and a reel rolls through the islands to pick yours. After a round, a face-down card hides the next island. Tap One more round to flip it.</p>
+        </figcaption>
+      </figure>
+      <figure class="media-card">
+        <img src="img/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Volcano Isle: a steam vent blasts nearby hamsters away, with lava all around the island.">
+        <figcaption>
+          <span class="tag" style="background: #ff8a3d">Volcano Isle</span>
+          <h3>Steam vents</h3>
+          <p>Lava all around. A ring fills around a steam vent, then the vent blasts nearby hamsters away.</p>
+        </figcaption>
+      </figure>
+      <figure class="media-card">
+        <img src="img/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Frost Rink: hamsters slide across the slippery ice rink in the middle of the island.">
+        <figcaption>
+          <span class="tag" style="background: #bfe6ff">Frost Rink</span>
+          <h3>Slippery ice</h3>
+          <p>An ice rink in the middle. Slow to speed up, slow to stop, quick to slide into trouble.</p>
+        </figcaption>
+      </figure>
+      <figure class="media-card">
+        <img src="img/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: a comet streaks across the island and flicks hamsters out of its path.">
+        <figcaption>
+          <span class="tag" style="background: #c3b1ff">Cosmos</span>
+          <h3>Comets</h3>
+          <p>A dotted line warns you, then a comet streaks across the island and flicks everyone in its path aside.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="modes-title">
+    <h2 id="modes-title">Free Roam and Practice</h2>
     <div class="grid">
-      <article class="card">
-        <span class="tag" style="background: var(--raspberry); color: #fff">Survival</span>
-        <h3>Stay on the island</h3>
-        <p>The ground cracks, flashes a warning, then drops away. Bounce off the bumpers, stay off the edge and be the last hamster rolling.</p>
-      </article>
-      <article class="card">
-        <span class="tag" style="background: var(--lemon)">Dash</span>
-        <h3>Hold for a big bonk</h3>
-        <p>Hold the Dash button to charge. The longer you hold, the harder and farther your bonk sends a rival tumbling. A quick tap is a quick nudge.</p>
-      </article>
-      <article class="card">
-        <span class="tag" style="background: #ffb36b">Skills</span>
-        <h3>Boom, Stone, Float</h3>
-        <p>Roll into a skill bubble and fire it with the skill button when the moment is right. Boom pushes everyone away, Stone makes you impossible to push, and Float carries you over the holes.</p>
-      </article>
       <article class="card">
         <span class="tag" style="background: var(--aqua)">Free Roam</span>
         <h3>Grab every star</h3>
-        <p>Fell in? Roll straight back. Every star you touch counts right away, so there is nothing to carry and nothing to drop.</p>
+        <p>Fell in? Roll right back. Star charms sprout across the island, and each one counts the moment you touch it. Grab them fast and the chime climbs higher. Skill bubbles keep popping up and rivals keep bonking for as long as you like.</p>
       </article>
       <article class="card">
-        <span class="tag" style="background: #d8cdf5">Looks</span>
-        <h3>Find 60 looks</h3>
-        <p>Win Stars every round and open gifts to find new hamsters, balls and trails. The odds are shown in the game, and you never get the same look twice.</p>
+        <span class="tag" style="background: var(--lemon)">Practice</span>
+        <h3>Warm up</h3>
+        <p>A calmer round on Candy Garden against 3 rivals who aim slower and hit softer. Learn the dash here, then go big.</p>
       </article>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="looks-title">
+    <h2 id="looks-title">60 looks to collect</h2>
+    <div class="split">
+      <div>
+        <p class="intro">16 hamster styles, 21 balls and 23 trails. Earn Stars from rounds and charms, then open a gift for 60 Stars.</p>
+        <ul class="facts">
+          <li>The reel rolls past the looks and stops on your new one.</li>
+          <li>A gift never repeats a look you already own.</li>
+          <li>The gift screen shows the odds before you open it: Common 60%, Rare 25%, Epic 12%, Legendary 3%. Once you own every look of a rarity, its share goes to the others.</li>
+          <li>After 7 gifts in a row with no Epic or Legendary, the next one is Epic or better.</li>
+          <li>Looks change your style, not your speed.</li>
+        </ul>
+      </div>
+      <div class="media-row" tabindex="0" aria-label="Gifts and looks, scroll sideways">
+        <figure class="media-card">
+          <img src="img/shot-8.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Open a gift: the reel of looks rolls and stops on a new look.">
+          <figcaption>
+            <span class="tag" style="background: #d8cdf5">Gifts</span>
+            <h3>Open a gift</h3>
+          </figcaption>
+        </figure>
+        <figure class="media-card">
+          <img src="img/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="60 looks to collect: 16 hamster styles, 21 balls and 23 trails.">
+          <figcaption>
+            <span class="tag" style="background: var(--raspberry); color: #fff">Looks</span>
+            <h3>Dress up your hamster</h3>
+          </figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
   <section class="wrap" aria-labelledby="facts-title">
     <h2 id="facts-title">Good to know</h2>
     <ul class="facts">
-      <li>Your rivals are computer-controlled hamsters, and there is no account to make.</li>
-      <li>Ads are child-safe: Google AdMob ads rated G and never personalised. A one-time Remove ads purchase turns off the ads between rounds.</li>
-      <li>Looks are for show, so every hamster plays by the same rules.</li>
-      <li>Plays upright or sideways, on phones and tablets.</li>
+      <li>Every rival is a computer-controlled hamster. No account needed.</li>
+      <li>Ads are child-safe for every player: Google AdMob ads rated G and never personalised. Ads never interrupt a round. You may see one between rounds, and the Stars ad plays only when you tap it.</li>
+      <li>Watch an optional ad for 10 Stars. A one-time Remove ads purchase turns off the ads between rounds; the optional Stars ad stays.</li>
+      <li>The Prism ball and the Rainbow trail are sold through Google Play. Gifts never contain them, and Stars can't be bought.</li>
+      <li>Play upright or sideways, on phones and tablets.</li>
+      <li>Separate switches for music, sound and vibration, a Calm motion setting, and the Dash button on either side.</li>
       <li>13 languages: English, Russian, Spanish, German, French, Japanese, Korean, Simplified Chinese, Turkish, Italian, Brazilian Portuguese, Polish and Ukrainian.</li>
     </ul>
   </section>

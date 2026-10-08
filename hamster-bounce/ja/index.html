@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: ハムスターバトル</title>
-<meta name="description" content="長押しでためて、ライバルのハムスターを4つのくずれる島の穴へゴツン！ドカン・カチコチ・ふわふわのスキル、60種のきせかえ、コンピューターが動かすライバル。Google Playで近日配信。">
+<meta name="description" content="長押しでためて、ライバルのハムスターを4つのくずれる島の穴へゴツン！ドカン・カチコチ・ふわふわのスキル、60種のきせかえ、コンピューターが動かすライバル。Google Playで配信中。">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/ja/">
@@ -186,10 +186,12 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .stats { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0 0 24px; }
 .stats li { padding: 6px 16px; border-radius: 999px; background: rgba(23, 10, 40, .72); border: 3px solid rgba(255, 250, 230, .28); font: var(--dw) 1.05rem/1.5 var(--display); }
 .stats b { color: var(--lemon); font-size: 1.2em; }
-.status { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; padding: 10px 20px; border-radius: 999px; background: var(--aqua); color: var(--ink-text);
-  font: var(--dw) 1.05rem/1.2 var(--display); border: 4px solid var(--ink); box-shadow: 0 6px 0 var(--ink); }
-.status::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ink-text); animation: blink 1.6s ease-in-out infinite alternate; }
-@keyframes blink { to { opacity: .35; } }
+.play-badge { display: inline-block; border-radius: 12px; line-height: 0; transition: transform .15s ease; }
+.play-badge img { display: block; width: auto; height: 60px; }
+.play-badge:hover { transform: translateY(-2px); }
+.play-badge:focus-visible { outline: 3px solid var(--lemon); outline-offset: 4px; }
+.finale .play-badge { display: block; width: fit-content; margin: 26px auto 0; }
+.finale .play-badge img { height: 68px; }
 .fan { width: min(100%, 27rem); padding: 10px 0 18px; }
 .fan .main { position: relative; z-index: 3; width: 56%; margin: 0 auto; }
 .fan .side { position: absolute; z-index: 1; top: 12%; width: 44%; }
@@ -369,7 +371,7 @@ footer p a { padding-block: 12px; }
           <li><b>3</b><span>つのスキル</span></li>
           <li><b>60</b><span>種のきせかえ</span></li>
         </ul>
-        <span class="status">Google Playで近日配信</span>
+        <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ja.png" width="646" height="192" decoding="async" alt="Google Play で手に入れよう"></a>
       </div>
       <div class="stage fan">
         <div class="shot side left" style="--tilt:-9deg" aria-hidden="true"><img src="../img/ja/shot-5.jpg" width="540" height="960" decoding="async" alt=""></div>
@@ -654,7 +656,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <section class="scene t-candy finale" aria-labelledby="soon-title">
+  <section class="scene t-candy finale" aria-labelledby="finale-title">
     <div class="sparks" aria-hidden="true">
       <i style="--x:8%;--y:20%;--s:20px;--c:#ffdb54">&#9733;</i>
       <i style="--x:90%;--y:26%;--s:16px;--c:#f74a78;--d:-2s">&#9733;</i>
@@ -663,8 +665,9 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <img class="badge" src="../img/icon.png" width="96" height="96" loading="lazy" decoding="async" alt="Hamster Bounceのアプリアイコン。">
-      <h2 class="title" id="soon-title"><span class="line" data-text="Google Playで">Google Playで</span><span class="line hot" data-text="近日配信">近日配信</span></h2>
+      <h2 class="title" id="finale-title"><span class="line" data-text="Google Playで">Google Playで</span><span class="line hot" data-text="配信中">配信中</span></h2>
       <p class="pill">最後まで残れば勝ち！</p>
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ja.png" width="646" height="192" loading="lazy" decoding="async" alt="Google Play で手に入れよう"></a>
     </div>
   </section>
 </main>
@@ -676,7 +679,7 @@ footer p a { padding-block: 12px; }
       <a href="mailto:ivan.vydrin.99@gmail.com">サポート：ivan.vydrin.99@gmail.com</a>
     </nav>
     <p>Hamster Bounceは、ウクライナで登録された個人事業主（FOP）Vydrin Ivan Denysovychのゲームスタジオ、ivanvyd gamesが制作しています。</p>
-    <p>Google PlayはGoogle LLCの商標です。Fredokaフォントは<a href="../Fredoka-OFL.txt">SIL Open Font License</a>のもとで使用しています。</p>
+    <p>Google PlayおよびGoogle PlayロゴはGoogle LLCの商標です。Fredokaフォントは<a href="../Fredoka-OFL.txt">SIL Open Font License</a>のもとで使用しています。</p>
   </div>
 </footer>
 </body>

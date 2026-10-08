@@ -4,20 +4,225 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="xUTJ8yahXbQjyBBRDlU3qYlLAcxlNNhFtTSrDdtoA_M">
-<title>ivanvyd games</title>
+<title>ivanvyd · Games by Ivan Vydrin</title>
+<meta name="description" content="Games and small projects by Ivan Vydrin, an independent developer in Ukraine. Play Hamster Bounce: Ball Battle on Google Play.">
+<meta name="theme-color" content="#0B111B">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://ivanvyd.github.io/">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:site_name" content="ivanvyd">
+<meta property="og:title" content="ivanvyd · Games by Ivan Vydrin">
+<meta property="og:description" content="Games and small projects by Ivan Vydrin, an independent developer in Ukraine.">
+<meta property="og:image" content="https://ivanvyd.github.io/assets/brand/social-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The iridescent vyd monogram next to the name ivanvyd on a midnight background.">
+<meta property="og:url" content="https://ivanvyd.github.io/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Organization", "name": "ivanvyd", "legalName": "Vydrin Ivan Denysovych", "url": "https://ivanvyd.github.io/", "logo": "https://ivanvyd.github.io/assets/brand/logo-512.png", "email": "ivan.vydrin.99@gmail.com"}
+</script>
+<link rel="preload" as="image" href="assets/brand/vyd-iridescent-880.webp" imagesrcset="assets/brand/vyd-iridescent-440.webp 440w, assets/brand/vyd-iridescent-640.webp 640w, assets/brand/vyd-iridescent-880.webp 880w" imagesizes="(min-width: 60rem) 440px, 72vw" fetchpriority="high">
 <style>
-:root { color-scheme: light; font-family: system-ui, sans-serif; color: #173c43; background: #f7fbf7; }
-body { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; line-height: 1.6; }
-a { color: #126b72; }
+/* Each game's card may bring its own font: here, Fredoka cut down to the letters of the card title. */
+@font-face { font-family: "Fredoka HB"; src: url("assets/games/hamster-bounce/fredoka-title.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+:root {
+  color-scheme: dark;
+  --midnight: #0B111B; --night: #111927; --pearl: #F3F6FC; --muted: #B6C0D3;
+  --indigo: #5865EA; --lavender: #9B91EF; --ice: #86D9EB;
+  --line: rgba(243, 246, 252, .12);
+  --gradient: linear-gradient(125deg, #86D9EB 0%, #5865EA 36%, #9B91EF 67%, #F3F6FC 100%);
+  --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --radius: 1.25rem;
+}
+* { box-sizing: border-box; }
+html { background: var(--midnight); scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--pearl); font: 17px/1.6 var(--font); -webkit-text-size-adjust: 100%; overflow-wrap: break-word;
+  background:
+    radial-gradient(56rem 36rem at 92% -8%, rgba(88, 101, 234, .26), transparent 62%),
+    radial-gradient(40rem 30rem at -6% 24%, rgba(134, 217, 235, .10), transparent 62%),
+    var(--midnight);
+}
+img { max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--ice); outline-offset: 3px; border-radius: 10px; }
+.wrap { width: 100%; max-width: 70rem; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 48rem) { .wrap { padding: 0 32px; } }
+.skip { position: absolute; left: 16px; top: -100px; z-index: 10; padding: 10px 16px; border-radius: 999px; background: var(--pearl); color: var(--midnight); font-weight: 700; text-decoration: none; }
+.skip:focus { top: 12px; }
+
+/* Header */
+.top { border-bottom: 1px solid var(--line); }
+.top-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; padding-bottom: 14px; }
+.home { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; font-size: 1.15rem; font-weight: 600; letter-spacing: .01em; text-decoration: none; }
+.home img { width: 44px; }
+.top nav { display: flex; gap: 4px; }
+.top nav a { display: inline-block; padding: 10px 14px; border-radius: 999px; color: var(--muted); font-weight: 600; font-size: .95rem; text-decoration: none; }
+.top nav a:hover { color: var(--pearl); background: rgba(243, 246, 252, .06); }
+
+/* Hero */
+.hero { display: grid; gap: 8px; align-items: center; padding-top: 40px; padding-bottom: 56px; }
+.hero h1 { margin: 0; font-size: clamp(3.2rem, 15vw, 6.5rem); line-height: 1; font-weight: 600; letter-spacing: -.035em; }
+.hero h1::after { content: ""; display: block; width: 2.2em; height: 4px; margin-top: .28em; border-radius: 4px; background: var(--gradient); }
+.lead { max-width: 30rem; margin: 22px 0 28px; color: var(--muted); font-size: clamp(1.1rem, 3.6vw, 1.3rem); line-height: 1.5; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 24px; border-radius: 999px; font-weight: 600; text-decoration: none; transition: transform .15s ease, background-color .15s ease; }
+.btn.primary { background: var(--pearl); color: var(--midnight); }
+.btn.primary:hover { background: #fff; transform: translateY(-1px); }
+.btn.ghost { border: 1px solid rgba(243, 246, 252, .3); }
+.btn.ghost:hover { background: rgba(243, 246, 252, .06); }
+/* The mark comes first in the source so slow connections never paint the text before its box. */
+.hero-mark { justify-self: center; width: min(72vw, 440px); aspect-ratio: 880 / 533; }
+.hero-mark img { display: block; width: 100%; height: 100%; filter: drop-shadow(0 24px 60px rgba(88, 101, 234, .35)); }
+@media (min-width: 60rem) {
+  .hero { grid-template-columns: 1fr auto; gap: 48px; padding-top: 88px; padding-bottom: 104px; }
+  .hero-mark { order: 2; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-mark img { animation: drift 9s ease-in-out infinite; }
+  @keyframes drift { 50% { transform: translateY(-12px) rotate(-1.5deg); } }
+}
+
+/* Sections */
+section h2 { margin: 0 0 24px; font-size: clamp(1.7rem, 6vw, 2.3rem); line-height: 1.15; font-weight: 600; letter-spacing: -.02em; }
+.games { padding-bottom: 72px; }
+.projects { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
+
+/* A project card. Each entry brings its own art through four variables and may use its own font. */
+.project {
+  --p-bg1: #1a2333; --p-bg2: #0f1622; --p-text: #F3F6FC; --p-soft: #d6dcea; --p-accent: #86D9EB; --p-glow: rgba(88, 101, 234, .35);
+  position: relative; display: grid; overflow: hidden; border-radius: 28px; color: var(--p-text);
+  background: radial-gradient(28rem 22rem at 85% 20%, var(--p-glow), transparent 70%), linear-gradient(160deg, var(--p-bg1), var(--p-bg2));
+  border: 1px solid rgba(255, 255, 255, .12); box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
+}
+.project-body { position: relative; z-index: 1; padding: 24px; }
+.project-head { display: flex; align-items: center; gap: 16px; }
+.project-icon { flex: none; width: 72px; border-radius: 18px; box-shadow: 0 0 0 3px rgba(255, 255, 255, .85), 0 10px 24px rgba(0, 0, 0, .4); }
+.project h3 { margin: 0; font-size: clamp(1.45rem, 5.6vw, 2rem); line-height: 1.1; }
+.project h3 a { text-decoration: none; }
+.project h3 a::after { content: ""; position: absolute; inset: 0; z-index: 0; }
+.project h3 a:focus-visible { outline: none; }
+.project:has(h3 a:focus-visible) { outline: 3px solid var(--ice); outline-offset: 4px; }
+.meta { margin: 6px 0 0; color: var(--p-soft); font-size: .95rem; }
+.pitch { max-width: 34rem; margin: 18px 0 16px; font-size: 1.08rem; }
+.tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; padding: 0; }
+.tags li { padding: 4px 12px; border-radius: 999px; background: rgba(0, 0, 0, .28); border: 1px solid rgba(255, 255, 255, .16); font-size: .88rem; font-weight: 600; }
+.project-actions { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.play-badge { display: inline-block; line-height: 0; border-radius: 10px; }
+.play-badge img { width: auto; height: 56px; }
+.more { position: relative; z-index: 2; padding: 10px 4px; font-weight: 700; color: var(--p-accent); text-underline-offset: 4px; }
+.project-shots { display: flex; justify-content: center; gap: 14px; padding: 28px 24px 0; }
+.project-shots img { width: min(38%, 168px); border-radius: 18px; border: 5px solid rgba(255, 255, 255, .9); box-shadow: 0 18px 40px rgba(0, 0, 0, .5); }
+.project-shots img:first-child { transform: rotate(-5deg) translateY(10px); }
+.project-shots img:last-child { transform: rotate(5deg); }
+@media (min-width: 52rem) {
+  .project { grid-template-columns: 1.25fr 1fr; align-items: center; }
+  .project-body { padding: 40px 0 40px 40px; }
+  .project-shots { padding: 32px 32px 32px 0; }
+}
+
+/* Hamster Bounce: its own candy palette and Fredoka, as on its page */
+.t-hamster { --p-bg1: #4c2b8c; --p-bg2: #1a0b2e; --p-text: #fffae6; --p-soft: #efe6fa; --p-accent: #ffdb54; --p-glow: rgba(92, 217, 201, .34); }
+.t-hamster h3 { font-family: "Fredoka HB", ui-rounded, system-ui, sans-serif; font-weight: 700; }
+
+/* Contact */
+.contact { padding-bottom: 88px; }
+.contact-card { padding: 32px 24px; border-radius: var(--radius); background: var(--night); border: 1px solid var(--line); }
+.contact-card p { max-width: 34rem; margin: 0 0 22px; color: var(--muted); }
+@media (min-width: 48rem) { .contact-card { padding: 40px; } }
+
+/* Footer */
+footer { padding-top: 28px; padding-bottom: 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: .95rem; }
+footer .mark { width: 52px; margin-bottom: 14px; opacity: .9; }
+footer p { max-width: 46rem; margin: 6px 0; }
+footer nav { display: flex; flex-wrap: wrap; gap: 0 20px; margin: 10px 0; }
+footer nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--pearl); font-weight: 600; }
+.fine { font-size: .85rem; }
 </style>
 </head>
 <body>
-<h1>ivanvyd games</h1>
-<p>ivanvyd games is the game studio of Vydrin Ivan Denysovych, an individual entrepreneur (FOP) registered in Ukraine (ФОП Видрін Іван Денисович).</p>
-<h2><a href="hamster-bounce/">Hamster Bounce</a></h2>
-<p>Steer a hamster ball, dash into rivals and stay on the crumbling island.</p>
-<p><a href="hamster-bounce/privacy.html">Privacy policy</a></p>
-<h2>Contact</h2>
-<p>Email: <a href="mailto:ivan.vydrin.99@gmail.com">ivan.vydrin.99@gmail.com</a></p>
+<a class="skip" href="#games">Skip to games</a>
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="home" href="./"><img src="assets/brand/vyd-white.svg" width="396" height="240" alt=""><span>ivanvyd</span></a>
+    <nav aria-label="Sections">
+      <a href="#games">Games</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap" aria-labelledby="studio-title">
+    <div class="hero-mark" aria-hidden="true">
+      <img src="assets/brand/vyd-iridescent-880.webp" srcset="assets/brand/vyd-iridescent-440.webp 440w, assets/brand/vyd-iridescent-640.webp 640w, assets/brand/vyd-iridescent-880.webp 880w" sizes="(min-width: 60rem) 440px, 72vw" width="880" height="533" alt="" fetchpriority="high">
+    </div>
+    <div>
+      <h1 id="studio-title">ivanvyd</h1>
+      <p class="lead">Games and small projects by Ivan Vydrin, an independent developer in Ukraine.</p>
+      <div class="actions">
+        <a class="btn primary" href="#games">See the games</a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="games wrap" id="games" aria-labelledby="games-title">
+    <h2 id="games-title">Games</h2>
+    <ul class="projects">
+      <li>
+        <article class="project t-hamster" aria-labelledby="hb-title">
+          <div class="project-body">
+            <div class="project-head">
+              <img class="project-icon" src="assets/games/hamster-bounce/icon-144.webp" width="144" height="144" loading="lazy" decoding="async" alt="">
+              <div>
+                <h3 id="hb-title"><a href="hamster-bounce/">Hamster Bounce: Ball Battle</a></h3>
+                <p class="meta">Android · 2026 · 13 languages</p>
+              </div>
+            </div>
+            <p class="pitch">12 hamsters roll onto a crumbling island. Hold to charge, bonk your rivals into the holes and be the last one rolling!</p>
+            <ul class="tags">
+              <li>4 islands</li>
+              <li>3 skills</li>
+              <li>60 looks</li>
+              <li>Computer-controlled rivals</li>
+            </ul>
+            <div class="project-actions">
+              <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="hamster-bounce/img/play-badge/en.png" width="564" height="168" loading="lazy" decoding="async" alt="Get it on Google Play"></a>
+              <a class="more" href="hamster-bounce/" aria-label="Hamster Bounce game page">Game page <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="project-shots" aria-hidden="true">
+            <img src="assets/games/hamster-bounce/shot-1-336.webp" width="336" height="597" loading="lazy" decoding="async" alt="">
+            <img src="assets/games/hamster-bounce/shot-5-336.webp" width="336" height="597" loading="lazy" decoding="async" alt="">
+          </div>
+        </article>
+      </li>
+    </ul>
+  </section>
+
+  <section class="contact wrap" id="contact" aria-labelledby="contact-title">
+    <div class="contact-card">
+      <h2 id="contact-title">Contact</h2>
+      <p>Questions, feedback or support for any game? Write to me.</p>
+      <a class="btn primary" href="mailto:ivan.vydrin.99@gmail.com">ivan.vydrin.99@gmail.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="mark" src="assets/brand/vyd-white.svg" width="396" height="240" loading="lazy" alt="">
+    <p>ivanvyd is run by Vydrin Ivan Denysovych, an individual entrepreneur (FOP) registered in Ukraine.</p>
+    <nav aria-label="Legal">
+      <a href="hamster-bounce/privacy.html">Hamster Bounce privacy policy</a>
+    </nav>
+    <p class="fine">Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
+</footer>
 </body>
 </html>

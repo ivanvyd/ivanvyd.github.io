@@ -220,6 +220,8 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .screen { max-width: 56rem; margin: 0 auto; padding: 8px; border-radius: 30px; background: var(--frame); transform: rotate(-1deg);
   box-shadow: 0 0 0 4px var(--ink), 0 26px 50px rgba(0, 0, 0, .6), 0 0 90px var(--glow); }
 .trailer { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 22px; background: var(--ink); }
+.credit { margin: 22px auto 0; text-align: center; font-size: .9rem; color: var(--soft); }
+.credit a { display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 3px; }
 
 /* How it plays */
 .play-stage { padding-bottom: 24px; }
@@ -390,11 +392,12 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="trailer-title"><span class="line" data-text="Смотри">Смотри</span> <span class="line hot" data-text="трейлер">трейлер</span></h2>
       </div>
       <div class="screen">
-        <video class="trailer" aria-labelledby="trailer-title" controls playsinline preload="metadata" width="1280" height="720" poster="../video/hamster-bounce-trailer-poster.jpg">
-          <source src="../video/hamster-bounce-trailer.mp4" type="video/mp4">
-          <track kind="captions" src="../video/hamster-bounce-trailer.en.vtt" srclang="en" label="Английский" default>
+        <video class="trailer" aria-labelledby="trailer-title" controls playsinline preload="metadata" width="1280" height="720" poster="../video/ru/poster.jpg">
+          <source src="../video/ru/trailer.mp4" type="video/mp4">
+          <track kind="captions" src="../video/ru/captions.vtt" srclang="ru" label="Русский">
         </video>
       </div>
+      <p class="credit"><span aria-hidden="true">&#9834;</span> <span class="sr-only">Музыка:</span> <a href="https://www.scottbuckley.com.au/library/ignis/">&ldquo;Ignis&rdquo; &mdash; Scott Buckley</a> &middot; <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">CC BY 4.0</a></p>
     </div>
   </section>
 

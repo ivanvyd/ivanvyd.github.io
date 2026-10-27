@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: Bitwa Chomików</title>
-<meta name="description" content="Naładuj zryw i spychaj inne chomiki do dziur na 4 kruszejących wyspach! Moce Bum, Kamień i Lot, 60 wyglądów i rywale sterowani przez komputer. Już w Google Play.">
+<meta name="description" content="Naładuj zryw i spychaj inne chomiki do dziur na 7 szalonych wyspach. 6 mocy, 5 trybów, 92 wyglądy i gra online ze znajomymi. Już w Google Play.">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/pl/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: Bitwa Chomików">
-<meta property="og:description" content="Naładuj zryw i spychaj inne chomiki do dziur na 4 kruszejących wyspach!">
+<meta property="og:description" content="Naładuj zryw i spychaj inne chomiki do dziur na 7 szalonych wyspach, a potem graj online ze znajomymi!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="Chomik w przezroczystej kuli toczy się po cukierkowej wyspie, obok angielski napis „Last hamster rolling wins!”">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/pl/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">Zostań ostatnim!</p>
-        <p class="lead">12 chomików wtacza się na kruszejącą wyspę. Naładuj zryw, zrób BĘC, zepchnij rywali do dziur i zostań ostatnim na arenie!</p>
+        <p class="lead">12 chomików wtacza się na kruszejącą wyspę. Naładuj zryw, zrób BĘC, zepchnij rywali do dziur i zostań ostatnim na arenie. A potem graj online ze znajomymi!</p>
         <ul class="stats">
-          <li><b>4</b> <span>wyspy</span></li>
-          <li><b>3</b> <span>moce</span></li>
-          <li><b>60</b> <span>wyglądów</span></li>
+          <li><b>7</b> <span>wysp</span></li>
+          <li><b>6</b> <span>mocy</span></li>
+          <li><b>5</b> <span>trybów</span></li>
+          <li><b>92</b> <span>wyglądy</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/pl.png" width="646" height="192" decoding="async" alt="Pobierz z Google Play"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 chomików &#9733; 4 wyspy &#9733; 3 moce &#9733; 60 wyglądów &#9733; 13 języków &#9733; 12 chomików &#9733; 4 wyspy &#9733; 3 moce &#9733; 60 wyglądów &#9733; 13 języków &#9733; 12 chomików &#9733; 4 wyspy &#9733; 3 moce &#9733; 60 wyglądów &#9733; 13 języków &#9733; 12 chomików &#9733; 4 wyspy &#9733; 3 moce &#9733; 60 wyglądów &#9733; 13 języków &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 chomików &#9733; 7 wysp &#9733; 6 mocy &#9733; 5 trybów &#9733; 92 wyglądy &#9733; Online ze znajomymi &#9733; 12 chomików &#9733; 7 wysp &#9733; 6 mocy &#9733; 5 trybów &#9733; 92 wyglądy &#9733; Online ze znajomymi &#9733; 12 chomików &#9733; 7 wysp &#9733; 6 mocy &#9733; 5 trybów &#9733; 92 wyglądy &#9733; Online ze znajomymi &#9733; 12 chomików &#9733; 7 wysp &#9733; 6 mocy &#9733; 5 trybów &#9733; 92 wyglądy &#9733; Online ze znajomymi &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="Trzymaj…">Trzymaj…</span> <span class="line hot" data-text="i bęc!">i bęc!</span></h2>
         <p class="pill">Trzymaj Zryw, puść i bęc!</p>
       </div>
-      <p class="intro">Przeciągaj i tocz się. Przytrzymaj Zryw, by naładować, puść i BĘC! Rywal leci koziołkując i żadne sterowanie go nie zatrzyma. Spychaj do dziur 11 rywali sterowanych przez komputer, zanim oni zepchną ciebie.</p>
+      <p class="intro">Przeciągaj i tocz się. Przytrzymaj Zryw, by naładować, puść i BĘC! Rywal leci koziołkując i żadne sterowanie go nie zatrzyma. Spychaj do dziur 11 rywali, zanim oni zepchną ciebie.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">Przetrwanie</span>
-            <h3>Wygrywa ostatni na arenie</h3>
-            <p>Ziemia miga ostrzegawczo, a potem się zapada. Dziury otwierają się falami i rosną, a brzeg się kruszy. Każda runda daje gwiazdki, plus premię za wygraną.</p>
+            <span class="tag" style="--tag:#ff9bbb">Dziury</span>
+            <h3>Patrz pod nogi</h3>
+            <p>Ziemia miga ostrzegawczo, a potem się zapada. W Bitwie dziury otwierają się falami i rosną, a brzeg się kruszy, więc trzymaj się środka.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">Zryw</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="Bum!">Bum!</span> <span class="line" data-text="Łap moce">Łap moce</span></h2>
-        <p class="pill">Bum · Kamień · Lot</p>
+        <p class="pill"><span>6 mocy</span> &middot; <span>nowe sztuczki</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>Wtocz się w bańkę mocy. Moc czeka na przycisku, aż jej użyjesz. Lecisz koziołkując? Użyj Kamienia albo Lotu i uratuj się w ostatniej chwili.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/pl/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Bum! Moc Bum chomika odrzuca rywali dookoła. Bum, Kamień i Lot to trzy moce."></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/pl/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Bum! Moc Bum chomika odrzuca rywali dookoła."></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>Balonik unosi cię na 3 sekundy. Przelatuj nad dziurami i przez inne chomiki, a potem łagodnie opadnij na twardy grunt.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>Bańka</h3>
+            <p>Bańka otacza cię na 3 sekundy i wytrzymuje jedno uderzenie. Ratuje nawet przed kometą.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>Zamiana</h3>
+            <p>Zamień się miejscami z najbliższym rywalem. Świetne, by wyrwać się z opresji albo wpakować w nią kogoś innego.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>Magnes</h3>
+            <p>Przez 2 sekundy pobliscy rywale są przyciągani do ciebie. Przyciągnij ich i bęc!</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 szalone">4 szalone</span> <span class="line" data-text="wyspy">wyspy</span></h2>
-        <p class="pill"><span>Słodki Ogród</span> &middot; <span>Wyspa Wulkan</span> &middot; <span>Lodowisko</span> &middot; <span>Kosmos</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 szalonych">7 szalonych</span> <span class="line" data-text="wysp">wysp</span></h2>
+        <p class="pill">Każda wyspa ma swój haczyk</p>
       </div>
-      <p class="intro">Wszystko zaczyna się w Słodkim Ogrodzie: dziury, bumpery, rywale i ty. Potem dochodzą Wyspa Wulkan, Lodowisko i Kosmos, każda z własnym haczykiem.</p>
+      <p class="intro">Każde zagrożenie najpierw ostrzega: obserwuj teren i tocz się dalej. Przed rundą pasek przewija wyspy i wybiera twoją.</p>
       <div class="rail" role="region" tabindex="0" aria-label="Wyspy, przewiń w bok">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/pl/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 wyspy: pasek zatrzymuje się na wyspie na następną rundę."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">Wybór wyspy</span>
-            <h3>Dokąd teraz?</h3>
-            <p>Zacznij rundę z menu, a pasek przewinie wyspy i wybierze twoją. Po rundzie zakryta karta ukrywa następną wyspę. Dotknij Kolejna runda, by ją odkryć.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/pl/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Pasek zatrzymuje się na wyspie na następną rundę."></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">Wybór wyspy</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="../img/pl/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Wyspa Wulkan: gejzer pary odrzuca pobliskie chomiki, a wokół wyspy jest lawa."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">Wyspa Wulkan</span>
-            <h3>Gejzery pary</h3>
-            <p>Dookoła lawa. Wokół gejzeru pary wypełnia się pierścień, a potem gejzer odrzuca pobliskie chomiki.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b">Wyspa Wulkan</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/pl/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Lodowisko: chomiki ślizgają się po lodowisku na środku wyspy."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">Lodowisko</span>
-            <h3>Śliski lód</h3>
-            <p>Lód na środku wyspy. Wolno się rozpędzasz, wolno hamujesz, a w kłopoty wpadasz błyskawicznie.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">Lodowisko</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/pl/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Kosmos: kometa przelatuje przez wyspę i zmiata chomiki ze swojej drogi."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">Kosmos</span>
-            <h3>Komety</h3>
-            <p>Kropkowana linia ostrzega, a potem kometa przelatuje przez wyspę i odrzuca na bok wszystkich na swojej drodze.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/pl/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Kosmos: kometa przelatuje przez wyspę wzdłuż kropkowanej linii ostrzegawczej."></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">Kosmos</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">Słodki Ogród</span>
+          <h3>Dziury i bumpery</h3>
+          <p>Tu wszystko się zaczyna. Odbijaj się od bumperów i omijaj dziury.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">Wyspa Wulkan</span>
+          <h3>Gejzery pary</h3>
+          <p>Dookoła lawa. Wokół gejzeru pary wypełnia się ostrzegawczy pierścień, a potem gejzer odrzuca pobliskie chomiki.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">Kosmos</span>
+          <h3>Komety</h3>
+          <p>Kropkowana linia ostrzega 2,5 sekundy wcześniej. Świecący środek komety wyrzuca z gry jak dziura, chyba że uratuje cię Bańka, a reszta jej pasa odrzuca cię w bok.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">Lodowisko</span>
+          <h3>Śliski lód</h3>
+          <p>Lód na środku wyspy. Wolno się rozpędzasz, wolno hamujesz, a w kłopoty wpadasz błyskawicznie.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">Dżungla</span>
+          <h3>Błoto i kłody</h3>
+          <p>Błotniste kałuże cię spowalniają, a toczące się kłody przetaczają się przez wyspę i spychają cię w bok.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">Laguna</span>
+          <h3>Baseny i przypływ</h3>
+          <p>W płytkich basenach wolno ruszasz i wolno hamujesz. Potem fala przypływu przechodzi przez wyspę i spycha w bok wszystkich na swojej drodze.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">Mechanizm</span>
+          <h3>Olej i tłoki</h3>
+          <p>Plamy oleju są śliskie jak lód, a po ostrzeżeniu tłoki odrzucają pobliskie chomiki.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Swobodna gra">Swobodna gra</span> <span class="line" data-text="i Trening">i Trening</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Pięć trybów">Pięć trybów</span> <span class="line" data-text="gry">gry</span></h2>
+        <p class="pill">Pięć trybów i rozgrzewka</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">Swobodna gra</span>
-            <h3>Zbieraj wszystkie gwiazdki</h3>
-            <p>Spadłeś? Wracasz od razu. Na wyspie wyrastają gwiazdeczki i każda się liczy, gdy tylko jej dotkniesz. Zbieraj szybko, a dzwonek brzmi coraz wyżej. Bańki mocy pojawiają się bez końca, a rywale walą, ile tylko chcesz.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">Trening</span>
-            <h3>Rozgrzewka</h3>
-            <p>Spokojniejsza runda w Słodkim Ogrodzie przeciwko 3 rywalom, którzy wolniej celują i słabiej biją. Opanuj tu zryw, a potem graj na całego.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Swobodna gra: gwiazdka leci do licznika, gdy chomik jej dotknie, a obok czekają kolejne."></figure>
+      <p class="intro">W każdy tryb zagrasz online z graczami z całego świata. Pierwszy raz? Zacznij od Treningu.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Bitwa</span>
+          <h3>Wygrywa ostatni</h3>
+          <p>12 chomików, jedna kruszejąca wyspa. Zepchnij wszystkich do dziur i zostań ostatnim, który się toczy.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Bitwa drużynowa</span>
+          <h3>Wygrywa ostatnia drużyna</h3>
+          <p>2 drużyny po 6 albo 3 drużyny po 4. Członkowie drużyny się zderzają, ale nigdy sobie nie szkodzą, a wygrywa ostatnia drużyna na wyspie.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Wyścig</span>
+          <h3>Trzy okrążenia</h3>
+          <p>Podążaj za flagami wokół wyspy przez 3 okrążenia. Spadłeś? Od razu wracasz, więc nie odpuszczaj.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Zdobycie flagi</span>
+          <h3>Zanieś ją do bazy</h3>
+          <p>Na środku czeka jedna flaga. Złap ją i zanieś do bazy swojej drużyny. Uderz tego, kto ją niesie, a flaga spadnie!</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Swobodna gra</span>
+          <h3>Zbieraj wszystkie gwiazdki</h3>
+          <p>Spadłeś? Wracasz od razu. Na wyspie wyrastają gwiazdeczki i każda się liczy, gdy tylko jej dotkniesz. Bańki mocy pojawiają się, ile tylko chcesz.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Trening</span>
+          <h3>Rozgrzewka</h3>
+          <p>Spokojniejsza runda w Słodkim Ogrodzie przeciwko 3 rywalom, którzy wolniej celują i słabiej biją. Opanuj tu zryw, a potem graj na całego.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Swobodna gra: gwiazdka leci do licznika, gdy chomik jej dotknie, a obok czekają kolejne."></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="Graj">Graj</span> <span class="line hot" data-text="online!">online!</span></h2>
+        <p class="pill"><span>Grupy</span> &middot; <span>Znajomi</span> &middot; <span>Emotki</span> &middot; <span>Puchary</span></p>
+      </div>
+      <p class="intro">Spychaj online i graj z innymi ludźmi. W meczach mogą brać udział gracze sterowani przez komputer.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Grupa</span>
+          <h3>Toczcie się razem</h3>
+          <p>Załóż grupę i udostępnij jej 6-literowy kod. Grupa gra w jednej drużynie w Bitwie drużynowej i Zdobyciu flagi, a w Swobodnej grze toczy się razem.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Znajomi</span>
+          <h3>Dodaj po kodzie</h3>
+          <p>Każdy gracz ma kod znajomego. Dodaj nim znajomego, sprawdzaj, kiedy jest online, dołączaj do jego Swobodnej gry albo zaproś go do swojej grupy.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Emotki</span>
+          <h3>Powiedz to emotką</h3>
+          <p>Nie ma czatu. Kibicuj, machaj albo mów GG 14 gotowymi emotkami: 6 jest w grze od razu, 4 dostajesz w pakiecie Emotki imprezowe, a 4 kolejne w Pakiecie startowym i zestawach Signature.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Twój nick</span>
+          <h3>Bez pisania</h3>
+          <p>Gra sama nadaje ci nick. Wylosuj nowy albo wpisz pseudonim, który sprawdzamy, zanim ktoś go zobaczy.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Puchary</span>
+          <h3>Wspinaj się w rankingu</h3>
+          <p>Zdobywaj puchary w rundach online, wspinaj się w rankingu i sprawdzaj, gdzie są twoi znajomi. Profil pokazuje mecze, wygrane i bęcki.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Fair play</span>
+          <h3>Zwycięstwa nie kupisz</h3>
+          <p>Kolory nicku i pakiet Emotki imprezowe zmieniają twój wygląd, nigdy sposób gry.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 chomików &#9733; 21 kul &#9733; 23 smugi &#9733; 16 chomików &#9733; 21 kul &#9733; 23 smugi &#9733; 16 chomików &#9733; 21 kul &#9733; 23 smugi &#9733; 16 chomików &#9733; 21 kul &#9733; 23 smugi &#9733; 16 chomików &#9733; 21 kul &#9733; 23 smugi &#9733; 16 chomików &#9733; 21 kul &#9733; 23 smugi &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 23 chomiki &#9733; 29 kul &#9733; 30 smug &#9733; 23 chomiki &#9733; 29 kul &#9733; 30 smug &#9733; 23 chomiki &#9733; 29 kul &#9733; 30 smug &#9733; 23 chomiki &#9733; 29 kul &#9733; 30 smug &#9733; 23 chomiki &#9733; 29 kul &#9733; 30 smug &#9733; 23 chomiki &#9733; 29 kul &#9733; 30 smug &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 wyglądów">60 wyglądów</span> <span class="line" data-text="do zebrania">do zebrania</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 wyglądy">92 wyglądy</span> <span class="line" data-text="do zebrania">do zebrania</span></h2>
         <p class="pill">Chomiki · Kule · Smugi</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span>chomików</span></li>
-            <li><b>21</b> <span>kul</span></li>
-            <li><b>23</b> <span>smugi</span></li>
+            <li><b>23</b> <span>chomiki</span></li>
+            <li><b>29</b> <span>kul</span></li>
+            <li><b>30</b> <span>smug</span></li>
           </ul>
-          <p>Zdobywaj gwiazdki w rundach i za gwiazdeczki, a potem otwórz prezent za 60 gwiazdek.</p>
-          <p class="note">Wygląd zmienia styl, nie prędkość.</p>
+          <p>Na start masz 3 wyglądy. Zdobywaj gwiazdki w grze, a potem otwórz prezent za 60 gwiazdek. Przymierz małego smoka albo futerko Zorza, tocz się w piłce plażowej albo zostawiaj za sobą świetliki i pył komety.</p>
+          <p class="note">W prezentach jest 67 wyglądów: wszystkie oprócz startowych i wyglądów Signature. Wygląd zmienia styl, nie prędkość.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/pl/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Ekran Wyglądy: na górze założona Ognista kula, karty Chomiki, Kule i Smugi, siatka wyglądów i przycisk Otwórz prezent."></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">Legendarny 3%</li>
               </ul>
               <span>Gdy masz wszystkie wyglądy danej rzadkości, jej udział przechodzi na pozostałe.</span></li>
-            <li>Po 7 prezentach z rzędu bez epickiego ani legendarnego następny jest epicki lub lepszy.</li>
+            <li>Co 5 meczów napełnia się darmowy prezent. Możesz też wybrać wygląd, który dają prezenty, i odblokować go za gwiazdki.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>Każdy rywal to chomik sterowany przez komputer. Konto nie jest potrzebne.</li>
-          <li>Każdy gracz widzi tylko reklamy bezpieczne dla dzieci: Google AdMob z oceną G, nigdy spersonalizowane. Reklamy nigdy nie przerywają rundy. Jedną możesz zobaczyć między rundami, a reklama za gwiazdki włącza się tylko, gdy ją dotkniesz.</li>
-          <li>Obejrzyj dobrowolną reklamę i zdobądź 10 gwiazdek. Jednorazowy zakup „Usuń reklamy” wyłącza reklamy między rundami; dobrowolna reklama za gwiazdki zostaje.</li>
-          <li>Kula Pryzmat i smuga Tęcza są w sprzedaży w Google Play. Prezenty nigdy ich nie zawierają, a gwiazdek nie da się kupić.</li>
+          <li>W meczach mogą brać udział gracze sterowani przez komputer.</li>
+          <li>Gra sama zakłada ci konto, bez e-maila i hasła.</li>
+          <li>W grze online nie ma czatu. Każdy dostaje nick od gry i może wylosować nowy albo wpisać pseudonim, który sprawdzamy, zanim ktoś go zobaczy. Gracze porozumiewają się 14 gotowymi emotkami. Znajomi widzą, kiedy jesteś online, chyba że włączysz Ukryj mój status online w Ustawieniach.</li>
+          <li>Każdy gracz widzi tylko reklamy bezpieczne dla dzieci: Google AdMob z oceną G, nigdy spersonalizowane. Reklamy nigdy nie przerywają rundy. Krótką możesz zobaczyć między rundami, a reklama za gwiazdki włącza się tylko, gdy ją dotkniesz.</li>
+          <li>Obejrzyj dobrowolną reklamę i zdobądź 10 gwiazdek. „Usuń reklamy” wyłącza reklamy między rundami; dobrowolna reklama za gwiazdki zostaje.</li>
+          <li>W sprzedaży w Google Play, każdą rzecz kupujesz raz i masz na zawsze: „Usuń reklamy”, Pakiet startowy, wyglądy Signature, efekty uderzenia i tańce zwycięstwa oraz zestawy Król Lawy, Kosmokadet i Lodowy Ninja. Kolory nicku i emotki wymagają konta online.</li>
+          <li>Płatne rzeczy można zdobyć tylko za pieniądze. Prezenty, gwiazdki i puchary nigdy ich nie dają, a gwiazdek nie da się kupić. Nic, co kupisz, nie pomaga wygrać.</li>
           <li>Graj pionowo lub poziomo, na telefonach i tabletach.</li>
-          <li>Osobne przełączniki muzyki, dźwięku i wibracji, spokojne animacje i przycisk zrywu po dowolnej stronie.</li>
+          <li>Osobne przełączniki muzyki, dźwięku i wibracji, Mniej animacji, opcja Stały joystick, trzy rozmiary przycisków i Odwróć sterowanie, które przenosi przycisk zrywu na lewo.</li>
           <li>13 języków: angielski, rosyjski, hiszpański, niemiecki, francuski, japoński, koreański, chiński uproszczony, turecki, włoski, portugalski (Brazylia), polski i ukraiński.</li>
         </ul>
       </div>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce : Chocs en Folie</title>
-<meta name="description" content="Charge et pousse les hamsters rivaux dans les trous de 4 îles qui s’effritent ! Pouvoirs Boum, Pierre et Envol, 60 apparences et des rivaux contrôlés par l’ordinateur. Déjà sur Google Play.">
+<meta name="description" content="Charge et pousse les hamsters rivaux dans les trous de 7 îles dingues. 6 pouvoirs, 5 modes, 92 apparences et du jeu en ligne entre amis. Déjà sur Google Play.">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/fr/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce : Chocs en Folie">
-<meta property="og:description" content="Charge et pousse les hamsters rivaux dans les trous de 4 îles qui s’effritent !">
+<meta property="og:description" content="Charge et pousse les hamsters rivaux dans les trous de 7 îles dingues, puis joue en ligne avec tes amis !">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="Un hamster dans une boule transparente roule sur une île en bonbon, avec la phrase en anglais « Last hamster rolling wins ! »">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/fr/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">Reste le dernier !</p>
-        <p class="lead">12 hamsters roulent sur une île qui s’effrite. Charge, envoie tes rivaux dans les trous d’un grand PAF et reste le dernier en piste !</p>
+        <p class="lead">12 hamsters roulent sur une île qui s’effrite. Charge, envoie tes rivaux dans les trous d’un grand PAF et reste le dernier en piste. Puis joue en ligne avec tes amis !</p>
         <ul class="stats">
-          <li><b>4</b> <span>îles</span></li>
-          <li><b>3</b> <span>pouvoirs</span></li>
-          <li><b>60</b> <span>apparences</span></li>
+          <li><b>7</b> <span>îles</span></li>
+          <li><b>6</b> <span>pouvoirs</span></li>
+          <li><b>5</b> <span>modes</span></li>
+          <li><b>92</b> <span>apparences</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/fr.png" width="646" height="192" decoding="async" alt="Disponible sur Google Play"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hamsters &#9733; 4 îles &#9733; 3 pouvoirs &#9733; 60 apparences &#9733; 13 langues &#9733; 12 hamsters &#9733; 4 îles &#9733; 3 pouvoirs &#9733; 60 apparences &#9733; 13 langues &#9733; 12 hamsters &#9733; 4 îles &#9733; 3 pouvoirs &#9733; 60 apparences &#9733; 13 langues &#9733; 12 hamsters &#9733; 4 îles &#9733; 3 pouvoirs &#9733; 60 apparences &#9733; 13 langues &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hamsters &#9733; 7 îles &#9733; 6 pouvoirs &#9733; 5 modes &#9733; 92 apparences &#9733; En ligne entre amis &#9733; 12 hamsters &#9733; 7 îles &#9733; 6 pouvoirs &#9733; 5 modes &#9733; 92 apparences &#9733; En ligne entre amis &#9733; 12 hamsters &#9733; 7 îles &#9733; 6 pouvoirs &#9733; 5 modes &#9733; 92 apparences &#9733; En ligne entre amis &#9733; 12 hamsters &#9733; 7 îles &#9733; 6 pouvoirs &#9733; 5 modes &#9733; 92 apparences &#9733; En ligne entre amis &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="Charge…">Charge…</span> <span class="line hot" data-text="et paf !">et paf !</span></h2>
         <p class="pill">Maintiens Élan, relâche et paf !</p>
       </div>
-      <p class="intro">Glisse et roule. Maintiens Élan pour charger, relâche et PAF ! Ton rival part en roulé-boulé, impossible pour lui de freiner. Pousse dans les trous les 11 rivaux contrôlés par l’ordinateur avant qu’ils ne t’y poussent.</p>
+      <p class="intro">Glisse et roule. Maintiens Élan pour charger, relâche et PAF ! Ton rival part en roulé-boulé, impossible pour lui de freiner. Pousse 11 rivaux dans les trous avant qu’ils ne t’y poussent.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">Survie</span>
-            <h3>Le dernier en piste gagne</h3>
-            <p>Le sol clignote en alerte, puis s’effondre. Les trous s’ouvrent par vagues et s’élargissent pendant que la rive s’effrite. Chaque partie rapporte des étoiles, plus un bonus si tu gagnes.</p>
+            <span class="tag" style="--tag:#ff9bbb">Trous</span>
+            <h3>Surveille le sol</h3>
+            <p>Le sol clignote en alerte, puis s’effondre. En Bataille, les trous s’ouvrent par vagues et s’élargissent pendant que la rive s’effrite : reste vers le centre.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">Élan</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="Boum !">Boum !</span> <span class="line" data-text="Super-pouvoirs">Super-pouvoirs</span></h2>
-        <p class="pill">Boum · Pierre · Envol</p>
+        <p class="pill"><span>6 pouvoirs</span> &middot; <span>nouveaux tours</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>Roule sur une bulle de pouvoir : il attend sur son bouton jusqu’à ce que tu le lances. En plein roulé-boulé ? Pierre ou Envol te sauvent à la dernière seconde.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/fr/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boum ! Le pouvoir Boum d’un hamster repousse les rivaux autour de lui. Boum, Pierre et Envol sont les trois pouvoirs."></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/fr/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boum ! Le pouvoir Boum d’un hamster repousse les rivaux autour de lui."></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>Un ballon te soulève pendant 3 secondes. Survole les trous, traverse les autres hamsters, puis redescends en douceur sur la terre ferme.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>Bulle</h3>
+            <p>Une bulle t’entoure pendant 3 secondes et bloque un coup. Elle te sauve même d’une comète.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>Échange</h3>
+            <p>Échange ta place avec le rival le plus proche. Parfait pour te sortir d’un mauvais pas, ou y mettre quelqu’un d’autre.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>Aimant</h3>
+            <p>Pendant 2 secondes, les rivaux proches sont attirés vers toi. Fais-les venir, puis paf !</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 îles">4 îles</span> <span class="line" data-text="dingues">dingues</span></h2>
-        <p class="pill"><span>Jardin Bonbon</span> &middot; <span>Île Volcan</span> &middot; <span>Patinoire</span> &middot; <span>Cosmos</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 îles">7 îles</span> <span class="line" data-text="dingues">dingues</span></h2>
+        <p class="pill">Un nouveau piège sur chaque île</p>
       </div>
-      <p class="intro">Tout commence au Jardin Bonbon : des trous, des bumpers, des rivaux et toi. Ensuite arrivent l’Île Volcan, la Patinoire et Cosmos, chacune avec son piège.</p>
+      <p class="intro">Chaque danger prévient avant : lis le terrain et continue de rouler. Avant une partie, une bande fait défiler les îles et choisit la tienne.</p>
       <div class="rail" role="region" tabindex="0" aria-label="Les îles, fais défiler sur le côté">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/fr/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 îles : la bande s’arrête sur l’île de la prochaine partie."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">Le choix de l’île</span>
-            <h3>On va où ?</h3>
-            <p>Depuis le menu, une bande fait défiler les îles et choisit la tienne. Après la partie, une carte face cachée masque l’île suivante. Touche Encore une partie pour la retourner.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/fr/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="La bande s’arrête sur l’île de la prochaine partie."></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">Le choix de l’île</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="../img/fr/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Île Volcan : un geyser de vapeur repousse les hamsters proches, avec de la lave tout autour de l’île."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">Île Volcan</span>
-            <h3>Geysers de vapeur</h3>
-            <p>Lave tout autour. Un anneau se remplit autour d’un geyser de vapeur, puis il projette les hamsters proches.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b">Île Volcan</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/fr/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Patinoire : les hamsters glissent sur la patinoire au milieu de l’île."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">Patinoire</span>
-            <h3>Glace glissante</h3>
-            <p>De la glace au milieu. Lent à accélérer, lent à freiner, vite dans les ennuis.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">Patinoire</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/fr/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos : une comète traverse l’île et chasse les hamsters de son chemin."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">Cosmos</span>
-            <h3>Comètes</h3>
-            <p>Un pointillé te prévient, puis une comète traverse l’île et écarte tous ceux sur son chemin.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/fr/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos : une comète traverse l’île le long d’une ligne d’alerte en pointillé."></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">Cosmos</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">Jardin Bonbon</span>
+          <h3>Trous et bumpers</h3>
+          <p>Tout commence ici. Rebondis sur les bumpers et évite les trous.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">Île Volcan</span>
+          <h3>Geysers de vapeur</h3>
+          <p>Lave tout autour. Un anneau d’alerte se remplit autour d’un geyser de vapeur, puis il projette les hamsters proches.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">Cosmos</span>
+          <h3>Comètes</h3>
+          <p>Un pointillé te prévient 2,5 secondes avant. Le centre lumineux de la comète t’élimine comme un trou, sauf si une Bulle te sauve, et le reste de son couloir t’écarte sur le côté.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">Patinoire</span>
+          <h3>Glace glissante</h3>
+          <p>De la glace au milieu. Lent à accélérer, lent à freiner, vite dans les ennuis.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">Jungle</span>
+          <h3>Boue et troncs</h3>
+          <p>Les flaques de boue te ralentissent, et des troncs roulent à travers l’île et t’écartent de leur chemin.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">Lagon</span>
+          <h3>Bassins et marée</h3>
+          <p>Dans les bassins peu profonds, tu démarres lentement et tu freines lentement. Puis une vague de marée traverse l’île et écarte tous ceux sur son chemin.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">Mécanisme</span>
+          <h3>Huile et pistons</h3>
+          <p>Les taches d’huile glissent comme de la glace, et après une alerte, des pistons repoussent les hamsters proches.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Exploration">Exploration</span> <span class="line" data-text="et Entraînement">et Entraînement</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Cinq façons">Cinq façons</span> <span class="line" data-text="de rouler">de rouler</span></h2>
+        <p class="pill">Cinq modes et un échauffement</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">Exploration</span>
-            <h3>Attrape toutes les étoiles</h3>
-            <p>Tombé ? Reviens aussitôt. Des petites étoiles poussent sur l’île, et chacune compte dès que tu la touches. Attrape-les vite et le carillon monte plus haut. Bulles de pouvoir et coups des rivaux continuent tant que tu veux.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">Entraînement</span>
-            <h3>Échauffement</h3>
-            <p>Une partie plus calme au Jardin Bonbon contre 3 rivaux qui visent plus lentement et frappent moins fort. Apprends l’élan ici, puis passe aux choses sérieuses.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Exploration : une étoile file vers le compteur dès que le hamster la touche, avec d’autres étoiles tout près."></figure>
+      <p class="intro">Chaque mode se joue en ligne avec des joueurs du monde entier. Nouveau ? Commence par l’Entraînement.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Bataille</span>
+          <h3>Le dernier en piste gagne</h3>
+          <p>12 hamsters, une île qui s’effrite. Pousse tous les autres dans les trous et reste le dernier en piste.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Bataille d’équipes</span>
+          <h3>La dernière équipe gagne</h3>
+          <p>2 équipes de 6 ou 3 équipes de 4. Les coéquipiers se cognent sans jamais se faire de mal, et la dernière équipe sur l’île gagne.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Course</span>
+          <h3>Trois tours</h3>
+          <p>Suis les drapeaux autour de l’île pendant 3 tours. Tombé ? Tu reviens aussitôt, alors continue.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Capture du drapeau</span>
+          <h3>Ramène-le</h3>
+          <p>Un drapeau attend au centre. Attrape-le et porte-le à la base de ton équipe. Pousse le porteur et le drapeau tombe !</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Exploration</span>
+          <h3>Attrape toutes les étoiles</h3>
+          <p>Tombé ? Reviens aussitôt. Des petites étoiles poussent sur l’île, et chacune compte dès que tu la touches. Les bulles de pouvoir continuent d’apparaître tant que tu veux.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Entraînement</span>
+          <h3>Échauffement</h3>
+          <p>Une partie plus calme au Jardin Bonbon contre 3 rivaux qui visent plus lentement et frappent moins fort. Apprends l’élan ici, puis passe aux choses sérieuses.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Exploration : une étoile file vers le compteur dès que le hamster la touche, avec d’autres étoiles tout près."></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="Joue">Joue</span> <span class="line hot" data-text="en ligne !">en ligne !</span></h2>
+        <p class="pill"><span>Groupes</span> &middot; <span>Amis</span> &middot; <span>Émotes</span> &middot; <span>Trophées</span></p>
+      </div>
+      <p class="intro">Emmène les chocs en ligne et joue avec d’autres personnes. Les parties peuvent inclure des joueurs contrôlés par l’ordinateur.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Groupe</span>
+          <h3>Roulez ensemble</h3>
+          <p>Crée un groupe et partage son code de 6 lettres. Ton groupe joue dans la même équipe en Bataille d’équipes et en Capture du drapeau, et roule ensemble en Exploration.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Amis</span>
+          <h3>Ajoute par code</h3>
+          <p>Chaque joueur a un code ami. Ajoute un ami avec, vois quand il est en ligne, et rejoins son Exploration ou invite-le dans ton groupe.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Émotes</span>
+          <h3>Dis-le en émotes</h3>
+          <p>Pas de chat. Encourage, salue ou dis GG avec 14 émotes toutes prêtes : 6 sont fournies avec le jeu, 4 viennent avec le pack Émotes de fête, et 4 de plus avec le Pack de départ et les sets Signature.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Ton nom</span>
+          <h3>Rien à taper</h3>
+          <p>Le jeu te donne un nom. Tires-en un autre ou tape un pseudo que nous vérifions avant que quiconque le voie.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Trophées</span>
+          <h3>Grimpe au classement</h3>
+          <p>Gagne des trophées dans les parties en ligne, grimpe au classement et vois où en sont tes amis. Ton profil montre parties, victoires et boums.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Fair-play</span>
+          <h3>Rien à acheter pour gagner</h3>
+          <p>Les couleurs de nom et le pack Émotes de fête changent ton look, jamais ta façon de jouer.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 hamsters &#9733; 21 boules &#9733; 23 traînées &#9733; 16 hamsters &#9733; 21 boules &#9733; 23 traînées &#9733; 16 hamsters &#9733; 21 boules &#9733; 23 traînées &#9733; 16 hamsters &#9733; 21 boules &#9733; 23 traînées &#9733; 16 hamsters &#9733; 21 boules &#9733; 23 traînées &#9733; 16 hamsters &#9733; 21 boules &#9733; 23 traînées &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 23 hamsters &#9733; 29 boules &#9733; 30 traînées &#9733; 23 hamsters &#9733; 29 boules &#9733; 30 traînées &#9733; 23 hamsters &#9733; 29 boules &#9733; 30 traînées &#9733; 23 hamsters &#9733; 29 boules &#9733; 30 traînées &#9733; 23 hamsters &#9733; 29 boules &#9733; 30 traînées &#9733; 23 hamsters &#9733; 29 boules &#9733; 30 traînées &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 apparences">60 apparences</span> <span class="line" data-text="à collecter">à collecter</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 apparences">92 apparences</span> <span class="line" data-text="à collectionner">à collectionner</span></h2>
         <p class="pill">Hamsters · Boules · Traînées</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span>hamsters</span></li>
-            <li><b>21</b> <span>boules</span></li>
-            <li><b>23</b> <span>traînées</span></li>
+            <li><b>23</b> <span>hamsters</span></li>
+            <li><b>29</b> <span>boules</span></li>
+            <li><b>30</b> <span>traînées</span></li>
           </ul>
-          <p>Gagne des étoiles en partie et avec les petites étoiles, puis ouvre un cadeau pour 60 étoiles.</p>
-          <p class="note">Les apparences changent ton style, pas ta vitesse.</p>
+          <p>Tu as 3 apparences dès le départ. Gagne des étoiles en jouant, puis ouvre un cadeau pour 60 étoiles. Essaie un petit dragon ou un pelage Aurore, roule dans un ballon de plage, ou laisse derrière toi des lucioles et de la poussière de comète.</p>
+          <p class="note">Les cadeaux contiennent 67 apparences, toutes sauf celles du départ et les apparences Signature. Les apparences changent ton style, pas ta vitesse.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/fr/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="L’écran Apparences : la Boule de feu portée en haut, les onglets Hamsters, Boules et Traînées, la grille et le bouton Ouvrir."></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">Légendaire 3 %</li>
               </ul>
               <span>Quand tu as toutes les apparences d’une rareté, sa part passe aux autres.</span></li>
-            <li>Après 7 cadeaux d’affilée sans Épique ni Légendaire, le suivant est au moins Épique.</li>
+            <li>Toutes les 5 parties, un cadeau gratuit se remplit. Tu peux aussi choisir une apparence des cadeaux et la débloquer avec des étoiles.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>Tous les rivaux sont des hamsters contrôlés par l’ordinateur. Aucun compte nécessaire.</li>
-          <li>Pubs adaptées aux enfants pour tous les joueurs : Google AdMob, classées G, jamais personnalisées. Jamais pendant une partie : parfois une entre deux parties, et la pub pour les étoiles ne se lance que si tu la touches.</li>
-          <li>Regarde une pub facultative pour 10 étoiles. L’achat unique Retirer les pubs coupe les pubs entre les parties ; la pub facultative pour les étoiles reste.</li>
-          <li>La boule Prisme et la traînée Arc-en-ciel sont vendues via Google Play. Les cadeaux ne les contiennent jamais, et les étoiles ne s’achètent pas.</li>
+          <li>Les parties peuvent inclure des joueurs contrôlés par l’ordinateur.</li>
+          <li>Le jeu crée ton compte pour toi, sans e-mail ni mot de passe.</li>
+          <li>Le jeu en ligne n’a pas de chat. Chacun reçoit un nom du jeu et peut en tirer un autre ou taper un pseudo que nous vérifions avant que quiconque le voie. On s’exprime avec 14 émotes toutes prêtes. Tes amis voient quand tu es en ligne, sauf si tu actives Masquer mon statut en ligne dans les Réglages.</li>
+          <li>Pubs adaptées aux enfants pour tous les joueurs : Google AdMob, classées G, jamais personnalisées. Jamais pendant une partie : parfois une courte entre deux parties, et la pub pour les étoiles ne se lance que si tu la touches.</li>
+          <li>Regarde une pub facultative pour 10 étoiles. Retirer les pubs coupe les pubs entre les parties ; la pub facultative pour les étoiles reste.</li>
+          <li>Vendus via Google Play, chacun acheté une fois et gardé pour toujours : Retirer les pubs, le Pack de départ, les apparences Signature, les effets de coup et danses de victoire, et les sets Roi de lave, Cadet spatial et Ninja glacé. Les couleurs de nom et les émotes demandent un compte en ligne.</li>
+          <li>Les objets payants ne s’obtiennent qu’avec de l’argent : ni les cadeaux, ni les étoiles, ni les trophées ne les donnent, et les étoiles ne s’achètent pas. Rien de ce que tu achètes n’aide à gagner.</li>
           <li>Joue en vertical ou en horizontal, sur téléphone et tablette.</li>
-          <li>Musique, sons et vibrations réglables séparément, animations Douces et bouton Élan à gauche ou à droite.</li>
+          <li>Musique, sons et vibrations réglables séparément, Animations réduites, option Joystick fixe, trois tailles de boutons et Commandes inversées, qui placent le bouton Élan à gauche.</li>
           <li>13 langues : anglais, russe, espagnol, allemand, français, japonais, coréen, chinois simplifié, turc, italien, portugais du Brésil, polonais et ukrainien.</li>
         </ul>
       </div>

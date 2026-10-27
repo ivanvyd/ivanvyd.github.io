@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title data-i18n="page.title">Hamster Bounce: Ball Battle</title>
-<meta name="description" content="Hold to charge and bonk rival hamsters into the holes on 4 crumbling islands. Boom, Stone and Float skills, 60 looks and computer-controlled rivals. Now on Google Play." data-i18n="@content:meta.description">
+<meta name="description" content="Hold to charge and bonk rival hamsters into the holes on 7 wild islands. 6 skills, 5 modes, 92 looks and online play with friends. Now on Google Play." data-i18n="@content:meta.description">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: Ball Battle" data-i18n="@content:page.title">
-<meta property="og:description" content="Hold to charge and bonk rival hamsters into the holes on 4 crumbling islands!" data-i18n="@content:og.description">
+<meta property="og:description" content="Hold to charge and bonk rival hamsters into the holes on 7 wild islands, then play online with friends!" data-i18n="@content:og.description">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="A hamster in a clear ball rolling across a candy island, with the line &quot;Last hamster rolling wins!&quot;" data-i18n="@content:og.image_alt">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill" data-i18n="hero.pill">Last hamster rolling wins!</p>
-        <p class="lead" data-i18n="hero.lead">12 hamsters roll onto a crumbling island. Hold to charge, BONK your rivals into the holes and be the last one rolling!</p>
+        <p class="lead" data-i18n="hero.lead">12 hamsters roll onto a crumbling island. Hold to charge, BONK your rivals into the holes and be the last one rolling. Then take it online with friends!</p>
         <ul class="stats">
-          <li><b>4</b> <span data-i18n="hero.stat.islands">islands</span></li>
-          <li><b>3</b> <span data-i18n="hero.stat.skills">skills</span></li>
-          <li><b>60</b> <span data-i18n="hero.stat.looks">looks</span></li>
+          <li><b>7</b> <span data-i18n="hero.stat.islands">islands</span></li>
+          <li><b>6</b> <span data-i18n="hero.stat.skills">skills</span></li>
+          <li><b>5</b> <span data-i18n="hero.stat.modes">modes</span></li>
+          <li><b>92</b> <span data-i18n="hero.stat.looks">looks</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="img/play-badge/en.png" width="646" height="192" decoding="async" alt="Get it on Google Play" data-i18n="@alt:cta.badge_alt"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape" data-i18n-tape="tape.hamsters tape.islands tape.skills tape.looks tape.languages" data-i18n-repeat="4">&#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733; 12 hamsters &#9733; 4 islands &#9733; 3 skills &#9733; 60 looks &#9733; 13 languages &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape" data-i18n-tape="tape.hamsters tape.islands tape.skills tape.modes tape.looks tape.online" data-i18n-repeat="4">&#9733; 12 hamsters &#9733; 7 islands &#9733; 6 skills &#9733; 5 modes &#9733; 92 looks &#9733; Online with friends &#9733; 12 hamsters &#9733; 7 islands &#9733; 6 skills &#9733; 5 modes &#9733; 92 looks &#9733; Online with friends &#9733; 12 hamsters &#9733; 7 islands &#9733; 6 skills &#9733; 5 modes &#9733; 92 looks &#9733; Online with friends &#9733; 12 hamsters &#9733; 7 islands &#9733; 6 skills &#9733; 5 modes &#9733; 92 looks &#9733; Online with friends &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="Hold. Charge." data-i18n="play.title.1">Hold. Charge.</span> <span class="line hot" data-text="Bonk!" data-i18n="play.title.2">Bonk!</span></h2>
         <p class="pill" data-i18n="play.pill">Hold Dash, let go to bonk</p>
       </div>
-      <p class="intro" data-i18n="play.intro">Drag to roll. Hold Dash to charge, let go and BONK! Your rival goes tumbling, and no amount of steering stops the slide. Knock the 11 computer-controlled rivals into the holes before they knock you in.</p>
+      <p class="intro" data-i18n="play.intro">Drag to roll. Hold Dash to charge, let go and BONK! Your rival goes tumbling, and no amount of steering stops the slide. Knock 11 rivals into the holes before they knock you in.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb" data-i18n="play.survival.tag">Survival</span>
-            <h3 data-i18n="play.survival.title">Last one rolling wins</h3>
-            <p data-i18n="play.survival.text">The ground flashes a warning, then drops away. Holes open in waves and grow wider while the shore crumbles in. Every round pays Stars, plus a bonus for the win.</p>
+            <span class="tag" style="--tag:#ff9bbb" data-i18n="play.ground.tag">Holes</span>
+            <h3 data-i18n="play.ground.title">Watch the ground</h3>
+            <p data-i18n="play.ground.text">The ground flashes a warning, then drops away. In a Battle, holes open in waves and grow wider while the shore crumbles in, so keep rolling toward the middle.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)" data-i18n="play.dash.tag">Dash</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="Boom!" data-i18n="skills.title.1">Boom!</span> <span class="line" data-text="Grab skills" data-i18n="skills.title.2">Grab skills</span></h2>
-        <p class="pill" data-i18n="skills.pill">Boom &middot; Stone &middot; Float</p>
+        <p class="pill" data-i18n="skills.pill" data-i18n-split="·"><span>6 skills</span> &middot; <span>new tricks</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p data-i18n="skills.card.text">Roll into a skill bubble. It waits on the skill button until you fire it. Caught in a tumble? Fire Stone or Float for a last-second save.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="img/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boom! A hamster's Boom skill blasts the rivals around it away. Boom, Stone and Float are the three skills." data-i18n="@alt:skills.shot_alt"></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="img/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Boom! A hamster's Boom skill blasts the rivals around it away." data-i18n="@alt:skills.shot_alt"></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p data-i18n="skills.float.text">A balloon lifts you for 3 seconds. Sail over holes and through other hamsters, then drift down onto solid ground.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3 data-i18n="skills.bubble.title">Bubble</h3>
+            <p data-i18n="skills.bubble.text">A bubble wraps around you for 3 seconds and blocks one hit. It even saves you from a comet.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3 data-i18n="skills.swap.title">Swap</h3>
+            <p data-i18n="skills.swap.text">Trade places with the nearest rival. Great for getting out of a tight spot, or putting someone else in one.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3 data-i18n="skills.magnet.title">Magnet</h3>
+            <p data-i18n="skills.magnet.text">For 2 seconds, rivals nearby get pulled toward you. Reel them in, then bonk!</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 wild" data-i18n="islands.title.1">4 wild</span> <span class="line" data-text="islands" data-i18n="islands.title.2">islands</span></h2>
-        <p class="pill" data-i18n="islands.pill" data-i18n-split="·"><span>Candy Garden</span> &middot; <span>Volcano Isle</span> &middot; <span>Frost Rink</span> &middot; <span>Cosmos</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 wild" data-i18n="islands.title.1">7 wild</span> <span class="line" data-text="islands" data-i18n="islands.title.2">islands</span></h2>
+        <p class="pill" data-i18n="islands.pill">A new trick on every island</p>
       </div>
-      <p class="intro" data-i18n="islands.intro">Candy Garden is where it all starts: holes, bumpers, rivals and you. Then Volcano Isle, Frost Rink and Cosmos join in, each with a trick of its own.</p>
+      <p class="intro" data-i18n="islands.intro">Every hazard warns you first, so read the ground and keep rolling. Before a round, a reel rolls through the islands to pick yours.</p>
       <div class="rail" role="region" tabindex="0" aria-label="The islands, scroll sideways" data-i18n="@aria-label:islands.rail_label">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="img/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 islands: the reveal reel lands on the island for the next round." data-i18n="@alt:islands.reveal.alt"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5" data-i18n="islands.reveal.tag">The reveal</span>
-            <h3 data-i18n="islands.reveal.title">Where to next?</h3>
-            <p data-i18n="islands.reveal.text">Start a round from the menu and a reel rolls through the islands to pick yours. After a round, a face-down card hides the next island. Tap One more round to flip it.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="img/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="The reveal reel lands on the island for the next round." data-i18n="@alt:islands.reveal.alt"></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5" data-i18n="islands.reveal.tag">The reveal</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="img/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Volcano Isle: a steam vent blasts nearby hamsters away, with lava all around the island." data-i18n="@alt:islands.volcano.alt"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b" data-i18n="islands.volcano.tag">Volcano Isle</span>
-            <h3 data-i18n="islands.volcano.title">Steam vents</h3>
-            <p data-i18n="islands.volcano.text">Lava all around. A ring fills around a steam vent, then the vent blasts nearby hamsters away.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b" data-i18n="islands.volcano.tag">Volcano Isle</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="img/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Frost Rink: hamsters slide across the slippery ice rink in the middle of the island." data-i18n="@alt:islands.frost.alt"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff" data-i18n="islands.frost.tag">Frost Rink</span>
-            <h3 data-i18n="islands.frost.title">Slippery ice</h3>
-            <p data-i18n="islands.frost.text">An ice rink in the middle. Slow to speed up, slow to stop, quick to slide into trouble.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff" data-i18n="islands.frost.tag">Frost Rink</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="img/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: a comet streaks across the island and flicks hamsters out of its path." data-i18n="@alt:islands.cosmos.alt"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff" data-i18n="islands.cosmos.tag">Cosmos</span>
-            <h3 data-i18n="islands.cosmos.title">Comets</h3>
-            <p data-i18n="islands.cosmos.text">A dotted line warns you, then a comet streaks across the island and flicks everyone in its path aside.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="img/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: a comet streaks across the island along a dotted warning line." data-i18n="@alt:islands.cosmos.alt"></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff" data-i18n="islands.cosmos.tag">Cosmos</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb" data-i18n="islands.candy.tag">Candy Garden</span>
+          <h3 data-i18n="islands.candy.title">Holes and bumpers</h3>
+          <p data-i18n="islands.candy.text">Where it all starts. Bounce off the bumpers and steer clear of the holes.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b" data-i18n="islands.volcano.tag">Volcano Isle</span>
+          <h3 data-i18n="islands.volcano.title">Steam vents</h3>
+          <p data-i18n="islands.volcano.text">Lava all around. A warning ring fills around a steam vent, then the vent blasts nearby hamsters away.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff" data-i18n="islands.cosmos.tag">Cosmos</span>
+          <h3 data-i18n="islands.cosmos.title">Comets</h3>
+          <p data-i18n="islands.cosmos.text">A dotted line warns you 2.5 seconds ahead. The comet's glowing centreline knocks you out like a hole, unless a Bubble saves you, and the rest of its lane flicks you sideways.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff" data-i18n="islands.frost.tag">Frost Rink</span>
+          <h3 data-i18n="islands.frost.title">Slippery ice</h3>
+          <p data-i18n="islands.frost.text">An ice rink in the middle. Slow to speed up, slow to stop, quick to slide into trouble.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a" data-i18n="islands.jungle.tag">Jungle</span>
+          <h3 data-i18n="islands.jungle.title">Mud and logs</h3>
+          <p data-i18n="islands.jungle.text">Muddy puddles slow you down, and rolling logs sweep across the island and shove you aside.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0" data-i18n="islands.lagoon.tag">Lagoon</span>
+          <h3 data-i18n="islands.lagoon.title">Pools and tides</h3>
+          <p data-i18n="islands.lagoon.text">In the shallow pools you're slow to get going and slow to stop. Then a tide surge rolls across and pushes everyone in its path aside.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a" data-i18n="islands.clockwork.tag">Clockwork</span>
+          <h3 data-i18n="islands.clockwork.title">Oil and pistons</h3>
+          <p data-i18n="islands.clockwork.text">Oil slicks are as slippery as ice, and after a warning, pistons punch nearby hamsters away.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Free Roam" data-i18n="modes.title.1">Free Roam</span> <span class="line" data-text="and Practice" data-i18n="modes.title.2">and Practice</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Five ways" data-i18n="modes.title.1">Five ways</span> <span class="line" data-text="to roll" data-i18n="modes.title.2">to roll</span></h2>
+        <p class="pill" data-i18n="modes.pill">Five modes and a warm-up</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)" data-i18n="modes.roam.tag">Free Roam</span>
-            <h3 data-i18n="modes.roam.title">Grab every star</h3>
-            <p data-i18n="modes.roam.text">Fell in? Roll right back. Star charms sprout across the island, and each one counts the moment you touch it. Grab them fast and the chime climbs higher. Skill bubbles keep popping up and rivals keep bonking for as long as you like.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)" data-i18n="modes.practice.tag">Practice</span>
-            <h3 data-i18n="modes.practice.title">Warm up</h3>
-            <p data-i18n="modes.practice.text">A calmer round on Candy Garden against 3 rivals who aim slower and hit softer. Learn the dash here, then go big.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Free Roam: a star flies to the counter after the hamster touches it, with more stars nearby." data-i18n="@alt:modes.shot_alt"></figure>
+      <p class="intro" data-i18n="modes.intro">Every mode plays online with players around the world. New here? Start with Practice.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb" data-i18n="modes.battle.tag">Battle</span>
+          <h3 data-i18n="modes.battle.title">Last one rolling wins</h3>
+          <p data-i18n="modes.battle.text">12 hamsters, one crumbling island. Bonk everyone else into the holes and be the last one rolling.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b" data-i18n="modes.team.tag">Team Battle</span>
+          <h3 data-i18n="modes.team.title">Last team standing</h3>
+          <p data-i18n="modes.team.text">2 teams of 6 or 3 teams of 4. Teammates bump but never hurt each other, and the last team on the island wins.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)" data-i18n="modes.race.tag">Race</span>
+          <h3 data-i18n="modes.race.title">Three laps</h3>
+          <p data-i18n="modes.race.text">Follow the flags around the island for 3 laps. Fell off? You roll right back in, so keep going.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff" data-i18n="modes.flag.tag">Flag Capture</span>
+          <h3 data-i18n="modes.flag.title">Bring it home</h3>
+          <p data-i18n="modes.flag.text">One flag waits in the middle. Grab it and carry it to your team's base. Bonk the carrier and the flag drops!</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)" data-i18n="modes.roam.tag">Free Roam</span>
+          <h3 data-i18n="modes.roam.title">Grab every star</h3>
+          <p data-i18n="modes.roam.text">Fell in? Roll right back. Star charms sprout across the island, and each one counts the moment you touch it. Skill bubbles keep popping up for as long as you like.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5" data-i18n="modes.practice.tag">Practice</span>
+          <h3 data-i18n="modes.practice.title">Warm up</h3>
+          <p data-i18n="modes.practice.text">A calmer round on Candy Garden against 3 rivals who aim slower and hit softer. Learn the dash here, then go big.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Free Roam: a star flies to the counter after the hamster touches it, with more stars nearby." data-i18n="@alt:modes.shot_alt"></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="Play" data-i18n="online.title.1">Play</span> <span class="line hot" data-text="online!" data-i18n="online.title.2">online!</span></h2>
+        <p class="pill" data-i18n="online.pill" data-i18n-split="·"><span>Parties</span> &middot; <span>Friends</span> &middot; <span>Emotes</span> &middot; <span>Trophies</span></p>
+      </div>
+      <p class="intro" data-i18n="online.intro">Take the bonking online and play with other people. Matches can include computer-controlled players.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)" data-i18n="online.party.tag">Party</span>
+          <h3 data-i18n="online.party.title">Roll together</h3>
+          <p data-i18n="online.party.text">Make a party and share its 6-letter code. Your party plays on the same team in Team Battle and Flag Capture, and rolls together in Free Roam.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)" data-i18n="online.friends.tag">Friends</span>
+          <h3 data-i18n="online.friends.title">Add by code</h3>
+          <p data-i18n="online.friends.text">Every player has a friend code. Add a friend with it, see when they're online, and join their Free Roam game or invite them to your party.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb" data-i18n="online.emotes.tag">Emotes</span>
+          <h3 data-i18n="online.emotes.title">Say it with emotes</h3>
+          <p data-i18n="online.emotes.text">There's no chat. Cheer, wave or say GG with 14 preset emotes: 6 come with the game, 4 come in the Party pack, and 4 more come in the Starter pack and the Signature sets.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff" data-i18n="online.name.tag">Your name</span>
+          <h3 data-i18n="online.name.title">No typing needed</h3>
+          <p data-i18n="online.name.text">The game gives you a name. Roll a new one, or type a nickname we check before anyone sees it.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b" data-i18n="online.trophies.tag">Trophies</span>
+          <h3 data-i18n="online.trophies.title">Climb the board</h3>
+          <p data-i18n="online.trophies.text">Win trophies in online rounds, climb the leaderboards and see where your friends are. Your profile shows your matches, wins and bonks.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5" data-i18n="online.fair.tag">Fair play</span>
+          <h3 data-i18n="online.fair.title">Nothing to buy to win</h3>
+          <p data-i18n="online.fair.text">Name colours and the Party emote pack change how you look, never how you play.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink" data-i18n-tape="tape2.hamster_styles tape2.balls tape2.trails" data-i18n-repeat="6">&#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733; 16 hamster styles &#9733; 21 balls &#9733; 23 trails &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink" data-i18n-tape="tape2.hamster_styles tape2.balls tape2.trails" data-i18n-repeat="6">&#9733; 23 hamster styles &#9733; 29 balls &#9733; 30 trails &#9733; 23 hamster styles &#9733; 29 balls &#9733; 30 trails &#9733; 23 hamster styles &#9733; 29 balls &#9733; 30 trails &#9733; 23 hamster styles &#9733; 29 balls &#9733; 30 trails &#9733; 23 hamster styles &#9733; 29 balls &#9733; 30 trails &#9733; 23 hamster styles &#9733; 29 balls &#9733; 30 trails &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 looks" data-i18n="looks.title.1">60 looks</span> <span class="line" data-text="to collect" data-i18n="looks.title.2">to collect</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 looks" data-i18n="looks.title.1">92 looks</span> <span class="line" data-text="to collect" data-i18n="looks.title.2">to collect</span></h2>
         <p class="pill" data-i18n="looks.pill">Hamsters &middot; Balls &middot; Trails</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span data-i18n="looks.count.hamsters">hamster styles</span></li>
-            <li><b>21</b> <span data-i18n="looks.count.balls">balls</span></li>
-            <li><b>23</b> <span data-i18n="looks.count.trails">trails</span></li>
+            <li><b>23</b> <span data-i18n="looks.count.hamsters">hamster styles</span></li>
+            <li><b>29</b> <span data-i18n="looks.count.balls">balls</span></li>
+            <li><b>30</b> <span data-i18n="looks.count.trails">trails</span></li>
           </ul>
-          <p data-i18n="looks.text">Earn Stars from rounds and charms, then open a gift for 60 Stars.</p>
-          <p class="note" data-i18n="looks.note">Looks change your style, not your speed.</p>
+          <p data-i18n="looks.text">You start with 3 looks. Earn Stars as you play, then open a gift for 60 Stars. Try a little dragon or an aurora coat, roll in a beach ball, or leave fireflies and comet dust behind you.</p>
+          <p class="note" data-i18n="looks.note">Gifts hold 67 looks, everything except the starters and the Signature looks. Looks change your style, not your speed.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="img/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="The Your looks screen: the worn Fireball ball at the top, Hamsters, Balls and Trails tabs, a grid of looks and the Open a gift button." data-i18n="@alt:looks.shot_alt"></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54" data-i18n="gift.odds.legendary">Legendary 3%</li>
               </ul>
               <span data-i18n="gift.fact.odds_shift">Once you own every look of a rarity, its share goes to the others.</span></li>
-            <li data-i18n="gift.fact.pity">After 7 gifts in a row with no Epic or Legendary, the next one is Epic or better.</li>
+            <li data-i18n="gift.fact.free">Every 5 matches fill a free gift. You can also pick a look that gifts hold and unlock it with Stars.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li data-i18n="facts.rivals">Every rival is a computer-controlled hamster. No account needed.</li>
-          <li data-i18n="facts.ads">Ads are child-safe for every player: Google AdMob ads rated G and never personalised. Ads never interrupt a round. You may see one between rounds, and the Stars ad plays only when you tap it.</li>
-          <li data-i18n="facts.stars_ad">Watch an optional ad for 10 Stars. A one-time Remove ads purchase turns off the ads between rounds; the optional Stars ad stays.</li>
-          <li data-i18n="facts.paid">The Prism ball and the Rainbow trail are sold through Google Play. Gifts never contain them, and Stars can't be bought.</li>
+          <li data-i18n="facts.bots">Matches can include computer-controlled players.</li>
+          <li data-i18n="facts.account">The game makes your account for you, with no email or password.</li>
+          <li data-i18n="facts.online">Online play has no chat. Everyone gets a name from the game and can roll a new one or type a nickname we check before anyone sees it. Players talk with 14 preset emotes. Friends see when you're online unless you turn on Hide my online status in Settings.</li>
+          <li data-i18n="facts.ads">Ads are child-safe for every player: Google AdMob ads rated G and never personalised. Ads never interrupt a round. You may see a short one between rounds, and the Stars ad plays only when you tap it.</li>
+          <li data-i18n="facts.stars_ad">Watch an optional ad for 10 Stars. Remove ads turns off the ads between rounds; the optional Stars ad stays.</li>
+          <li data-i18n="facts.paid">Sold through Google Play, each bought once and kept for good: Remove ads, the Starter pack, the Signature looks, hit effects and victory dances, and the Lava King, Space Cadet and Ice Ninja sets. Name colours and emotes need an online account.</li>
+          <li data-i18n="facts.fair">Paid items are only sold for money. Gifts, Stars and trophies never give them, and Stars can't be bought. Nothing you buy helps you win.</li>
           <li data-i18n="facts.devices">Play upright or sideways, on phones and tablets.</li>
-          <li data-i18n="facts.settings">Separate switches for music, sound and vibration, a Calm motion setting, and the Dash button on either side.</li>
+          <li data-i18n="facts.settings">Separate switches for music, sound and vibration, a Reduced motion switch, a Fixed joystick option, three button sizes, and Mirror controls to put the Dash button on the left.</li>
           <li data-i18n="facts.languages">13 languages: English, Russian, Spanish, German, French, Japanese, Korean, Simplified Chinese, Turkish, Italian, Brazilian Portuguese, Polish and Ukrainian.</li>
         </ul>
       </div>

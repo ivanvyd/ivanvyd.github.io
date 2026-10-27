@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: ハムスターバトル</title>
-<meta name="description" content="長押しでためて、ライバルのハムスターを4つのくずれる島の穴へゴツン！ドカン・カチコチ・ふわふわのスキル、60種のきせかえ、コンピューターが動かすライバル。Google Playで配信中。">
+<meta name="description" content="長押しでためて、ライバルのハムスターを7つの島の穴へゴツン！6つのスキル、5つのモード、92種のきせかえ、友だちとのオンライン対戦。Google Playで配信中。">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/ja/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: ハムスターバトル">
-<meta property="og:description" content="長押しでためて、ライバルのハムスターを穴へゴツン！くずれる4つの島で最後まで残ろう">
+<meta property="og:description" content="長押しでためて、7つの島でライバルを穴へゴツン！オンラインで友だちとも遊べる">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="透明なボールに入ったハムスターがおかしの島を転がり、英語で「Last hamster rolling wins!」と書かれている。">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/ja/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span><span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">最後まで残れば勝ち！</p>
-        <p class="lead">12匹のハムスターがくずれる島に転がりこむ。長押しでためて、ライバルを穴へゴツン！最後まで転がっていよう！</p>
+        <p class="lead">12匹のハムスターがくずれる島に転がりこむ。長押しでためて、ライバルを穴へゴツン！最後まで転がっていよう。オンラインで友だちとも遊べる！</p>
         <ul class="stats">
-          <li><b>4</b><span>つの島</span></li>
-          <li><b>3</b><span>つのスキル</span></li>
-          <li><b>60</b><span>種のきせかえ</span></li>
+          <li><b>7</b><span>つの島</span></li>
+          <li><b>6</b><span>つのスキル</span></li>
+          <li><b>5</b><span>つのモード</span></li>
+          <li><b>92</b><span>種のきせかえ</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ja.png" width="646" height="192" decoding="async" alt="Google Play で手に入れよう"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12匹のハムスター &#9733; 4つの島 &#9733; 3つのスキル &#9733; 60種のきせかえ &#9733; 13言語 &#9733; 12匹のハムスター &#9733; 4つの島 &#9733; 3つのスキル &#9733; 60種のきせかえ &#9733; 13言語 &#9733; 12匹のハムスター &#9733; 4つの島 &#9733; 3つのスキル &#9733; 60種のきせかえ &#9733; 13言語 &#9733; 12匹のハムスター &#9733; 4つの島 &#9733; 3つのスキル &#9733; 60種のきせかえ &#9733; 13言語 &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12匹のハムスター &#9733; 7つの島 &#9733; 6つのスキル &#9733; 5つのモード &#9733; 92種のきせかえ &#9733; 友だちとオンライン &#9733; 12匹のハムスター &#9733; 7つの島 &#9733; 6つのスキル &#9733; 5つのモード &#9733; 92種のきせかえ &#9733; 友だちとオンライン &#9733; 12匹のハムスター &#9733; 7つの島 &#9733; 6つのスキル &#9733; 5つのモード &#9733; 92種のきせかえ &#9733; 友だちとオンライン &#9733; 12匹のハムスター &#9733; 7つの島 &#9733; 6つのスキル &#9733; 5つのモード &#9733; 92種のきせかえ &#9733; 友だちとオンライン &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="おして ためて">おして ためて</span><span class="line hot" data-text="ゴツン！">ゴツン！</span></h2>
         <p class="pill">ダッシュ長押し、はなしてゴツン</p>
       </div>
-      <p class="intro">ドラッグで転がる。ダッシュを長押ししてためて、はなすとゴツン！　ぶつかったライバルはころころ転がって、いくらもがいても止まらない。コンピューターが動かす11匹のライバルを、落とされる前に穴へ落とそう。</p>
+      <p class="intro">ドラッグで転がる。ダッシュを長押ししてためて、はなすとゴツン！　ぶつかったライバルはころころ転がって、いくらもがいても止まらない。11匹のライバルを、落とされる前に穴へ落とそう。</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">サバイバル</span>
-            <h3>最後まで転がれば勝ち</h3>
-            <p>地面が光って知らせたあと、ストンと落ちる。穴は波のように次々と開いて広がり、岸もくずれていく。どのラウンドでもスターがもらえて、勝てばボーナスもつく。</p>
+            <span class="tag" style="--tag:#ff9bbb">穴</span>
+            <h3>地面に注意</h3>
+            <p>地面が光って知らせたあと、ストンと落ちる。バトルでは穴が次々と開いて広がり、岸もくずれていくから、真ん中のほうへ転がろう。</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">ダッシュ</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="ドカン！">ドカン！</span><span class="line" data-text="スキルをゲット">スキルをゲット</span></h2>
-        <p class="pill">ドカン · カチコチ · ふわふわ</p>
+        <p class="pill"><span>6つのスキル</span> &middot; <span>新しいワザ</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>スキルバブルに転がりこもう。スキルは使うまでスキルボタンで待っていてくれる。ころころ転がされたら？　カチコチかふわふわで、ギリギリセーフ！</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/ja/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="ドカン！ ハムスターのドカンスキルがまわりのライバルをふっとばす。スキルはドカン、カチコチ、ふわふわの3つ。"></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/ja/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="ドカン！ ハムスターのドカンスキルがまわりのライバルをふっとばす。"></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>風船で3秒間うき上がる。穴の上も、ほかのハムスターの中もすり抜けて、地面の上にふわりと着地。</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>シャボン</h3>
+            <p>3秒間シャボン玉に包まれて、攻撃を1回ふせぐ。すい星からも守ってくれる。</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>いれかえ</h3>
+            <p>いちばん近いライバルと場所をいれかえる。ピンチから抜け出すのにも、だれかをピンチに追いこむのにもぴったり。</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>じしゃく</h3>
+            <p>2秒間、近くのライバルを引き寄せる。引き寄せたら、ゴツン！</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4つの">4つの</span><span class="line" data-text="ハチャメチャ島">ハチャメチャ島</span></h2>
-        <p class="pill"><span>おかしのにわ</span> &middot; <span>かざんじま</span> &middot; <span>こおりのリンク</span> &middot; <span>うちゅう</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7つの">7つの</span><span class="line" data-text="ハチャメチャ島">ハチャメチャ島</span></h2>
+        <p class="pill">島ごとに新しいしかけ</p>
       </div>
-      <p class="intro">すべてはおかしのにわから：穴、バンパー、ライバル、そしてキミ。そのあと、かざんじま、こおりのリンク、うちゅうが加わって、それぞれにしかけがある。</p>
+      <p class="intro">どの危険も先に知らせてくれるから、地面をよく見て転がり続けよう。ラウンドの前には、島がつぎつぎ流れてキミの島が決まる。</p>
       <div class="rail" role="region" tabindex="0" aria-label="島の一覧（横にスクロール）">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/ja/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4つの島：島がつぎつぎ流れて、次のラウンドの島に止まる。"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">島えらび</span>
-            <h3>次はどこ？</h3>
-            <p>メニューからラウンドを始めると、島がつぎつぎ流れてキミの島が決まる。ラウンドのあと、裏向きのカードに次の島がかくれている。「もう一回」をタップしてめくろう。</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/ja/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="島がつぎつぎ流れて、次のラウンドの島に止まる。"></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">島えらび</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="../img/ja/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="かざんじま：蒸気の噴き出し口が近くのハムスターをふっとばす。島のまわりは溶岩。"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">かざんじま</span>
-            <h3>蒸気の噴き出し口</h3>
-            <p>まわりは溶岩。蒸気の噴き出し口のまわりで輪がたまると、近くのハムスターをふっとばす。</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b">かざんじま</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/ja/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="こおりのリンク：島のまん中のツルツルの氷の上を、ハムスターがすべっていく。"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">こおりのリンク</span>
-            <h3>ツルツルの氷</h3>
-            <p>真ん中に氷のリンク。加速もブレーキもゆっくりなのに、ピンチにはすぐすべりこむ。</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">こおりのリンク</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/ja/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="うちゅう：すい星が島を横切り、通り道のハムスターをはじき飛ばす。"></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">うちゅう</span>
-            <h3>すい星</h3>
-            <p>点線が知らせたあと、すい星が島を横切り、通り道のみんなをはじき飛ばす。</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/ja/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="うちゅう：点線の警告に沿って、すい星が島を横切る。"></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">うちゅう</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">おかしのにわ</span>
+          <h3>穴とバンパー</h3>
+          <p>すべてはここから。バンパーではね返って、穴には近づかないように。</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">かざんじま</span>
+          <h3>蒸気の噴き出し口</h3>
+          <p>まわりは溶岩。蒸気の噴き出し口のまわりで警告の輪がたまると、近くのハムスターをふっとばす。</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">うちゅう</span>
+          <h3>すい星</h3>
+          <p>2.5秒前に点線が知らせてくれる。すい星の光る真ん中に当たると、シャボンで守られていない限り穴に落ちたのと同じでアウト。通り道のほかの部分では横にはじかれる。</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">こおりのリンク</span>
+          <h3>ツルツルの氷</h3>
+          <p>真ん中に氷のリンク。加速もブレーキもゆっくりなのに、ピンチにはすぐすべりこむ。</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">ジャングル</span>
+          <h3>どろと丸太</h3>
+          <p>どろの水たまりでスピードが落ちて、転がる丸太が島を横切り、キミを横へ押しのける。</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">ラグーン</span>
+          <h3>プールと高波</h3>
+          <p>浅いプールでは動き出すのも止まるのもゆっくり。そこへ高波が押し寄せて、通り道のみんなを横へ押し流す。</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">からくり</span>
+          <h3>油とピストン</h3>
+          <p>油のしみは氷みたいにツルツル。警告のあと、ピストンが近くのハムスターをドンとふっとばす。</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="フリーモード">フリーモード</span><span class="line" data-text="とれんしゅう">とれんしゅう</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="5つの">5つの</span><span class="line" data-text="遊び方">遊び方</span></h2>
+        <p class="pill">5つのモードとれんしゅう</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">フリーモード</span>
-            <h3>スターをぜんぶ集めよう</h3>
-            <p>落ちても大丈夫、すぐに転がって戻れる。島のあちこちにスターが生えてきて、さわった瞬間にカウント。すばやく集めると、チャイムの音がどんどん高くなる。スキルバブルは何度でも出てきて、ライバルも好きなだけぶつかってくる。</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">れんしゅう</span>
-            <h3>ウォーミングアップ</h3>
-            <p>おかしのにわで、ねらいがゆっくりで当たりもやさしい3匹のライバルと、のんびりラウンド。ここでダッシュを覚えたら、本番へ。</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="フリーモード：ハムスターがスターにさわると、スターがカウンターへ飛んでいく。近くにはまだスターがある。"></figure>
+      <p class="intro">どのモードも、世界中のプレイヤーとオンラインで遊べる。はじめてなら、れんしゅうからどうぞ。</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">バトル</span>
+          <h3>最後まで残れば勝ち</h3>
+          <p>12匹のハムスター、くずれる島がひとつ。みんなを穴へ落として、最後まで転がっていよう。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">チームバトル</span>
+          <h3>最後に残ったチームの勝ち</h3>
+          <p>6匹×2チームか4匹×3チーム。仲間どうしはぶつかってもダメージなし。最後まで島に残ったチームの勝ち。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">レース</span>
+          <h3>3周レース</h3>
+          <p>旗を追いかけて島を3周。落ちてもすぐ戻れるから、あきらめずに進もう。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">フラッグキャプチャー</span>
+          <h3>基地へ運ぼう</h3>
+          <p>真ん中に旗がひとつ。つかんで自分のチームの基地へ運ぼう。旗を持っている相手にゴツンとぶつかれば、旗が落ちる！</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">フリーモード</span>
+          <h3>スターをぜんぶ集めよう</h3>
+          <p>落ちても大丈夫、すぐに転がって戻れる。島のあちこちにスターが生えてきて、さわった瞬間にカウント。スキルバブルも好きなだけ出てくる。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">れんしゅう</span>
+          <h3>ウォーミングアップ</h3>
+          <p>おかしのにわで、ねらいがゆっくりで当たりもやさしい3匹のライバルと、のんびりラウンド。ここでダッシュを覚えたら、本番へ。</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="フリーモード：ハムスターがスターにさわると、スターがカウンターへ飛んでいく。近くにはまだスターがある。"></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="オンラインで">オンラインで</span><span class="line hot" data-text="遊ぼう！">遊ぼう！</span></h2>
+        <p class="pill"><span>パーティ</span> &middot; <span>友だち</span> &middot; <span>エモート</span> &middot; <span>トロフィー</span></p>
+      </div>
+      <p class="intro">オンラインでほかのプレイヤーとゴツンとぶつかり合おう。試合にはコンピューターが動かすプレイヤーが入ることがある。</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">パーティ</span>
+          <h3>いっしょに転がろう</h3>
+          <p>パーティを作って6文字のコードを教えよう。チームバトルとフラッグキャプチャーでは同じチームになり、フリーモードではいっしょに遊べる。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">友だち</span>
+          <h3>コードで追加</h3>
+          <p>プレイヤーにはそれぞれフレンドコードがある。コードで友だちを追加すると、オンラインかどうかがわかり、友だちのフリーモードに参加したり、パーティに招待したりできる。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">エモート</span>
+          <h3>エモートで伝えよう</h3>
+          <p>チャットはなし。14種類の決まったエモートで応援したり、手をふったり、GGを伝えたりしよう。6種類ははじめから使えて、4種類はパーティーエモートのパック、残りの4種類はスターターパックとシグネチャーセットに入っている。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">キミの名前</span>
+          <h3>入力はいらない</h3>
+          <p>名前はゲームがつけてくれる。引き直すことも、ニックネームを入力することもできる。ニックネームは、ほかの人に見える前にチェックする。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">トロフィー</span>
+          <h3>ランキングを上がろう</h3>
+          <p>オンラインのラウンドでトロフィーを集めて、ランキングを上がり、友だちの順位もチェックしよう。プロフィールには試合数、勝利数、ゴツンの数が出る。</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">フェアプレイ</span>
+          <h3>買っても強くならない</h3>
+          <p>名前の色やパーティーエモートのパックで変わるのは見た目だけ。プレイは変わらない。</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; ハムスター16種 &#9733; ボール21種 &#9733; トレイル23種 &#9733; ハムスター16種 &#9733; ボール21種 &#9733; トレイル23種 &#9733; ハムスター16種 &#9733; ボール21種 &#9733; トレイル23種 &#9733; ハムスター16種 &#9733; ボール21種 &#9733; トレイル23種 &#9733; ハムスター16種 &#9733; ボール21種 &#9733; トレイル23種 &#9733; ハムスター16種 &#9733; ボール21種 &#9733; トレイル23種 &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; ハムスター23種 &#9733; ボール29種 &#9733; トレイル30種 &#9733; ハムスター23種 &#9733; ボール29種 &#9733; トレイル30種 &#9733; ハムスター23種 &#9733; ボール29種 &#9733; トレイル30種 &#9733; ハムスター23種 &#9733; ボール29種 &#9733; トレイル30種 &#9733; ハムスター23種 &#9733; ボール29種 &#9733; トレイル30種 &#9733; ハムスター23種 &#9733; ボール29種 &#9733; トレイル30種 &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="きせかえ60種">きせかえ60種</span><span class="line" data-text="集めよう！">集めよう！</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="きせかえ92種">きせかえ92種</span><span class="line" data-text="集めよう！">集めよう！</span></h2>
         <p class="pill">ハムスター · ボール · トレイル</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b><span>種のハムスター</span></li>
-            <li><b>21</b><span>種のボール</span></li>
-            <li><b>23</b><span>種のトレイル</span></li>
+            <li><b>23</b><span>種のハムスター</span></li>
+            <li><b>29</b><span>種のボール</span></li>
+            <li><b>30</b><span>種のトレイル</span></li>
           </ul>
-          <p>ラウンドやフリーモードでスターをためて、60スターでプレゼントをあけよう。</p>
-          <p class="note">きせかえで変わるのは見た目だけで、スピードは変わらない。</p>
+          <p>最初から3種のきせかえを持っている。遊んでスターをためて、60スターでプレゼントをあけよう。小さなドラゴンやオーロラの毛なみ、ビーチボール、ホタルや彗星のちりのトレイルも。</p>
+          <p class="note">プレゼントに入っているのは、最初から持っているきせかえとシグネチャーきせかえを除いた67種。きせかえで変わるのは見た目だけで、スピードは変わらない。</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/ja/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="「きせかえ」画面：上に身につけたファイアボール、ハムスター・ボール・トレイルのタブ、きせかえの一覧と「プレゼントを開ける」ボタン。"></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">レジェンド 3%</li>
               </ul>
               <span>あるレアリティのきせかえをすべて持つと、その分はほかのレアリティに回る。</span></li>
-            <li>7回続けてエピックもレジェンドも出なかったら、次はエピック以上。</li>
+            <li>5試合ごとに無料のプレゼントがたまる。プレゼントに入っているきせかえを選んで、スターで解放することもできる。</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>ライバルはすべてコンピューターが動かすハムスター。アカウントは不要。</li>
-          <li>広告はすべてのプレイヤーに子ども向けのものだけ：G指定でパーソナライズなしのGoogle AdMob広告。ラウンド中に広告が入ることはない。ラウンドの合間に表示されることがあり、スター広告はタップしたときだけ流れる。</li>
-          <li>見るかどうか選べる広告で10スターもらえる。1回きりの「広告を削除」購入で、ラウンドの合間の広告がなくなる。見るかどうか選べるスター広告は残る。</li>
-          <li>プリズムのボールと虹のトレイルはGoogle Playで販売。プレゼントからは出ないし、スターは買えない。</li>
+          <li>試合にはコンピューターが動かすプレイヤーが入ることがある。</li>
+          <li>アカウントはゲームが作ってくれる。メールアドレスもパスワードもいらない。</li>
+          <li>オンラインにチャットはない。名前はゲームがつけてくれて、引き直すことも、ほかの人に見える前にチェックするニックネームを入力することもできる。気持ちは14種類の決まったエモートで伝える。設定で「オンライン状態を隠す」をオンにしなければ、オンラインかどうかが友だちに見える。</li>
+          <li>広告はすべてのプレイヤーに子ども向けのものだけ：G指定でパーソナライズなしのGoogle AdMob広告。ラウンド中に広告が入ることはない。ラウンドの合間に短い広告が表示されることがあり、スター広告はタップしたときだけ流れる。</li>
+          <li>見るかどうか選べる広告で10スターもらえる。「広告を削除」で、ラウンドの合間の広告がなくなる。見るかどうか選べるスター広告は残る。</li>
+          <li>Google Playで販売。どれも1回買えばずっと使える：「広告を削除」、スターターパック、シグネチャーきせかえ、ヒットエフェクトと勝利のダンス、「溶岩キング」「宇宙隊員」「氷ニンジャ」のセット。名前の色とエモートはオンラインアカウントで使える。</li>
+          <li>有料アイテムはお金で買うことでしか手に入らない。プレゼントやスター、トロフィーでもらえることはなく、スターは買えない。買ったもので勝ちやすくなることはない。</li>
           <li>縦でも横でも、スマホでもタブレットでも遊べる。</li>
-          <li>音楽・効果音・振動は別々にオン/オフできて、動きの「ひかえめ」設定と、ダッシュボタンの左右切り替えもある。</li>
+          <li>音楽・効果音・振動は別々にオン/オフできて、「動きをへらす」、「スティック固定」、3段階のボタンの大きさ、ダッシュボタンを左に移す「操作を左右反転」もある。</li>
           <li>13言語：英語、ロシア語、スペイン語、ドイツ語、フランス語、日本語、韓国語、簡体字中国語、トルコ語、イタリア語、ブラジルポルトガル語、ポーランド語、ウクライナ語。</li>
         </ul>
       </div>

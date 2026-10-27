@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: Top Kapışması</title>
-<meta name="description" content="Basılı tutup güç topla, rakip hamsterları 4 dağılan adada deliklere it! Bum, Taş ve Balon güçleri, 60 görünüm ve bilgisayarın yönettiği rakipler. Şimdi Google Play&#x27;de.">
+<meta name="description" content="Basılı tutup güç topla, rakip hamsterları 7 çılgın adada deliklere it! 6 güç, 5 mod, 92 görünüm ve arkadaşlarla çevrimiçi oyun. Şimdi Google Play&#x27;de.">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/tr/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: Top Kapışması">
-<meta property="og:description" content="Basılı tutup güç topla, rakip hamsterları 4 dağılan adada deliklere it!">
+<meta property="og:description" content="Basılı tutup güç topla, rakip hamsterları 7 çılgın adada deliklere it, sonra arkadaşlarınla çevrimiçi oyna!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="Şeffaf bir topun içindeki hamster şeker bir adada yuvarlanıyor, yanında İngilizce “Last hamster rolling wins!” yazısı var.">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/tr/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">Son kalan kazanır!</p>
-        <p class="lead">12 hamster dağılan bir adaya yuvarlanıyor. Güç topla, rakiplerini GÜM diye deliklere it ve sona kalan sen ol!</p>
+        <p class="lead">12 hamster dağılan bir adaya yuvarlanıyor. Güç topla, rakiplerini GÜM diye deliklere it ve sona kalan sen ol. Sonra arkadaşlarınla çevrimiçi oyna!</p>
         <ul class="stats">
-          <li><b>4</b> <span>ada</span></li>
-          <li><b>3</b> <span>güç</span></li>
-          <li><b>60</b> <span>görünüm</span></li>
+          <li><b>7</b> <span>ada</span></li>
+          <li><b>6</b> <span>güç</span></li>
+          <li><b>5</b> <span>mod</span></li>
+          <li><b>92</b> <span>görünüm</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/tr.png" width="646" height="192" decoding="async" alt="Google Play&#x27;den indirin"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hamster &#9733; 4 ada &#9733; 3 güç &#9733; 60 görünüm &#9733; 13 dil &#9733; 12 hamster &#9733; 4 ada &#9733; 3 güç &#9733; 60 görünüm &#9733; 13 dil &#9733; 12 hamster &#9733; 4 ada &#9733; 3 güç &#9733; 60 görünüm &#9733; 13 dil &#9733; 12 hamster &#9733; 4 ada &#9733; 3 güç &#9733; 60 görünüm &#9733; 13 dil &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hamster &#9733; 7 ada &#9733; 6 güç &#9733; 5 mod &#9733; 92 görünüm &#9733; Arkadaşlarla çevrimiçi &#9733; 12 hamster &#9733; 7 ada &#9733; 6 güç &#9733; 5 mod &#9733; 92 görünüm &#9733; Arkadaşlarla çevrimiçi &#9733; 12 hamster &#9733; 7 ada &#9733; 6 güç &#9733; 5 mod &#9733; 92 görünüm &#9733; Arkadaşlarla çevrimiçi &#9733; 12 hamster &#9733; 7 ada &#9733; 6 güç &#9733; 5 mod &#9733; 92 görünüm &#9733; Arkadaşlarla çevrimiçi &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="Basılı tut…">Basılı tut…</span> <span class="line hot" data-text="Güm!">Güm!</span></h2>
         <p class="pill">Atıl'ı basılı tut, bırak: güm!</p>
       </div>
-      <p class="intro">Sürükle ve yuvarlan. Güç toplamak için Atıl'ı basılı tut, bırak ve GÜM! Rakibin takla atarak uçuyor ve ne kadar yön verse de duramıyor. Bilgisayarın yönettiği 11 rakibi, onlar seni itmeden deliklere it.</p>
+      <p class="intro">Sürükle ve yuvarlan. Güç toplamak için Atıl'ı basılı tut, bırak ve GÜM! Rakibin takla atarak uçuyor ve ne kadar yön verse de duramıyor. 11 rakibi, onlar seni itmeden deliklere it.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">Hayatta kal</span>
-            <h3>Son kalan kazanır</h3>
-            <p>Zemin önce uyarı olarak yanıp söner, sonra çöker. Delikler dalga dalga açılıp büyür, kıyı da ufalanır. Her tur yıldız kazandırır, kazanırsan bir de bonus.</p>
+            <span class="tag" style="--tag:#ff9bbb">Delikler</span>
+            <h3>Zemine dikkat</h3>
+            <p>Zemin önce uyarı olarak yanıp söner, sonra çöker. Savaş'ta delikler dalga dalga açılıp büyür, kıyı da ufalanır; o yüzden ortaya doğru yuvarlan.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">Atıl</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="Bum!">Bum!</span> <span class="line" data-text="Güçleri kap">Güçleri kap</span></h2>
-        <p class="pill">Bum · Taş · Balon</p>
+        <p class="pill"><span>6 güç</span> &middot; <span>yeni numaralar</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>Bir güç baloncuğuna yuvarlan. Güç, sen kullanana kadar güç düğmesinde bekler. Takla mı atıyorsun? Taş ya da Balon'u kullan, son anda kurtul.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/tr/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Bum! Bir hamsterın Bum gücü çevresindeki rakipleri savuruyor. Bum, Taş ve Balon üç güçtür."></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/tr/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Bum! Bir hamsterın Bum gücü çevresindeki rakipleri savuruyor."></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>Bir balon seni 3 saniye havaya kaldırır. Deliklerin üzerinden ve diğer hamsterların içinden geç, sonra yavaşça sağlam zemine in.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>Kabarcık</h3>
+            <p>Bir kabarcık seni 3 saniye sarar ve bir darbeyi durdurur. Seni bir kometten bile kurtarır.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>Takas</h3>
+            <p>En yakın rakiple yer değiştir. Zor durumdan kurtulmak ya da başkasını zor duruma sokmak için birebir.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>Mıknatıs</h3>
+            <p>2 saniye boyunca yakındaki rakipler sana doğru çekilir. Onları yanına çek, sonra güm!</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 çılgın">4 çılgın</span> <span class="line" data-text="ada">ada</span></h2>
-        <p class="pill"><span>Şeker Bahçesi</span> &middot; <span>Volkan Adası</span> &middot; <span>Buz Pisti</span> &middot; <span>Uzay</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 çılgın">7 çılgın</span> <span class="line" data-text="ada">ada</span></h2>
+        <p class="pill">Her adada yeni bir numara</p>
       </div>
-      <p class="intro">Her şey Şeker Bahçesi'nde başlar: delikler, tamponlar, rakipler ve sen. Sonra Volkan Adası, Buz Pisti ve Uzay katılır, her birinin kendine has bir numarası var.</p>
+      <p class="intro">Her tehlike önce uyarır: zemini oku ve yuvarlanmaya devam et. Turdan önce bir şerit adalar arasında kayar ve seninkini seçer.</p>
       <div class="rail" role="region" tabindex="0" aria-label="Adalar, yana kaydır">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/tr/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 ada: şerit bir sonraki turun adasında duruyor."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">Ada seçimi</span>
-            <h3>Sırada ne var?</h3>
-            <p>Menüden bir tur başlat; bir şerit adalar arasında kayar ve seninkini seçer. Turdan sonra ters çevrilmiş bir kart sıradaki adayı gizler. Çevirmek için Bir tur daha'ya dokun.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/tr/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Şerit bir sonraki turun adasında duruyor."></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">Ada seçimi</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="../img/tr/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Volkan Adası: bir buhar gayzeri yakındaki hamsterları savuruyor, adanın çevresi lav dolu."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">Volkan Adası</span>
-            <h3>Buhar gayzerleri</h3>
-            <p>Dört bir yan lav. Bir buhar gayzerinin çevresinde halka dolar, sonra gayzer yakındaki hamsterları savurur.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b">Volkan Adası</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/tr/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Buz Pisti: hamsterlar adanın ortasındaki kaygan buz pistinde kayıyor."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">Buz Pisti</span>
-            <h3>Kaygan buz</h3>
-            <p>Ortada bir buz pisti. Geç hızlanırsın, geç durursun, belaya ise hemen kayarsın.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">Buz Pisti</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/tr/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Uzay: bir komet adanın üzerinden geçip yolundaki hamsterları kenara savuruyor."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">Uzay</span>
-            <h3>Kometler</h3>
-            <p>Noktalı bir çizgi uyarır, sonra bir komet adayı boydan boya geçer ve yolundaki herkesi kenara savurur.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/tr/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Uzay: bir komet noktalı uyarı çizgisi boyunca adayı geçiyor."></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">Uzay</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">Şeker Bahçesi</span>
+          <h3>Delikler ve tamponlar</h3>
+          <p>Her şey burada başlar. Tamponlardan sek ve deliklerden uzak dur.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">Volkan Adası</span>
+          <h3>Buhar gayzerleri</h3>
+          <p>Dört bir yan lav. Bir buhar gayzerinin çevresinde uyarı halkası dolar, sonra gayzer yakındaki hamsterları savurur.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">Uzay</span>
+          <h3>Kometler</h3>
+          <p>Noktalı bir çizgi 2,5 saniye önceden uyarır. Kometin parlayan orta çizgisi, Kabarcık seni kurtarmazsa bir delik gibi oyundan atar; şeridinin geri kalanı seni yana savurur.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">Buz Pisti</span>
+          <h3>Kaygan buz</h3>
+          <p>Ortada bir buz pisti. Geç hızlanırsın, geç durursun, belaya ise hemen kayarsın.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">Orman</span>
+          <h3>Çamur ve kütükler</h3>
+          <p>Çamurlu birikintiler seni yavaşlatır, yuvarlanan kütükler adayı boydan boya geçip seni kenara iter.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">Lagün</span>
+          <h3>Havuzlar ve gelgit</h3>
+          <p>Sığ havuzlarda geç hızlanır, geç durursun. Sonra bir gelgit dalgası adayı geçer ve yolundaki herkesi kenara iter.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">Saat Mekanizması</span>
+          <h3>Yağ ve pistonlar</h3>
+          <p>Yağ lekeleri buz kadar kaygandır; bir uyarının ardından pistonlar yakındaki hamsterları savurur.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Serbest oyun">Serbest oyun</span> <span class="line" data-text="ve Antrenman">ve Antrenman</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Beş oyun">Beş oyun</span> <span class="line" data-text="modu">modu</span></h2>
+        <p class="pill">Beş mod ve bir ısınma</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">Serbest oyun</span>
-            <h3>Bütün yıldızları topla</h3>
-            <p>Düştün mü? Hemen geri dön. Adada yıldızcıklar belirir, her biri dokunduğun anda sayılır. Hızlı toplarsan zil sesi giderek incelir. Güç baloncukları çıkmaya, rakipler çarpışmaya istediğin kadar devam eder.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">Antrenman</span>
-            <h3>Isınma turu</h3>
-            <p>Şeker Bahçesi'nde daha sakin bir tur: 3 rakip daha yavaş nişan alır ve daha hafif vurur. Atılmayı burada öğren, sonra tam gaz devam et.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Serbest oyun: hamster dokununca yıldız sayaca uçuyor, çevrede başka yıldızlar da var."></figure>
+      <p class="intro">Her modu dünyanın dört bir yanından oyuncularla çevrimiçi oynayabilirsin. Yeni misin? Antrenmanla başla.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Savaş</span>
+          <h3>Son kalan kazanır</h3>
+          <p>12 hamster, dağılan tek bir ada. Herkesi deliklere it ve sona kalan sen ol.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Takım savaşı</span>
+          <h3>Son kalan takım</h3>
+          <p>6'şar kişilik 2 takım ya da 4'er kişilik 3 takım. Takım arkadaşları çarpışır ama birbirine zarar vermez; adada son kalan takım kazanır.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Yarış</span>
+          <h3>Üç tur</h3>
+          <p>3 tur boyunca adadaki bayrakları takip et. Düştün mü? Hemen geri dönersin, devam et.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Bayrak kapmaca</span>
+          <h3>Üsse götür</h3>
+          <p>Ortada bir bayrak bekliyor. Kap ve takımının üssüne taşı. Bayrağı taşıyana çarparsan bayrak düşer!</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Serbest oyun</span>
+          <h3>Bütün yıldızları topla</h3>
+          <p>Düştün mü? Hemen geri dön. Adada yıldızcıklar belirir, her biri dokunduğun anda sayılır. Güç baloncukları istediğin kadar çıkmaya devam eder.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Antrenman</span>
+          <h3>Isınma turu</h3>
+          <p>Şeker Bahçesi'nde daha sakin bir tur: 3 rakip daha yavaş nişan alır ve daha hafif vurur. Atılmayı burada öğren, sonra tam gaz devam et.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Serbest oyun: hamster dokununca yıldız sayaca uçuyor, çevrede başka yıldızlar da var."></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="Çevrimiçi">Çevrimiçi</span> <span class="line hot" data-text="oyna!">oyna!</span></h2>
+        <p class="pill"><span>Gruplar</span> &middot; <span>Arkadaşlar</span> &middot; <span>İfadeler</span> &middot; <span>Kupalar</span></p>
+      </div>
+      <p class="intro">Çarpışmayı çevrimiçine taşı ve başka insanlarla oyna. Maçlarda bilgisayarın yönettiği oyuncular da olabilir.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Grup</span>
+          <h3>Birlikte yuvarlanın</h3>
+          <p>Bir grup kur ve 6 harfli kodunu paylaş. Grubun Takım savaşı ve Bayrak kapmacada aynı takımda oynar, Serbest oyunda birlikte yuvarlanır.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Arkadaşlar</span>
+          <h3>Kodla ekle</h3>
+          <p>Her oyuncunun bir arkadaş kodu var. Arkadaşını bu kodla ekle, ne zaman çevrimiçi olduğunu gör, Serbest oyununa katıl ya da onu grubuna davet et.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">İfadeler</span>
+          <h3>İfadelerle anlat</h3>
+          <p>Sohbet yok. 14 hazır ifadeyle tezahürat yap, el salla ya da GG de: 6'sı oyunla gelir, 4'ü Parti ifadeleri paketinde, 4'ü daha Başlangıç Paketi'nde ve Signature setlerinde.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">İsmin</span>
+          <h3>Yazmaya gerek yok</h3>
+          <p>Oyun sana bir isim verir. Yenisini çek ya da kimse görmeden önce kontrol ettiğimiz bir takma ad yaz.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Kupalar</span>
+          <h3>Sıralamada yüksel</h3>
+          <p>Çevrimiçi turlarda kupa kazan, sıralamada yüksel ve arkadaşlarının nerede olduğunu gör. Profilin maçlarını, galibiyetlerini ve çarpışmalarını gösterir.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Adil oyun</span>
+          <h3>Kazanmak satın alınmaz</h3>
+          <p>İsim renkleri ve Parti ifadeleri paketi görünüşünü değiştirir, oyununu asla.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 hamster &#9733; 21 top &#9733; 23 iz &#9733; 16 hamster &#9733; 21 top &#9733; 23 iz &#9733; 16 hamster &#9733; 21 top &#9733; 23 iz &#9733; 16 hamster &#9733; 21 top &#9733; 23 iz &#9733; 16 hamster &#9733; 21 top &#9733; 23 iz &#9733; 16 hamster &#9733; 21 top &#9733; 23 iz &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 23 hamster &#9733; 29 top &#9733; 30 iz &#9733; 23 hamster &#9733; 29 top &#9733; 30 iz &#9733; 23 hamster &#9733; 29 top &#9733; 30 iz &#9733; 23 hamster &#9733; 29 top &#9733; 30 iz &#9733; 23 hamster &#9733; 29 top &#9733; 30 iz &#9733; 23 hamster &#9733; 29 top &#9733; 30 iz &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 görünüm">60 görünüm</span> <span class="line" data-text="topla!">topla!</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 görünüm">92 görünüm</span> <span class="line" data-text="topla!">topla!</span></h2>
         <p class="pill">Hamsterlar · Toplar · İzler</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span>hamster</span></li>
-            <li><b>21</b> <span>top</span></li>
-            <li><b>23</b> <span>iz</span></li>
+            <li><b>23</b> <span>hamster</span></li>
+            <li><b>29</b> <span>top</span></li>
+            <li><b>30</b> <span>iz</span></li>
           </ul>
-          <p>Turlardan ve yıldızcıklardan yıldız kazan, sonra 60 yıldıza bir hediye aç.</p>
-          <p class="note">Görünümler tarzını değiştirir, hızını değil.</p>
+          <p>3 görünümle başlarsın. Oynadıkça yıldız kazan, sonra 60 yıldıza bir hediye aç. Küçük bir ejderha ya da Kutup ışıkları kürkü dene, plaj topunda yuvarlan ya da arkanda ateş böcekleri ve kuyruklu yıldız tozu bırak.</p>
+          <p class="note">Hediyelerde 67 görünüm var: başlangıç görünümleri ve Signature görünümler dışında hepsi. Görünümler tarzını değiştirir, hızını değil.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/tr/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Görünümlerin ekranı: üstte giyilen Ateş topu, Hamsterlar, Toplar ve İzler sekmeleri, görünüm ızgarası ve Hediyeyi aç düğmesi."></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">Efsanevi %3</li>
               </ul>
               <span>Bir nadirlikteki tüm görünümlere sahip olunca onun payı diğerlerine geçer.</span></li>
-            <li>Art arda 7 hediyede Destansı ya da Efsanevi çıkmazsa sıradaki Destansı veya daha iyisi olur.</li>
+            <li>Her 5 maçta bir bedava hediye dolar. Hediyelerdeki bir görünümü seçip yıldızla kilidini de açabilirsin.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>Tüm rakipler bilgisayarın yönettiği hamsterlardır. Hesap gerekmez.</li>
-          <li>Reklamlar her oyuncu için çocuklara uygundur: G derecelendirmeli, asla kişiselleştirilmeyen Google AdMob reklamları. Reklamlar bir turu asla bölmez. Turlar arasında bir reklam görebilirsin; yıldız reklamı ise yalnızca sen dokunduğunda oynar.</li>
-          <li>İsteğe bağlı bir reklam izle, 10 yıldız kazan. Tek seferlik “Reklamları kaldır” satın alımı turlar arasındaki reklamları kapatır; isteğe bağlı yıldız reklamı kalır.</li>
-          <li>Prizma topu ve Gökkuşağı izi Google Play üzerinden satılır. Hediyelerde asla bulunmazlar ve yıldızlar satın alınamaz.</li>
+          <li>Maçlarda bilgisayarın yönettiği oyuncular da olabilir.</li>
+          <li>Hesabını oyun senin için açar; e-posta ve şifre gerekmez.</li>
+          <li>Çevrimiçi oyunda sohbet yok. Herkes oyundan bir isim alır; yenisini çekebilir ya da kimse görmeden önce kontrol ettiğimiz bir takma ad yazabilir. Oyuncular 14 hazır ifadeyle konuşur. Ayarlar'daki “Çevrimiçi durumumu gizle” seçeneğini açmazsan arkadaşların ne zaman çevrimiçi olduğunu görür.</li>
+          <li>Reklamlar her oyuncu için çocuklara uygundur: G derecelendirmeli, asla kişiselleştirilmeyen Google AdMob reklamları. Reklamlar bir turu asla bölmez. Turlar arasında kısa bir reklam görebilirsin; yıldız reklamı ise yalnızca sen dokunduğunda oynar.</li>
+          <li>İsteğe bağlı bir reklam izle, 10 yıldız kazan. “Reklamları kaldır” turlar arasındaki reklamları kapatır; isteğe bağlı yıldız reklamı kalır.</li>
+          <li>Google Play üzerinden satılanlar, her biri bir kez alınır ve kalıcı olarak senindir: “Reklamları kaldır”, Başlangıç Paketi, Signature görünümler, vuruş efektleri ve zafer dansları, Lav Kralı, Uzay Kadeti ve Buz Ninjası setleri. İsim renkleri ve ifadeler çevrimiçi hesapla kullanılır.</li>
+          <li>Ücretli öğeler yalnızca parayla satılır. Hediyeler, yıldızlar ve kupalar bunları asla vermez, yıldızlar da satın alınamaz. Satın aldığın hiçbir şey kazanmana yardım etmez.</li>
           <li>Dikey ya da yatay oyna, telefonda ve tablette.</li>
-          <li>Müzik, ses ve titreşim için ayrı anahtarlar, Sakin hareket ayarı ve iki yana da konabilen Atıl tuşu.</li>
+          <li>Müzik, ses ve titreşim için ayrı anahtarlar, Az hareket, Sabit joystick seçeneği, üç düğme boyutu ve Atıl tuşunu sola alan Kontrolleri ters çevir.</li>
           <li>13 dil: İngilizce, Rusça, İspanyolca, Almanca, Fransızca, Japonca, Korece, Basitleştirilmiş Çince, Türkçe, İtalyanca, Brezilya Portekizcesi, Lehçe ve Ukraynaca.</li>
         </ul>
       </div>

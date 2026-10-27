@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: Lucha de Bolas</title>
-<meta name="description" content="¡Carga y lanza hámsteres rivales a los agujeros de 4 islas que se desmoronan! Poderes Bum, Piedra y Flotar, 60 aspectos y rivales que controla la computadora. Ya en Google Play.">
+<meta name="description" content="Carga y lanza hámsteres rivales a los agujeros de 7 islas salvajes. 6 poderes, 5 modos, 92 aspectos y juego en línea con amigos. Ya en Google Play.">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/es/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: Lucha de Bolas">
-<meta property="og:description" content="¡Carga y lanza hámsteres rivales a los agujeros de 4 islas que se desmoronan!">
+<meta property="og:description" content="¡Carga y lanza hámsteres rivales a los agujeros de 7 islas salvajes, y luego juega en línea con amigos!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="Un hámster en una bola transparente rueda por una isla de dulces, con la frase en inglés «Last hamster rolling wins!»">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/es/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">¡El último en pie gana!</p>
-        <p class="lead">12 hámsteres ruedan sobre una isla que se desmorona. Carga, echa a tus rivales a los agujeros de un ¡ZAS! y sé el último que quede rodando.</p>
+        <p class="lead">12 hámsteres ruedan sobre una isla que se desmorona. Carga, echa a tus rivales a los agujeros de un ¡ZAS! y sé el último que quede rodando. ¡Y luego juega en línea con amigos!</p>
         <ul class="stats">
-          <li><b>4</b> <span>islas</span></li>
-          <li><b>3</b> <span>poderes</span></li>
-          <li><b>60</b> <span>aspectos</span></li>
+          <li><b>7</b> <span>islas</span></li>
+          <li><b>6</b> <span>poderes</span></li>
+          <li><b>5</b> <span>modos</span></li>
+          <li><b>92</b> <span>aspectos</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/es.png" width="646" height="192" decoding="async" alt="Disponible en Google Play"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hámsteres &#9733; 4 islas &#9733; 3 poderes &#9733; 60 aspectos &#9733; 13 idiomas &#9733; 12 hámsteres &#9733; 4 islas &#9733; 3 poderes &#9733; 60 aspectos &#9733; 13 idiomas &#9733; 12 hámsteres &#9733; 4 islas &#9733; 3 poderes &#9733; 60 aspectos &#9733; 13 idiomas &#9733; 12 hámsteres &#9733; 4 islas &#9733; 3 poderes &#9733; 60 aspectos &#9733; 13 idiomas &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 hámsteres &#9733; 7 islas &#9733; 6 poderes &#9733; 5 modos &#9733; 92 aspectos &#9733; En línea con amigos &#9733; 12 hámsteres &#9733; 7 islas &#9733; 6 poderes &#9733; 5 modos &#9733; 92 aspectos &#9733; En línea con amigos &#9733; 12 hámsteres &#9733; 7 islas &#9733; 6 poderes &#9733; 5 modos &#9733; 92 aspectos &#9733; En línea con amigos &#9733; 12 hámsteres &#9733; 7 islas &#9733; 6 poderes &#9733; 5 modos &#9733; 92 aspectos &#9733; En línea con amigos &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="Mantén. Carga.">Mantén. Carga.</span> <span class="line hot" data-text="¡Zas!">¡Zas!</span></h2>
         <p class="pill">Mantén Impulso y suelta: ¡zas!</p>
       </div>
-      <p class="intro">Arrastra y rueda. Mantén Impulso para cargar, suelta y ¡ZAS! Tu rival sale rodando y no hay forma de frenarlo. Echa a los agujeros a los 11 rivales que controla la computadora antes de que te echen a ti.</p>
+      <p class="intro">Arrastra y rueda. Mantén Impulso para cargar, suelta y ¡ZAS! Tu rival sale rodando y no hay forma de frenarlo. Echa a 11 rivales a los agujeros antes de que te echen a ti.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">Supervivencia</span>
-            <h3>Gana el último en pie</h3>
-            <p>El suelo parpadea como aviso y luego se hunde. Los agujeros se abren en oleadas y crecen mientras la orilla se desmorona. Cada ronda da estrellas, y un extra si ganas.</p>
+            <span class="tag" style="--tag:#ff9bbb">Agujeros</span>
+            <h3>Vigila el suelo</h3>
+            <p>El suelo parpadea como aviso y luego se hunde. En la Batalla, los agujeros se abren en oleadas y crecen mientras la orilla se desmorona, así que rueda hacia el centro.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">Impulso</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="¡Bum!">¡Bum!</span> <span class="line" data-text="Atrapa poderes">Atrapa poderes</span></h2>
-        <p class="pill">Bum · Piedra · Flotar</p>
+        <p class="pill"><span>6 poderes</span> &middot; <span>trucos nuevos</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>Rueda hasta una burbuja de poder. El poder espera en su botón hasta que lo uses. ¿Ruedas sin control? Piedra o Flotar te salvan en el último segundo.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/es/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="¡Bum! El poder Bum de un hámster aparta a los rivales que tiene cerca. Bum, Piedra y Flotar son los tres poderes."></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/es/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="¡Bum! El poder Bum de un hámster aparta a los rivales que tiene cerca."></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>Un globo te eleva 3 segundos. Pasa sobre los agujeros y a través de otros hámsteres, y luego baja suave a tierra firme.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>Burbuja</h3>
+            <p>Una burbuja te envuelve durante 3 segundos y aguanta un golpe. Hasta te salva de un cometa.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>Cambio</h3>
+            <p>Cambia de lugar con el rival más cercano. Ideal para salir de un aprieto, o para meter a otro en uno.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>Imán</h3>
+            <p>Durante 2 segundos, los rivales cercanos son atraídos hacia ti. Acércalos y… ¡zas!</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 islas">4 islas</span> <span class="line" data-text="locas">locas</span></h2>
-        <p class="pill"><span>Jardín de Dulces</span> &middot; <span>Isla Volcán</span> &middot; <span>Pista de Hielo</span> &middot; <span>Cosmos</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 islas">7 islas</span> <span class="line" data-text="salvajes">salvajes</span></h2>
+        <p class="pill">Un truco nuevo en cada isla</p>
       </div>
-      <p class="intro">Todo empieza en Jardín de Dulces: agujeros, topes, rivales y tú. Luego llegan Isla Volcán, Pista de Hielo y Cosmos, cada una con su propio truco.</p>
+      <p class="intro">Cada peligro avisa antes: lee el terreno y sigue rodando. Antes de cada ronda, una cinta recorre las islas y elige la tuya.</p>
       <div class="rail" role="region" tabindex="0" aria-label="Las islas, desliza de lado">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/es/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 islas: la cinta se detiene en la isla de la próxima ronda."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">La elección</span>
-            <h3>¿Adónde ahora?</h3>
-            <p>Empieza una ronda desde el menú y una cinta recorre las islas para elegir la tuya. Tras la ronda, una carta boca abajo esconde la siguiente isla. Toca Otra ronda para darle la vuelta.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/es/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="La cinta se detiene en la isla de la próxima ronda."></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">La elección</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="../img/es/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Isla Volcán: un géiser de vapor aparta a los hámsteres cercanos, con lava alrededor de la isla."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">Isla Volcán</span>
-            <h3>Géiseres de vapor</h3>
-            <p>Lava alrededor. Un anillo se llena en torno a un géiser de vapor y luego el géiser lanza lejos a quien esté cerca.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b">Isla Volcán</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/es/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Pista de Hielo: los hámsteres resbalan por la pista de hielo del centro de la isla."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">Pista de Hielo</span>
-            <h3>Hielo resbaladizo</h3>
-            <p>Una pista de hielo en el centro. Cuesta acelerar, cuesta frenar y es facilísimo resbalar hacia el peligro.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">Pista de Hielo</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/es/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: un cometa cruza la isla y aparta a los hámsteres de su camino."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">Cosmos</span>
-            <h3>Cometas</h3>
-            <p>Una línea punteada te avisa y luego un cometa cruza la isla y aparta a todos a su paso.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/es/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmos: un cometa cruza la isla siguiendo una línea punteada de aviso."></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">Cosmos</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">Jardín de Dulces</span>
+          <h3>Agujeros y topes</h3>
+          <p>Aquí empieza todo. Rebota en los topes y aléjate de los agujeros.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">Isla Volcán</span>
+          <h3>Géiseres de vapor</h3>
+          <p>Lava alrededor. Un anillo de aviso se llena en torno a un géiser de vapor y luego el géiser lanza lejos a quien esté cerca.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">Cosmos</span>
+          <h3>Cometas</h3>
+          <p>Una línea punteada te avisa 2,5 segundos antes. El centro brillante del cometa te elimina como un agujero, salvo que te salve una Burbuja, y el resto de su carril te empuja de lado.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">Pista de Hielo</span>
+          <h3>Hielo resbaladizo</h3>
+          <p>Una pista de hielo en el centro. Cuesta acelerar, cuesta frenar y es facilísimo resbalar hacia el peligro.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">Jungla</span>
+          <h3>Barro y troncos</h3>
+          <p>Los charcos de barro te frenan, y los troncos ruedan por la isla y te apartan de un empujón.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">Laguna</span>
+          <h3>Pozas y mareas</h3>
+          <p>En las pozas poco profundas cuesta arrancar y cuesta frenar. Luego una ola de marea cruza la isla y aparta a todos a su paso.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">Mecanismo</span>
+          <h3>Aceite y pistones</h3>
+          <p>Las manchas de aceite resbalan como el hielo, y tras un aviso, los pistones lanzan lejos a los hámsteres cercanos.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Exploración">Exploración</span> <span class="line" data-text="y Práctica">y Práctica</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Cinco formas">Cinco formas</span> <span class="line" data-text="de rodar">de rodar</span></h2>
+        <p class="pill">Cinco modos y un calentamiento</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">Exploración</span>
-            <h3>Atrapa todas las estrellas</h3>
-            <p>¿Te caíste? Vuelve a rodar. Brotan estrellitas por la isla y cada una cuenta en cuanto la tocas. Atrápalas rápido y el tintineo sube de tono. Las burbujas de poder siguen saliendo y los rivales siguen chocando mientras quieras.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">Práctica</span>
-            <h3>Calentamiento</h3>
-            <p>Una ronda más tranquila en Jardín de Dulces contra 3 rivales que apuntan más despacio y golpean más suave. Aprende el impulso aquí y luego juega en serio.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Exploración: una estrella vuela al contador cuando el hámster la toca, con más estrellas cerca."></figure>
+      <p class="intro">Todos los modos se juegan en línea con jugadores de todo el mundo. ¿Eres nuevo? Empieza por la Práctica.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Batalla</span>
+          <h3>Gana el último en pie</h3>
+          <p>12 hámsteres, una isla que se desmorona. Echa a todos los demás a los agujeros y sé el último que quede rodando.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Batalla de equipos</span>
+          <h3>Gana el último equipo</h3>
+          <p>2 equipos de 6 o 3 equipos de 4. Los compañeros chocan pero nunca se hacen daño, y gana el último equipo en la isla.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Carrera</span>
+          <h3>Tres vueltas</h3>
+          <p>Sigue las banderas por la isla durante 3 vueltas. ¿Te caíste? Vuelves enseguida, así que no pares.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Captura la bandera</span>
+          <h3>Llévala a casa</h3>
+          <p>Una bandera espera en el centro. Tómala y llévala a la base de tu equipo. ¡Golpea a quien la lleva y la bandera cae!</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Exploración</span>
+          <h3>Atrapa todas las estrellas</h3>
+          <p>¿Te caíste? Vuelve a rodar. Brotan estrellitas por la isla y cada una cuenta en cuanto la tocas. Las burbujas de poder siguen saliendo mientras quieras.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Práctica</span>
+          <h3>Calentamiento</h3>
+          <p>Una ronda más tranquila en Jardín de Dulces contra 3 rivales que apuntan más despacio y golpean más suave. Aprende el impulso aquí y luego juega en serio.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Exploración: una estrella vuela al contador cuando el hámster la toca, con más estrellas cerca."></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="¡Juega">¡Juega</span> <span class="line hot" data-text="en línea!">en línea!</span></h2>
+        <p class="pill"><span>Grupos</span> &middot; <span>Amigos</span> &middot; <span>Emotes</span> &middot; <span>Trofeos</span></p>
+      </div>
+      <p class="intro">Lleva los choques a la red y juega con otras personas. Las partidas pueden incluir jugadores que controla la computadora.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Grupo</span>
+          <h3>A rodar juntos</h3>
+          <p>Crea un grupo y comparte su código de 6 letras. Tu grupo juega en el mismo equipo en Batalla de equipos y Captura la bandera, y rueda junto en Exploración.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Amigos</span>
+          <h3>Agrega por código</h3>
+          <p>Cada jugador tiene un código de amigo. Agrega a un amigo con él, mira cuándo está en línea y únete a su Exploración o invítalo a tu grupo.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Emotes</span>
+          <h3>Dilo con emotes</h3>
+          <p>No hay chat. Anima, saluda o di GG con 14 emotes listos: 6 vienen con el juego, 4 con el pack Emotes de fiesta y 4 más con el Pack de inicio y los sets Signature.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Tu nombre</span>
+          <h3>Sin escribir nada</h3>
+          <p>El juego te da un nombre. Saca otro o escribe un apodo que revisamos antes de que nadie lo vea.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Trofeos</span>
+          <h3>Sube en la clasificación</h3>
+          <p>Gana trofeos en las rondas en línea, sube en la clasificación y mira dónde están tus amigos. Tu perfil muestra partidas, victorias y golpes.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Juego limpio</span>
+          <h3>Nada que comprar para ganar</h3>
+          <p>Los colores de nombre y el pack Emotes de fiesta cambian tu aspecto, nunca tu forma de jugar.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 hámsteres &#9733; 21 bolas &#9733; 23 estelas &#9733; 16 hámsteres &#9733; 21 bolas &#9733; 23 estelas &#9733; 16 hámsteres &#9733; 21 bolas &#9733; 23 estelas &#9733; 16 hámsteres &#9733; 21 bolas &#9733; 23 estelas &#9733; 16 hámsteres &#9733; 21 bolas &#9733; 23 estelas &#9733; 16 hámsteres &#9733; 21 bolas &#9733; 23 estelas &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 23 hámsteres &#9733; 29 bolas &#9733; 30 estelas &#9733; 23 hámsteres &#9733; 29 bolas &#9733; 30 estelas &#9733; 23 hámsteres &#9733; 29 bolas &#9733; 30 estelas &#9733; 23 hámsteres &#9733; 29 bolas &#9733; 30 estelas &#9733; 23 hámsteres &#9733; 29 bolas &#9733; 30 estelas &#9733; 23 hámsteres &#9733; 29 bolas &#9733; 30 estelas &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 aspectos">60 aspectos</span> <span class="line" data-text="coleccionables">coleccionables</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 aspectos">92 aspectos</span> <span class="line" data-text="coleccionables">coleccionables</span></h2>
         <p class="pill">Hámsteres · Bolas · Estelas</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span>hámsteres</span></li>
-            <li><b>21</b> <span>bolas</span></li>
-            <li><b>23</b> <span>estelas</span></li>
+            <li><b>23</b> <span>hámsteres</span></li>
+            <li><b>29</b> <span>bolas</span></li>
+            <li><b>30</b> <span>estelas</span></li>
           </ul>
-          <p>Gana estrellas en las rondas y con las estrellitas, y abre un regalo por 60 estrellas.</p>
-          <p class="note">Los aspectos cambian tu estilo, no tu velocidad.</p>
+          <p>Empiezas con 3 aspectos. Gana estrellas jugando y abre un regalo por 60 estrellas. Prueba un pequeño dragón o un pelaje Aurora, rueda en una pelota de playa o deja tras de ti luciérnagas y polvo de cometa.</p>
+          <p class="note">Los regalos traen 67 aspectos: todos menos los iniciales y los aspectos Signature. Los aspectos cambian tu estilo, no tu velocidad.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/es/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="La pantalla Aspectos: arriba, la Bola de fuego puesta; pestañas Hámsteres, Bolas y Estelas, la cuadrícula y el botón Abrir regalo."></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">Legendario 3%</li>
               </ul>
               <span>Cuando tienes todos los aspectos de una rareza, su parte pasa a las demás.</span></li>
-            <li>Si en 7 regalos seguidos no sale ninguno Épico ni Legendario, el siguiente es Épico o mejor.</li>
+            <li>Cada 5 partidas se llena un regalo gratis. También puedes elegir un aspecto de los regalos y desbloquearlo con estrellas.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>Todos los rivales son hámsteres que controla la computadora. No necesitas cuenta.</li>
-          <li>Anuncios aptos para niños para todos los jugadores: Google AdMob con clasificación G, nunca personalizados. Nunca interrumpen una ronda. Puede salir uno entre rondas, y el anuncio de estrellas solo se reproduce si lo tocas.</li>
-          <li>Mira un anuncio opcional y gana 10 estrellas. Una compra única de Quitar anuncios desactiva los anuncios entre rondas; el anuncio opcional de estrellas sigue disponible.</li>
-          <li>La bola Prisma y la estela Arcoíris se venden en Google Play. Los regalos nunca las incluyen, y las estrellas no se pueden comprar.</li>
+          <li>Las partidas pueden incluir jugadores que controla la computadora.</li>
+          <li>El juego crea tu cuenta por ti, sin correo ni contraseña.</li>
+          <li>El juego en línea no tiene chat. Cada uno recibe un nombre del juego y puede sacar otro o escribir un apodo que revisamos antes de que nadie lo vea. Todos se expresan con 14 emotes listos. Tus amigos ven cuándo estás en línea, salvo que actives Ocultar mi estado en línea en Ajustes.</li>
+          <li>Anuncios aptos para niños para todos los jugadores: Google AdMob con clasificación G, nunca personalizados. Nunca interrumpen una ronda. Puede salir uno corto entre rondas, y el anuncio de estrellas solo se reproduce si lo tocas.</li>
+          <li>Mira un anuncio opcional y gana 10 estrellas. Quitar anuncios desactiva los anuncios entre rondas; el anuncio opcional de estrellas sigue disponible.</li>
+          <li>Se venden en Google Play, se compran una vez y son tuyos para siempre: Quitar anuncios, el Pack de inicio, los aspectos Signature, los efectos de golpe y bailes de victoria, y los sets Rey de Lava, Astrocadete y Ninja Hielo. Los colores de nombre y los emotes requieren una cuenta en línea.</li>
+          <li>Los objetos de pago solo se venden por dinero: ni regalos, ni estrellas, ni trofeos los dan, y las estrellas no se pueden comprar. Nada de lo que compras te ayuda a ganar.</li>
           <li>Juega en vertical o en horizontal, en teléfonos y tablets.</li>
-          <li>Interruptores separados para música, sonido y vibración, movimiento Suave y el botón de impulso a cualquier lado.</li>
+          <li>Interruptores separados para música, sonido y vibración, Menos movimiento, la opción Joystick fijo, tres tamaños de botones y Controles invertidos, que pasan el botón de impulso a la izquierda.</li>
           <li>13 idiomas: inglés, ruso, español, alemán, francés, japonés, coreano, chino simplificado, turco, italiano, portugués de Brasil, polaco y ucraniano.</li>
         </ul>
       </div>

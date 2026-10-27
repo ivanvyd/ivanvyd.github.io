@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: Битва Хомяков</title>
-<meta name="description" content="Заряди рывок и сталкивай хомяков-соперников в ямы на 4 рушащихся островах. Умения Бум, Камень и Полёт, 60 обликов и соперники, которыми управляет компьютер. Уже в Google Play.">
+<meta name="description" content="Заряди рывок и сталкивай хомяков-соперников в ямы на 7 безумных островах. 6 умений, 5 режимов, 92 облика и игра онлайн с друзьями. Уже в Google Play.">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/ru/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: Битва Хомяков">
-<meta property="og:description" content="Заряди рывок и сталкивай хомяков-соперников в ямы на 4 рушащихся островах!">
+<meta property="og:description" content="Заряди рывок и сталкивай хомяков-соперников в ямы на 7 безумных островах, а потом играй онлайн с друзьями!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="Хомяк в прозрачном шаре катится по конфетному острову, рядом английская надпись «Last hamster rolling wins!»">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/ru/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">Останься последним!</p>
-        <p class="lead">12 хомяков выкатываются на рушащийся остров. Заряжай рывок, сталкивай соперников в ямы и останься последним!</p>
+        <p class="lead">12 хомяков выкатываются на рушащийся остров. Заряжай рывок, сталкивай соперников в ямы и останься последним. А потом играй онлайн с друзьями!</p>
         <ul class="stats">
-          <li><b>4</b> <span>острова</span></li>
-          <li><b>3</b> <span>умения</span></li>
-          <li><b>60</b> <span>обликов</span></li>
+          <li><b>7</b> <span>островов</span></li>
+          <li><b>6</b> <span>умений</span></li>
+          <li><b>5</b> <span>режимов</span></li>
+          <li><b>92</b> <span>облика</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ru.png" width="646" height="192" decoding="async" alt="Скачать из Google Play"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 хомяков &#9733; 4 острова &#9733; 3 умения &#9733; 60 обликов &#9733; 13 языков &#9733; 12 хомяков &#9733; 4 острова &#9733; 3 умения &#9733; 60 обликов &#9733; 13 языков &#9733; 12 хомяков &#9733; 4 острова &#9733; 3 умения &#9733; 60 обликов &#9733; 13 языков &#9733; 12 хомяков &#9733; 4 острова &#9733; 3 умения &#9733; 60 обликов &#9733; 13 языков &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 хомяков &#9733; 7 островов &#9733; 6 умений &#9733; 5 режимов &#9733; 92 облика &#9733; Онлайн с друзьями &#9733; 12 хомяков &#9733; 7 островов &#9733; 6 умений &#9733; 5 режимов &#9733; 92 облика &#9733; Онлайн с друзьями &#9733; 12 хомяков &#9733; 7 островов &#9733; 6 умений &#9733; 5 режимов &#9733; 92 облика &#9733; Онлайн с друзьями &#9733; 12 хомяков &#9733; 7 островов &#9733; 6 умений &#9733; 5 режимов &#9733; 92 облика &#9733; Онлайн с друзьями &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -419,20 +431,20 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="play-title"><span class="line" data-text="Зажми. Заряди.">Зажми. Заряди.</span> <span class="line hot" data-text="Бац!">Бац!</span></h2>
-        <p class="pill">Держи Рывок, отпусти — и бац!</p>
+        <p class="pill">Держи Рывок, отпусти, и бац!</p>
       </div>
-      <p class="intro">Тяни пальцем, чтобы катиться. Держи Рывок, чтобы зарядить удар, отпусти — и БАЦ! Соперник летит кувырком, и рулить ему уже бесполезно. Сталкивай в ямы 11 компьютерных соперников, пока они не столкнули тебя.</p>
+      <p class="intro">Тяни пальцем, чтобы катиться. Держи Рывок, чтобы зарядить удар, отпусти, и БАЦ! Соперник летит кувырком, и рулить ему уже бесполезно. Сталкивай в ямы 11 соперников, пока они не столкнули тебя.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">Выживание</span>
-            <h3>Побеждает последний</h3>
-            <p>Сначала земля мигает, потом проваливается. Ямы открываются волнами и растут, а берег осыпается к центру. Каждый раунд приносит звёзды, а за победу — бонус.</p>
+            <span class="tag" style="--tag:#ff9bbb">Ямы</span>
+            <h3>Следи за землёй</h3>
+            <p>Сначала земля мигает, потом проваливается. В Битве ямы открываются волнами и растут, а берег осыпается к центру, так что держись ближе к середине.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">Рывок</span>
             <h3>Держи… БАЦ!</h3>
-            <p>Короткое касание — лёгкий толчок. Держи 0,9 секунды, и удар отправит соперника более чем втрое дальше. Соперники заряжаются с таким же светящимся кольцом, так что следи за ним.</p>
+            <p>Короткое касание даёт лёгкий толчок. Держи 0,9 секунды, и удар отправит соперника более чем втрое дальше. Соперники заряжаются с таким же светящимся кольцом, так что следи за ним.</p>
           </article>
         </div>
         <div class="stage play-stage">
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="Бум!">Бум!</span> <span class="line" data-text="Хватай умения">Хватай умения</span></h2>
-        <p class="pill">Бум · Камень · Полёт</p>
+        <p class="pill"><span>6 умений</span> &middot; <span>новые трюки</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>Вкатись в пузырь умения. Умение ждёт на кнопке, пока ты его не применишь. Летишь кувырком? Включи Камень или Полёт и спасись в последний миг.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/ru/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Бум! Умение Бум отбрасывает соперников вокруг хомяка. Всего умений три: Бум, Камень и Полёт."></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/ru/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Бум! Умение Бум отбрасывает соперников вокруг хомяка."></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>Воздушный шарик поднимает тебя на 3 секунды. Пролетай над ямами и сквозь других хомяков, а потом плавно опускайся на твёрдую землю.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>Пузырь</h3>
+            <p>Пузырь окружает тебя на 3 секунды и выдерживает один удар. Он спасает даже от кометы.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>Обмен</h3>
+            <p>Поменяйся местами с ближайшим соперником. Отличный способ выбраться из беды или отправить туда кого-то другого.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>Магнит</h3>
+            <p>На 2 секунды соперников рядом тянет к тебе. Подтяни их, и бац!</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 безумных">4 безумных</span> <span class="line" data-text="острова">острова</span></h2>
-        <p class="pill"><span>Конфетный сад</span> &middot; <span>Остров вулкана</span> &middot; <span>Ледяной каток</span> &middot; <span>Космос</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 безумных">7 безумных</span> <span class="line" data-text="островов">островов</span></h2>
+        <p class="pill">На каждом острове свой подвох</p>
       </div>
-      <p class="intro">Всё начинается в Конфетном саду: ямы, бамперы, соперники и ты. Потом в игру вступают Остров вулкана, Ледяной каток и Космос, и у каждого свой подвох.</p>
+      <p class="intro">Каждая опасность сначала предупреждает: следи за землёй и катись дальше. Перед раундом лента пробегает по островам и выбирает твой.</p>
       <div class="rail" role="region" tabindex="0" aria-label="Острова, листай в сторону">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/ru/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 острова: лента останавливается на острове для следующего раунда."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">Выбор острова</span>
-            <h3>Куда дальше?</h3>
-            <p>Начни раунд из меню, и лента пробежит по островам и выберет твой. После раунда карточка рубашкой вверх прячет следующий остров. Нажми «Ещё раунд», чтобы её перевернуть.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/ru/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Лента останавливается на острове для следующего раунда."></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">Выбор острова</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/ru/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Остров вулкана: паровой гейзер отбрасывает хомяков рядом, а вокруг острова — лава."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">Остров вулкана</span>
-            <h3>Паровые гейзеры</h3>
-            <p>Вокруг острова лава. У парового гейзера заполняется кольцо, а потом гейзер бьёт паром и раскидывает хомяков рядом.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/ru/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Остров вулкана: паровой гейзер отбрасывает хомяков рядом, а вокруг острова повсюду лава."></div>
+          <figcaption><span class="tag" style="--tag:#ffa66b">Остров вулкана</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/ru/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Ледяной каток: хомяки скользят по льду в середине острова."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">Ледяной каток</span>
-            <h3>Скользкий лёд</h3>
-            <p>Посреди острова каток. Разгоняешься медленно, тормозишь медленно, а в беду скатываешься быстро.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">Ледяной каток</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/ru/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Космос: комета проносится через остров и сметает хомяков со своего пути."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">Космос</span>
-            <h3>Кометы</h3>
-            <p>Сначала предупреждает пунктир, потом через остров проносится комета и раскидывает всех на своём пути.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/ru/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Космос: комета проносится через остров по пунктирной линии предупреждения."></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">Космос</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">Конфетный сад</span>
+          <h3>Ямы и бамперы</h3>
+          <p>Здесь всё начинается. Отскакивай от бамперов и держись подальше от ям.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">Остров вулкана</span>
+          <h3>Паровые гейзеры</h3>
+          <p>Вокруг острова лава. У парового гейзера заполняется кольцо-предупреждение, а потом гейзер бьёт паром и раскидывает хомяков рядом.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">Космос</span>
+          <h3>Кометы</h3>
+          <p>Пунктир предупреждает за 2,5 секунды. Светящаяся середина кометы выбивает из игры, как яма, если тебя не спасёт Пузырь, а остальная полоса отбрасывает в сторону.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">Ледяной каток</span>
+          <h3>Скользкий лёд</h3>
+          <p>Посреди острова каток. Разгоняешься медленно, тормозишь медленно, а в беду скатываешься быстро.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">Джунгли</span>
+          <h3>Грязь и брёвна</h3>
+          <p>Грязные лужи замедляют, а брёвна катятся через остров и сбивают тебя в сторону.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">Лагуна</span>
+          <h3>Бассейны и прилив</h3>
+          <p>В мелких бассейнах медленно разгоняешься и медленно тормозишь. А потом приливная волна проходит через остров и сносит всех на своём пути.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">Часовой механизм</span>
+          <h3>Масло и поршни</h3>
+          <p>Масляные пятна скользкие, как лёд, а после предупреждения поршни отбрасывают хомяков рядом.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Прогулка">Прогулка</span> <span class="line" data-text="и Тренировка">и Тренировка</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Пять режимов">Пять режимов</span> <span class="line" data-text="игры">игры</span></h2>
+        <p class="pill">Пять режимов и разминка</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">Прогулка</span>
-            <h3>Собери все звёзды</h3>
-            <p>Упал? Сразу катись обратно. По острову вырастают звёздочки, и каждая засчитывается, как только ты её коснёшься. Собирай их быстро, и звон с каждой становится выше. Пузыри умений появляются снова и снова, а соперники толкаются, сколько захочешь.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">Тренировка</span>
-            <h3>Разминка</h3>
-            <p>Спокойный раунд в Конфетном саду против 3 соперников, которые медленнее целятся и слабее бьют. Освой рывок здесь, а потом бей в полную силу.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Прогулка: хомяк коснулся звезды, и она летит к счётчику; рядом ждут другие звёзды."></figure>
+      <p class="intro">В каждый режим можно играть онлайн с игроками со всего мира. Новичок? Начни с Тренировки.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Битва</span>
+          <h3>Побеждает последний</h3>
+          <p>12 хомяков, один рушащийся остров. Столкни всех в ямы и останься последним.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Командный бой</span>
+          <h3>Последняя команда</h3>
+          <p>2 команды по 6 или 3 команды по 4. Союзники толкаются, но не вредят друг другу, а побеждает последняя команда на острове.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Гонка</span>
+          <h3>Три круга</h3>
+          <p>Следуй за флажками по острову 3 круга. Упал? Сразу возвращаешься в гонку, так что не сдавайся.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Захват флага</span>
+          <h3>Неси на базу</h3>
+          <p>В центре ждёт один флаг. Схвати его и донеси до базы своей команды. Толкни того, кто несёт флаг, и он его уронит!</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Прогулка</span>
+          <h3>Собери все звёзды</h3>
+          <p>Упал? Сразу катись обратно. По острову вырастают звёздочки, и каждая засчитывается, как только ты её коснёшься. Пузыри умений появляются, сколько захочешь.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Тренировка</span>
+          <h3>Разминка</h3>
+          <p>Спокойный раунд в Конфетном саду против 3 соперников, которые медленнее целятся и слабее бьют. Освой рывок здесь, а потом бей в полную силу.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Прогулка: хомяк коснулся звезды, и она летит к счётчику; рядом ждут другие звёзды."></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="Играй">Играй</span> <span class="line hot" data-text="онлайн!">онлайн!</span></h2>
+        <p class="pill"><span>Группы</span> &middot; <span>Друзья</span> &middot; <span>Эмоции</span> &middot; <span>Кубки</span></p>
+      </div>
+      <p class="intro">Толкайся онлайн и играй с другими людьми. В матчах могут участвовать игроки, которыми управляет компьютер.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Группа</span>
+          <h3>Катайтесь вместе</h3>
+          <p>Собери группу и поделись её кодом из 6 букв. Группа играет в одной команде в Командном бою и Захвате флага и катается вместе на Прогулке.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Друзья</span>
+          <h3>Добавляй по коду</h3>
+          <p>У каждого игрока есть код для друзей. Добавь друга по коду, смотри, когда он в сети, присоединяйся к его Прогулке или позови его в группу.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Эмоции</span>
+          <h3>Скажи эмоцией</h3>
+          <p>Чата нет. Подбадривай, маши или пиши GG 14 готовыми эмоциями: 6 есть в игре сразу, 4 входят в набор «Праздничные эмоции», а ещё 4 входят в «Стартовый набор» и наборы Signature.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Твоё имя</span>
+          <h3>Печатать не нужно</h3>
+          <p>Игра сама даёт тебе имя. Получи новое или впиши ник, который мы проверяем, прежде чем его кто-то увидит.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Кубки</span>
+          <h3>Поднимайся в рейтинге</h3>
+          <p>Зарабатывай кубки в раундах онлайн, поднимайся в рейтинге и смотри, где твои друзья. Профиль показывает матчи, победы и бацы.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Честная игра</span>
+          <h3>Победу не купить</h3>
+          <p>Цвета имени и набор «Праздничные эмоции» меняют то, как ты выглядишь, но не то, как ты играешь.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 хомяков &#9733; 21 шар &#9733; 23 следа &#9733; 16 хомяков &#9733; 21 шар &#9733; 23 следа &#9733; 16 хомяков &#9733; 21 шар &#9733; 23 следа &#9733; 16 хомяков &#9733; 21 шар &#9733; 23 следа &#9733; 16 хомяков &#9733; 21 шар &#9733; 23 следа &#9733; 16 хомяков &#9733; 21 шар &#9733; 23 следа &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 23 хомяка &#9733; 29 шаров &#9733; 30 следов &#9733; 23 хомяка &#9733; 29 шаров &#9733; 30 следов &#9733; 23 хомяка &#9733; 29 шаров &#9733; 30 следов &#9733; 23 хомяка &#9733; 29 шаров &#9733; 30 следов &#9733; 23 хомяка &#9733; 29 шаров &#9733; 30 следов &#9733; 23 хомяка &#9733; 29 шаров &#9733; 30 следов &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 обликов">60 обликов</span> <span class="line" data-text="в коллекцию">в коллекцию</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 облика">92 облика</span> <span class="line" data-text="в коллекцию">в коллекцию</span></h2>
         <p class="pill">Хомяки · Шары · Следы</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span>хомяков</span></li>
-            <li><b>21</b> <span>шар</span></li>
-            <li><b>23</b> <span>следа</span></li>
+            <li><b>23</b> <span>хомяка</span></li>
+            <li><b>29</b> <span>шаров</span></li>
+            <li><b>30</b> <span>следов</span></li>
           </ul>
-          <p>Зарабатывай звёзды в раундах и за звёздочки, а потом открой подарок за 60 звёзд.</p>
-          <p class="note">Облики меняют стиль, на скорость они не влияют.</p>
+          <p>3 облика есть у тебя с самого начала. Зарабатывай звёзды в игре, а потом открой подарок за 60 звёзд. Примерь маленького дракона или шубку «Северное сияние», катайся в пляжном мяче или оставляй за собой светлячков и пыль кометы.</p>
+          <p class="note">В подарках 67 обликов: все, кроме стартовых и обликов Signature. Облики меняют стиль, на скорость они не влияют.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/ru/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Экран «Облики»: сверху надетый Огненный шар, вкладки «Хомяки», «Шары» и «Следы», сетка обликов и кнопка «Открыть подарок»."></div>
@@ -611,7 +732,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="gift-title"><span class="line" data-text="Открой">Открой</span> <span class="line hot" data-text="подарок!">подарок!</span></h2>
-        <p class="pill">Лента прокручивается — новый облик!</p>
+        <p class="pill">Лента крутится, и вот новый облик!</p>
       </div>
       <div class="split flip">
         <div class="ui">
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">Легендарный 3%</li>
               </ul>
               <span>Когда у тебя собраны все облики одной редкости, её доля переходит к остальным.</span></li>
-            <li>Если 7 подарков подряд не принесли эпический или легендарный облик, следующий будет эпическим или лучше.</li>
+            <li>Каждые 5 матчей наполняют бесплатный подарок. А облик из подарков можно выбрать и открыть за звёзды.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>Все соперники — хомяки, которыми управляет компьютер. Аккаунт не нужен.</li>
-          <li>Всем игрокам показывается только безопасная для детей реклама: Google AdMob с рейтингом G, без персонализации. Раунд реклама никогда не прерывает. Её можно увидеть между раундами, а рекламу за звёзды включаешь только ты сам.</li>
-          <li>Посмотри рекламу по желанию и получи 10 звёзд. Разовая покупка «Убрать рекламу» отключает рекламу между раундами; реклама за звёзды по желанию остаётся.</li>
-          <li>Шар «Призма» и след «Радуга» продаются через Google Play. В подарках их не бывает, а звёзды купить нельзя.</li>
+          <li>В матчах могут участвовать игроки, которыми управляет компьютер.</li>
+          <li>Аккаунт игра создаёт сама, без почты и пароля.</li>
+          <li>В игре онлайн нет чата. Каждый получает имя от игры и может взять новое или вписать ник, который мы проверяем, прежде чем его кто-то увидит. Общаются 14 готовыми эмоциями. Друзья видят, когда ты в сети, если не включить «Скрывать мой статус в сети» в Настройках.</li>
+          <li>Всем игрокам показывается только безопасная для детей реклама: Google AdMob с рейтингом G, без персонализации. Раунд реклама никогда не прерывает. Между раундами может появиться короткая реклама, а рекламу за звёзды включаешь только ты сам.</li>
+          <li>Посмотри рекламу по желанию и получи 10 звёзд. «Убрать рекламу» отключает рекламу между раундами; реклама за звёзды по желанию остаётся.</li>
+          <li>Через Google Play продаются «Убрать рекламу», «Стартовый набор», облики Signature, эффекты удара и победные танцы, а также наборы «Король лавы», «Космокадет» и «Ниндзя льда». Каждую покупку делаешь один раз, и она остаётся навсегда. Цвета имени и эмоции работают с онлайн-аккаунтом.</li>
+          <li>Платные вещи продаются только за деньги. Подарки, звёзды и кубки их никогда не дают, а звёзды купить нельзя. Покупки не помогают победить.</li>
           <li>Играй вертикально или горизонтально, на телефонах и планшетах.</li>
-          <li>Музыка, звуки и вибрация выключаются по отдельности, есть спокойная анимация, а кнопку рывка можно поставить слева или справа.</li>
+          <li>Музыка, звуки и вибрация выключаются по отдельности, есть «Меньше анимации», «Фикс. джойстик», три размера кнопок и «Зеркальное управление», которое ставит кнопку рывка слева.</li>
           <li>13 языков: английский, русский, испанский, немецкий, французский, японский, корейский, упрощённый китайский, турецкий, итальянский, бразильский португальский, польский и украинский.</li>
         </ul>
       </div>
@@ -686,8 +810,8 @@ footer p a { padding-block: 12px; }
       <a href="../privacy.html">Политика конфиденциальности</a>
       <a href="mailto:ivan.vydrin.99@gmail.com">Поддержка: ivan.vydrin.99@gmail.com</a>
     </nav>
-    <p>Hamster Bounce создаёт ivanvyd games — игровая студия Vydrin Ivan Denysovych, индивидуального предпринимателя (ФОП), зарегистрированного в Украине.</p>
-    <p>Google Play и логотип Google Play — товарные знаки Google LLC. Шрифт Fredoka используется по лицензии <a href="../Fredoka-OFL.txt">SIL Open Font License</a>.</p>
+    <p>Hamster Bounce создаёт ivanvyd games, игровая студия Vydrin Ivan Denysovych, индивидуального предпринимателя (ФОП), зарегистрированного в Украине.</p>
+    <p>Google Play и логотип Google Play являются товарными знаками Google LLC. Шрифт Fredoka используется по лицензии <a href="../Fredoka-OFL.txt">SIL Open Font License</a>.</p>
   </div>
 </footer>
 </body>

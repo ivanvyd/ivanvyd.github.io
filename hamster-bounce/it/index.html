@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hamster Bounce: Sfida di Sfere</title>
-<meta name="description" content="Carica e spingi i criceti rivali nelle buche di 4 isole che si sgretolano! Poteri Bum, Pietra e Volo, 60 look e rivali guidati dal computer. Ora su Google Play.">
+<meta name="description" content="Carica e spingi i criceti rivali nelle buche di 7 isole pazze. 6 poteri, 5 modalità, 92 look e gioco online con gli amici. Ora su Google Play.">
 <meta name="theme-color" content="#170a28">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://ivanvyd.github.io/hamster-bounce/it/">
@@ -23,7 +23,7 @@
 <link rel="alternate" hreflang="uk" href="https://ivanvyd.github.io/hamster-bounce/uk/">
 <link rel="alternate" hreflang="x-default" href="https://ivanvyd.github.io/hamster-bounce/">
 <meta property="og:title" content="Hamster Bounce: Sfida di Sfere">
-<meta property="og:description" content="Carica e spingi i criceti rivali nelle buche di 4 isole che si sgretolano!">
+<meta property="og:description" content="Carica e spingi i criceti rivali nelle buche di 7 isole pazze, poi gioca online con gli amici!">
 <meta property="og:image" content="https://ivanvyd.github.io/hamster-bounce/img/feature.jpg">
 <meta property="og:image:alt" content="Un criceto in una sfera trasparente rotola su un’isola di dolci, con la scritta in inglese «Last hamster rolling wins!»">
 <meta property="og:url" content="https://ivanvyd.github.io/hamster-bounce/it/">
@@ -64,6 +64,7 @@
 .t-islands { --bg1: #4a2a92; --bg2: #170b30; --accent: #b48cff; --hot: #ffdb54; --glow: rgba(180, 140, 255, .4); }
 .t-looks   { --bg1: #74286c; --bg2: #1c0a28; --accent: #ff7eb6; --hot: #ffdb54; --glow: rgba(255, 126, 182, .36); }
 .t-gift    { --bg1: #5e2786; --bg2: #1a0a2e; --accent: #ffcf3f; --hot: #ff8fb1; --glow: rgba(255, 207, 63, .32); }
+.t-online  { --bg1: #2b4c9c; --bg2: #0f0b2e; --accent: #5cd9c9; --hot: #ffdb54; --glow: rgba(92, 217, 201, .36); }
 
 * { box-sizing: border-box; }
 html { background: var(--ink); scroll-behavior: smooth; }
@@ -241,12 +242,24 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .skills { display: grid; gap: 28px; margin-top: 64px; }
 .skill { display: grid; grid-template-columns: 84px 1fr; gap: 18px; align-items: center; }
 .skill .bubble { width: 84px; height: 84px; border-radius: 50%; border: 5px solid var(--cream); box-shadow: 0 0 0 4px var(--tint), 0 0 0 8px var(--ink), 0 10px 18px rgba(0, 0, 0, .35); }
+/* Skills with no bubble capture yet: the same ring around a drawn icon */
+.skill .glyph { display: grid; place-items: center; background: radial-gradient(circle at 34% 30%, #fff 0, var(--tint) 62%, #2a1440 140%); }
+.skill .glyph svg { width: 56%; height: 56%; overflow: visible; filter: drop-shadow(0 3px 0 rgba(23, 10, 40, .55)); }
 .skill h3 { margin-top: 0; }
+@media (min-width: 48rem) { .skills { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 60rem) {
-  .skills { grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 104px; }
+  .skills { grid-template-columns: repeat(3, 1fr); gap: 104px 32px; margin-top: 104px; }
   .skill { grid-template-columns: 1fr; align-content: start; text-align: center; }
   .skill .bubble { width: 120px; height: 120px; margin: -64px auto 0; }
 }
+
+/* Card grids: islands, modes and online */
+.cards { display: grid; gap: 28px; margin-top: 40px; }
+@media (min-width: 48rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 32px; } }
+@media (min-width: 64rem) { .cards.isles { grid-template-columns: repeat(4, 1fr); gap: 24px; } }
+.cards .ui h3 { font-size: 1.3rem; }
+.isle-card { border-top: 10px solid var(--tint, var(--lemon)); }
 
 /* Islands rail: a sideways scroller until four columns fit */
 .rail { display: flex; gap: 22px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 16px;
@@ -260,11 +273,9 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .rail::after { display: none; }
 }
 .isle figcaption { position: relative; z-index: 2; margin-top: -16px; text-align: center; }
-.isle h3 { margin: 16px 0 6px; font-size: 1.35rem; }
-.isle p { margin: 0; color: var(--soft); font-size: 1rem; }
 
 /* Modes */
-.modes .shot { max-width: 34rem; margin: 0 auto; }
+.modes .shot { max-width: 34rem; margin: 48px auto 0; }
 
 /* Looks */
 .counts { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0 0 26px; }
@@ -372,11 +383,12 @@ footer p a { padding-block: 12px; }
       <div>
         <h1 class="title" id="game-title"><span class="line" data-text="Hamster">Hamster</span> <span class="line hot" data-text="Bounce">Bounce</span></h1>
         <p class="pill">L’ultimo in pista vince!</p>
-        <p class="lead">12 criceti rotolano su un’isola che si sgretola. Carica, butta i rivali nelle buche con un BAM! e resta l’ultimo in pista!</p>
+        <p class="lead">12 criceti rotolano su un’isola che si sgretola. Carica, butta i rivali nelle buche con un BAM! e resta l’ultimo in pista. Poi gioca online con gli amici!</p>
         <ul class="stats">
-          <li><b>4</b> <span>isole</span></li>
-          <li><b>3</b> <span>poteri</span></li>
-          <li><b>60</b> <span>look</span></li>
+          <li><b>7</b> <span>isole</span></li>
+          <li><b>6</b> <span>poteri</span></li>
+          <li><b>5</b> <span>modalità</span></li>
+          <li><b>92</b> <span>look</span></li>
         </ul>
         <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/it.png" width="646" height="192" decoding="async" alt="Disponibile su Google Play"></a>
       </div>
@@ -388,7 +400,7 @@ footer p a { padding-block: 12px; }
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 criceti &#9733; 4 isole &#9733; 3 poteri &#9733; 60 look &#9733; 13 lingue &#9733; 12 criceti &#9733; 4 isole &#9733; 3 poteri &#9733; 60 look &#9733; 13 lingue &#9733; 12 criceti &#9733; 4 isole &#9733; 3 poteri &#9733; 60 look &#9733; 13 lingue &#9733; 12 criceti &#9733; 4 isole &#9733; 3 poteri &#9733; 60 look &#9733; 13 lingue &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape">&#9733; 12 criceti &#9733; 7 isole &#9733; 6 poteri &#9733; 5 modalità &#9733; 92 look &#9733; Online con gli amici &#9733; 12 criceti &#9733; 7 isole &#9733; 6 poteri &#9733; 5 modalità &#9733; 92 look &#9733; Online con gli amici &#9733; 12 criceti &#9733; 7 isole &#9733; 6 poteri &#9733; 5 modalità &#9733; 92 look &#9733; Online con gli amici &#9733; 12 criceti &#9733; 7 isole &#9733; 6 poteri &#9733; 5 modalità &#9733; 92 look &#9733; Online con gli amici &#9733;</div></div>
 
   <section class="scene t-cosmos" id="trailer" aria-labelledby="trailer-title">
     <div class="sparks" aria-hidden="true">
@@ -421,13 +433,13 @@ footer p a { padding-block: 12px; }
         <h2 class="title" id="play-title"><span class="line" data-text="Tieni. Carica.">Tieni. Carica.</span> <span class="line hot" data-text="Bam!">Bam!</span></h2>
         <p class="pill">Tieni Scatto, poi lascia: bam!</p>
       </div>
-      <p class="intro">Trascina e rotola. Tieni Scatto per caricare, lascia e BAM! Il rivale ruzzola via e sterzare non basta a fermarlo. Butta nelle buche gli 11 rivali guidati dal computer prima che buttino giù te.</p>
+      <p class="intro">Trascina e rotola. Tieni Scatto per caricare, lascia e BAM! Il rivale ruzzola via e sterzare non basta a fermarlo. Butta 11 rivali nelle buche prima che buttino giù te.</p>
       <div class="split">
         <div class="stack">
           <article class="ui">
-            <span class="tag" style="--tag:#ff9bbb">Sopravvivenza</span>
-            <h3>Vince l’ultimo in pista</h3>
-            <p>Il terreno lampeggia per avvisare, poi crolla. Le buche si aprono a ondate e si allargano mentre la riva si sgretola. Ogni round dà stelle, più un bonus per la vittoria.</p>
+            <span class="tag" style="--tag:#ff9bbb">Buche</span>
+            <h3>Occhio al terreno</h3>
+            <p>Il terreno lampeggia per avvisare, poi crolla. In Battaglia le buche si aprono a ondate e si allargano mentre la riva si sgretola, quindi resta verso il centro.</p>
           </article>
           <article class="ui">
             <span class="tag" style="--tag:var(--lemon)">Scatto</span>
@@ -453,7 +465,7 @@ footer p a { padding-block: 12px; }
     <div class="wrap">
       <div class="head">
         <h2 class="title" id="skills-title"><span class="line hot" data-text="Bum!">Bum!</span> <span class="line" data-text="Prendi poteri">Prendi poteri</span></h2>
-        <p class="pill">Bum · Pietra · Volo</p>
+        <p class="pill"><span>6 poteri</span> &middot; <span>nuovi trucchi</span></p>
       </div>
       <div class="split flip">
         <article class="ui">
@@ -462,7 +474,7 @@ footer p a { padding-block: 12px; }
           <p>Rotola su una bolla potere. Il potere aspetta sul pulsante finché non lo usi. Stai ruzzolando? Usa Pietra o Volo e salvati all’ultimo secondo.</p>
         </article>
         <div class="stage skill-stage">
-          <figure class="shot main" style="--tilt:2deg"><img src="../img/it/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Bum! Il potere Bum di un criceto spinge via i rivali intorno. Bum, Pietra e Volo sono i tre poteri."></figure>
+          <figure class="shot main" style="--tilt:2deg"><img src="../img/it/shot-3.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Bum! Il potere Bum di un criceto spinge via i rivali intorno."></figure>
         </div>
       </div>
       <div class="skills">
@@ -487,6 +499,27 @@ footer p a { padding-block: 12px; }
             <p>Un palloncino ti solleva per 3 secondi. Passa sopra le buche e attraverso gli altri criceti, poi scendi piano sulla terraferma.</p>
           </div>
         </article>
+        <article class="ui skill" style="--tint:#7fe0f0">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="#e8fbff" fill-opacity=".55" stroke="#170a28" stroke-width="3"/><path d="M11.5 17a9 9 0 0 1 7-6.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>Bolla</h3>
+            <p>Una bolla ti avvolge per 3 secondi e blocca un colpo. Ti salva perfino da una cometa.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#c39bff">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#170a28" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15h22l-6-6M32 25H10l6 6"/></svg></span>
+          <div>
+            <h3>Scambio</h3>
+            <p>Scambia il posto con il rivale più vicino. Perfetto per uscire dai guai, o per metterci qualcun altro.</p>
+          </div>
+        </article>
+        <article class="ui skill" style="--tint:#ff7a7a">
+          <span class="bubble glyph" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke-linecap="round"><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#170a28" stroke-width="9"/><path d="M11 8v13a9 9 0 0 0 18 0V8" stroke="#fffae6" stroke-width="3.4"/><path d="M8 9h6M26 9h6" stroke="#170a28" stroke-width="4"/></svg></span>
+          <div>
+            <h3>Calamita</h3>
+            <p>Per 2 secondi i rivali vicini vengono attirati verso di te. Tirali a te, poi bam!</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -499,43 +532,64 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="islands-title"><span class="line hot" data-text="4 isole">4 isole</span> <span class="line" data-text="pazze">pazze</span></h2>
-        <p class="pill"><span>Giardino Dolce</span> &middot; <span>Isola Vulcano</span> &middot; <span>Pista di Ghiaccio</span> &middot; <span>Cosmo</span></p>
+        <h2 class="title" id="islands-title"><span class="line hot" data-text="7 isole">7 isole</span> <span class="line" data-text="pazze">pazze</span></h2>
+        <p class="pill">Un trucco nuovo su ogni isola</p>
       </div>
-      <p class="intro">Tutto comincia su Giardino Dolce: buche, respingenti, rivali e tu. Poi arrivano Isola Vulcano, Pista di Ghiaccio e Cosmo, ognuna con il suo trucco.</p>
+      <p class="intro">Ogni pericolo ti avvisa prima: leggi il terreno e continua a rotolare. Prima di un round, un nastro scorre tra le isole e sceglie la tua.</p>
       <div class="rail" role="region" tabindex="0" aria-label="Le isole, scorri di lato">
         <figure class="isle">
-          <div class="shot" style="--tilt:-2deg"><img src="../img/it/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="4 isole: il nastro si ferma sull’isola del prossimo round."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#d8cdf5">La scelta</span>
-            <h3>Dove si va?</h3>
-            <p>Avvia un round dal menu e un nastro scorre tra le isole per scegliere la tua. Dopo il round, una carta coperta nasconde l’isola successiva. Tocca Un altro round per girarla.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:-2deg"><img src="../img/it/shot-4.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Il nastro si ferma sull’isola del prossimo round."></div>
+          <figcaption><span class="tag" style="--tag:#d8cdf5">La scelta</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:2deg"><img src="../img/it/shot-5.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Isola Vulcano: un geyser di vapore spinge via i criceti vicini, con la lava tutto intorno all’isola."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#ffa66b">Isola Vulcano</span>
-            <h3>Geyser di vapore</h3>
-            <p>Lava tutto intorno. Un anello si riempie attorno a un geyser di vapore, poi il geyser spinge via i criceti vicini.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#ffa66b">Isola Vulcano</span></figcaption>
         </figure>
         <figure class="isle">
           <div class="shot" style="--tilt:-2deg"><img src="../img/it/shot-6.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Pista di Ghiaccio: i criceti scivolano sulla pista di ghiaccio al centro dell’isola."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#bfe6ff">Pista di Ghiaccio</span>
-            <h3>Ghiaccio scivoloso</h3>
-            <p>Una pista di ghiaccio al centro. Lenta a partire, lenta a frenare, rapidissima a farti scivolare nei guai.</p>
-          </figcaption>
+          <figcaption><span class="tag" style="--tag:#bfe6ff">Pista di Ghiaccio</span></figcaption>
         </figure>
         <figure class="isle">
-          <div class="shot" style="--tilt:2deg"><img src="../img/it/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmo: una cometa attraversa l’isola e sbalza via i criceti che trova sulla sua strada."></div>
-          <figcaption>
-            <span class="tag" style="--tag:#c3b1ff">Cosmo</span>
-            <h3>Comete</h3>
-            <p>Una linea tratteggiata ti avvisa, poi una cometa attraversa l’isola e sbalza via chiunque trovi sulla sua strada.</p>
-          </figcaption>
+          <div class="shot" style="--tilt:2deg"><img src="../img/it/shot-7.jpg" width="540" height="960" loading="lazy" decoding="async" alt="Cosmo: una cometa attraversa l’isola lungo una linea tratteggiata di avviso."></div>
+          <figcaption><span class="tag" style="--tag:#c3b1ff">Cosmo</span></figcaption>
         </figure>
+      </div>
+      <div class="cards isles">
+        <article class="ui isle-card" style="--tint:#ff9bbb">
+          <span class="tag" style="--tag:#ff9bbb">Giardino Dolce</span>
+          <h3>Buche e respingenti</h3>
+          <p>Tutto comincia qui. Rimbalza sui respingenti e stai lontano dalle buche.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffa66b">
+          <span class="tag" style="--tag:#ffa66b">Isola Vulcano</span>
+          <h3>Geyser di vapore</h3>
+          <p>Lava tutto intorno. Un anello di avviso si riempie attorno a un geyser di vapore, poi il geyser spinge via i criceti vicini.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#c3b1ff">
+          <span class="tag" style="--tag:#c3b1ff">Cosmo</span>
+          <h3>Comete</h3>
+          <p>Una linea tratteggiata ti avvisa 2,5 secondi prima. Il centro luminoso della cometa ti elimina come una buca, a meno che una Bolla non ti salvi, e il resto della sua corsia ti sbalza di lato.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#bfe6ff">
+          <span class="tag" style="--tag:#bfe6ff">Pista di Ghiaccio</span>
+          <h3>Ghiaccio scivoloso</h3>
+          <p>Una pista di ghiaccio al centro. Lenta a partire, lenta a frenare, rapidissima a farti scivolare nei guai.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#9fe28a">
+          <span class="tag" style="--tag:#9fe28a">Giungla</span>
+          <h3>Fango e tronchi</h3>
+          <p>Le pozzanghere di fango ti rallentano, e i tronchi rotolano attraverso l’isola e ti spingono di lato.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#7fe0f0">
+          <span class="tag" style="--tag:#7fe0f0">Laguna</span>
+          <h3>Vasche e maree</h3>
+          <p>Nelle vasche poco profonde parti piano e freni piano. Poi un’ondata di marea attraversa l’isola e spinge di lato chiunque trovi.</p>
+        </article>
+        <article class="ui isle-card" style="--tint:#ffd27a">
+          <span class="tag" style="--tag:#ffd27a">Meccanismo</span>
+          <h3>Olio e pistoni</h3>
+          <p>Le chiazze d’olio scivolano come il ghiaccio, e dopo un avviso i pistoni spingono via i criceti vicini.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -548,27 +602,94 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="modes-title"><span class="line hot" data-text="Gioco libero">Gioco libero</span> <span class="line" data-text="e Allenamento">e Allenamento</span></h2>
+        <h2 class="title" id="modes-title"><span class="line hot" data-text="Cinque modi">Cinque modi</span> <span class="line" data-text="di rotolare">di rotolare</span></h2>
+        <p class="pill">Cinque modalità e un riscaldamento</p>
       </div>
-      <div class="split flip">
-        <div class="stack">
-          <article class="ui">
-            <span class="tag" style="--tag:var(--aqua)">Gioco libero</span>
-            <h3>Prendi tutte le stelle</h3>
-            <p>Sei caduto? Rotola di nuovo. Sull’isola spuntano stelline, e ognuna conta appena la tocchi. Prendile in fretta e il tintinnio sale sempre più in alto. Le bolle potere spuntano di continuo e i rivali danno colpi finché vuoi.</p>
-          </article>
-          <article class="ui">
-            <span class="tag" style="--tag:var(--lemon)">Allenamento</span>
-            <h3>Riscaldamento</h3>
-            <p>Un round più tranquillo su Giardino Dolce contro 3 rivali che mirano più lentamente e colpiscono più piano. Impara lo scatto qui, poi fai sul serio.</p>
-          </article>
-        </div>
-        <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Gioco libero: una stella vola al contatore appena il criceto la tocca, con altre stelle vicine."></figure>
+      <p class="intro">Ogni modalità si gioca online con giocatori da tutto il mondo. Sei nuovo? Inizia dall’Allenamento.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Battaglia</span>
+          <h3>Vince l’ultimo in pista</h3>
+          <p>12 criceti, un’isola che si sgretola. Butta tutti gli altri nelle buche e resta l’ultimo in pista.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Battaglia a squadre</span>
+          <h3>Vince l’ultima squadra</h3>
+          <p>2 squadre da 6 o 3 squadre da 4. I compagni si urtano ma non si fanno mai male, e vince l’ultima squadra sull’isola.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Gara</span>
+          <h3>Tre giri</h3>
+          <p>Segui le bandiere intorno all’isola per 3 giri. Sei caduto? Rientri subito, quindi non fermarti.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Cattura la bandiera</span>
+          <h3>Portala a casa</h3>
+          <p>Una bandiera aspetta al centro. Prendila e portala alla base della tua squadra. Colpisci chi la porta e la bandiera cade!</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Gioco libero</span>
+          <h3>Prendi tutte le stelle</h3>
+          <p>Sei caduto? Rotola di nuovo. Sull’isola spuntano stelline, e ognuna conta appena la tocchi. Le bolle potere continuano a spuntare finché vuoi.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Allenamento</span>
+          <h3>Riscaldamento</h3>
+          <p>Un round più tranquillo su Giardino Dolce contro 3 rivali che mirano più lentamente e colpiscono più piano. Impara lo scatto qui, poi fai sul serio.</p>
+        </article>
+      </div>
+      <figure class="shot" style="--tilt:-2deg"><img src="../img/free-roam.jpg" width="800" height="600" loading="lazy" decoding="async" alt="Gioco libero: una stella vola al contatore appena il criceto la tocca, con altre stelle vicine."></figure>
+    </div>
+  </section>
+
+  <section class="scene t-online vis-right" id="online" aria-labelledby="online-title">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--y:9%;--s:18px;--c:#5cd9c9;--d:-2s">&#9733;</i>
+      <i style="--x:92%;--y:14%;--s:14px;--c:#ffdb54">&#9733;</i>
+      <i style="--x:94%;--y:88%;--s:12px;--c:#f74a78;--d:-4s">&#9679;</i>
+    </div>
+    <div class="wrap">
+      <div class="head">
+        <h2 class="title" id="online-title"><span class="line" data-text="Gioca">Gioca</span> <span class="line hot" data-text="online!">online!</span></h2>
+        <p class="pill"><span>Gruppi</span> &middot; <span>Amici</span> &middot; <span>Emote</span> &middot; <span>Trofei</span></p>
+      </div>
+      <p class="intro">Porta i colpi online e gioca con altre persone. Le partite possono includere giocatori guidati dal computer.</p>
+      <div class="cards">
+        <article class="ui">
+          <span class="tag" style="--tag:var(--aqua)">Gruppo</span>
+          <h3>Rotolate insieme</h3>
+          <p>Crea un gruppo e condividi il suo codice di 6 lettere. Il gruppo gioca nella stessa squadra in Battaglia a squadre e Cattura la bandiera, e rotola insieme nel Gioco libero.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:var(--lemon)">Amici</span>
+          <h3>Aggiungi con un codice</h3>
+          <p>Ogni giocatore ha un codice amico. Aggiungi un amico con il suo codice, guarda quando è online e unisciti al suo Gioco libero o invitalo nel tuo gruppo.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ff9bbb">Emote</span>
+          <h3>Dillo con le emote</h3>
+          <p>Niente chat. Fai il tifo, saluta o scrivi GG con 14 emote già pronte: 6 sono incluse nel gioco, 4 arrivano con il pacchetto Emote della festa e altre 4 con il Pacchetto iniziale e i set Signature.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#cdb2ff">Il tuo nome</span>
+          <h3>Niente da scrivere</h3>
+          <p>Il gioco ti dà un nome. Pescane un altro o scrivi un nickname che controlliamo prima che qualcuno lo veda.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#ffb36b">Trofei</span>
+          <h3>Scala la classifica</h3>
+          <p>Vinci trofei nei round online, scala la classifica e guarda dove sono i tuoi amici. Il tuo profilo mostra partite, vittorie e colpi.</p>
+        </article>
+        <article class="ui">
+          <span class="tag" style="--tag:#d8cdf5">Fair play</span>
+          <h3>Niente da comprare per vincere</h3>
+          <p>I colori del nome e il pacchetto Emote della festa cambiano il tuo aspetto, mai il modo in cui giochi.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 16 criceti &#9733; 21 sfere &#9733; 23 scie &#9733; 16 criceti &#9733; 21 sfere &#9733; 23 scie &#9733; 16 criceti &#9733; 21 sfere &#9733; 23 scie &#9733; 16 criceti &#9733; 21 sfere &#9733; 23 scie &#9733; 16 criceti &#9733; 21 sfere &#9733; 23 scie &#9733; 16 criceti &#9733; 21 sfere &#9733; 23 scie &#9733;</div></div>
+  <div class="tape-wrap" aria-hidden="true"><div class="tape pink">&#9733; 23 criceti &#9733; 29 sfere &#9733; 30 scie &#9733; 23 criceti &#9733; 29 sfere &#9733; 30 scie &#9733; 23 criceti &#9733; 29 sfere &#9733; 30 scie &#9733; 23 criceti &#9733; 29 sfere &#9733; 30 scie &#9733; 23 criceti &#9733; 29 sfere &#9733; 30 scie &#9733; 23 criceti &#9733; 29 sfere &#9733; 30 scie &#9733;</div></div>
 
   <section class="scene t-looks vis-right" aria-labelledby="looks-title">
     <div class="sparks" aria-hidden="true">
@@ -578,18 +699,18 @@ footer p a { padding-block: 12px; }
     </div>
     <div class="wrap">
       <div class="head">
-        <h2 class="title" id="looks-title"><span class="line hot" data-text="60 look">60 look</span> <span class="line" data-text="da raccogliere">da raccogliere</span></h2>
+        <h2 class="title" id="looks-title"><span class="line hot" data-text="92 look">92 look</span> <span class="line" data-text="da collezionare">da collezionare</span></h2>
         <p class="pill">Criceti · Sfere · Scie</p>
       </div>
       <div class="split">
         <div class="copy">
           <ul class="counts">
-            <li><b>16</b> <span>criceti</span></li>
-            <li><b>21</b> <span>sfere</span></li>
-            <li><b>23</b> <span>scie</span></li>
+            <li><b>23</b> <span>criceti</span></li>
+            <li><b>29</b> <span>sfere</span></li>
+            <li><b>30</b> <span>scie</span></li>
           </ul>
-          <p>Guadagna stelle nei round e con le stelline, poi apri un regalo per 60 stelle.</p>
-          <p class="note">I look cambiano il tuo stile, non la tua velocità.</p>
+          <p>Hai 3 look fin dall’inizio. Guadagna stelle giocando, poi apri un regalo per 60 stelle. Prova un piccolo drago o un manto Aurora, rotola in un pallone da spiaggia, o lasciati dietro lucciole e polvere di cometa.</p>
+          <p class="note">I regali contengono 67 look, tutti tranne quelli iniziali e i look Signature. I look cambiano il tuo stile, non la tua velocità.</p>
         </div>
         <figure class="look-fig">
           <div class="shot" style="--tilt:3deg"><img src="../img/it/shot-9.jpg" width="540" height="960" loading="lazy" decoding="async" alt="La schermata I tuoi look: in alto la Sfera di fuoco indossata, le schede Criceti, Sfere e Scie, la griglia e il pulsante Apri regalo."></div>
@@ -626,7 +747,7 @@ footer p a { padding-block: 12px; }
                 <li style="--rar:#ffdb54">Leggendario 3%</li>
               </ul>
               <span>Quando hai tutti i look di una rarità, la sua quota passa alle altre.</span></li>
-            <li>Dopo 7 regali di fila senza Epico né Leggendario, il successivo è almeno Epico.</li>
+            <li>Ogni 5 partite si riempie un regalo gratis. Puoi anche scegliere un look dei regali e sbloccarlo con le stelle.</li>
           </ul>
         </div>
         <figure class="gift-fig">
@@ -651,12 +772,15 @@ footer p a { padding-block: 12px; }
       </div>
       <div class="ui know">
         <ul class="facts">
-          <li>Ogni rivale è un criceto guidato dal computer. Nessun account necessario.</li>
-          <li>Annunci adatti ai bambini per tutti i giocatori: Google AdMob classificati G e mai personalizzati. Gli annunci non interrompono mai un round. Puoi vederne uno tra un round e l’altro, e l’annuncio per le stelle parte solo se lo tocchi.</li>
-          <li>Guarda un annuncio facoltativo per 10 stelle. Un acquisto unico di Rimuovi gli annunci spegne gli annunci tra un round e l’altro; l’annuncio facoltativo per le stelle resta.</li>
-          <li>La sfera Prisma e la scia Arcobaleno sono in vendita su Google Play. I regali non le contengono mai e le stelle non sono in vendita.</li>
+          <li>Le partite possono includere giocatori guidati dal computer.</li>
+          <li>Il gioco crea il tuo account per te, senza email né password.</li>
+          <li>Il gioco online non ha chat. Ognuno riceve un nome dal gioco e può pescarne un altro o scrivere un nickname che controlliamo prima che qualcuno lo veda. Si comunica con 14 emote già pronte. Gli amici vedono quando sei online, a meno che tu non attivi Nascondi il mio stato online nelle Impostazioni.</li>
+          <li>Annunci adatti ai bambini per tutti i giocatori: Google AdMob classificati G e mai personalizzati. Gli annunci non interrompono mai un round. Puoi vederne uno breve tra un round e l’altro, e l’annuncio per le stelle parte solo se lo tocchi.</li>
+          <li>Guarda un annuncio facoltativo per 10 stelle. Rimuovi gli annunci spegne gli annunci tra un round e l’altro; l’annuncio facoltativo per le stelle resta.</li>
+          <li>In vendita su Google Play, si comprano una volta e restano tuoi per sempre: Rimuovi gli annunci, il Pacchetto iniziale, i look Signature, gli effetti colpo e i balletti della vittoria, e i set Re della Lava, Astrocadetto e Ninja Gelo. Colori del nome ed emote richiedono un account online.</li>
+          <li>Gli oggetti a pagamento si ottengono solo con denaro: regali, stelle e trofei non li danno mai, e le stelle non sono in vendita. Niente di ciò che compri ti aiuta a vincere.</li>
           <li>Gioca in verticale o in orizzontale, su telefoni e tablet.</li>
-          <li>Interruttori separati per musica, suoni e vibrazione, movimenti Ridotti e il pulsante scatto a sinistra o a destra.</li>
+          <li>Interruttori separati per musica, suoni e vibrazione, Movimenti ridotti, l’opzione Joystick fisso, tre dimensioni dei pulsanti e Comandi a specchio, che spostano il pulsante scatto a sinistra.</li>
           <li>13 lingue: inglese, russo, spagnolo, tedesco, francese, giapponese, coreano, cinese semplificato, turco, italiano, portoghese brasiliano, polacco e ucraino.</li>
         </ul>
       </div>

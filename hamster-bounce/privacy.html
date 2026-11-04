@@ -37,7 +37,7 @@ thead th { background: #e8f2ea; }
 <main>
 
 <h1>Hamster Bounce privacy policy</h1>
-<p>Last updated: <time datetime="2026-10-27">27 October, 2026</time> · Version 2.2</p>
+<p>Last updated: <time datetime="2026-11-03">3 November, 2026</time> · Version 2.3</p>
 
 <div class="box">
 <p><strong>The short version</strong></p>
@@ -46,7 +46,7 @@ thead th { background: #e8f2ea; }
 <li>Online play needs an account. The game makes it from your device. We never ask for your email, a password, your age or your real name.</li>
 <li>There is no chat. The server gives you a made-up name. Online, you can type a nickname instead if you want. We check it before anyone else can see it, and you can remove it at any time.</li>
 <li>You can link Google Play Games to move your account to a new device. This is optional, and we do not get your email address.</li>
-<li>Your friends can see whether you are online or in a match. You can hide this in Settings.</li>
+<li>Your online status is hidden unless you choose to show it. If you do, your friends can see whether you are online or in a match.</li>
 <li>Every ad is treated as being shown to a child and is never personalised.</li>
 <li>You can delete your data from the game at any time, or by email.</li>
 </ul>
@@ -81,7 +81,7 @@ thead th { background: #e8f2ea; }
 <li><strong>Recovery code.</strong> If you don't use Google Play Games, you can create a recovery code in your Profile, under Account. It looks like XXXX-XXXX-XXXX-XXXX. We keep only a hash of it, so we cannot show it to you again. Keep it private. You never need a recovery code to buy anything.</li>
 </ul>
 <p>When your account moves to a new device, the old device is signed out and the game tells it that the account moved.</p>
-<p><strong>Your nickname (optional).</strong> Online, the server gives you a made-up name. You can type a nickname instead: 2 to 16 letters or numbers (at most 2 numbers), spaces, _ or -, with no emoji. Only one account can have each nickname. Before anyone else can see it, we check it in two steps:</p>
+<p><strong>Your nickname (optional).</strong> Online, the server gives you a made-up name. You can type a nickname instead: 3 to 16 letters or numbers (2 to 16 in Chinese, Japanese or Korean; at most 2 numbers), spaces, _ or -, with no emoji. Only one account can have each nickname. Before anyone else can see it, we check it in two steps:</p>
 <ol>
 <li>Our own rules look for bad words, real full names, phone numbers, email and web addresses, social media names, ages, and names that look like the game, its staff or a computer player.</li>
 <li>Then we send the nickname to OpenAI's moderation service, which checks it for harmful words. We send only the nickname text, never your account ID or anything about your device.</li>
@@ -165,7 +165,7 @@ thead th { background: #e8f2ea; }
 <h2 id="purchases">8. Purchases</h2>
 <p>You can buy Remove ads and the Signature items listed in the <a href="https://ivanvyd.github.io/hamster-bounce/terms.html">terms</a>: a ball, a trail, hit effects, victory dances, three sets, the Starter pack, two name colours and an emotes pack.</p>
 <p>Google Play handles every payment, and we never receive your card or bank details. Google tells our server which item was bought, its state and a purchase token, through Play Billing and Google Cloud Pub/Sub. We use these to unlock the item, restore it on another device and handle refunds. When you buy online, the game gives Google Play a scrambled (hashed) reference to your online account, so Google can tell us which account a purchase or refund belongs to. Google cannot turn it back into your account ID.</p>
-<p>A Google Play purchase belongs to one online account at a time: the account that last showed it to our server. If another online account shows the same purchase, for example after you sign in to the game on another device, the purchase moves to that account and the old account loses the item. When you tap Restore purchases, the game sends our server the purchase tokens of every purchase Google Play reports for the Google account on that device. You never need a recovery code to buy something.</p>
+<p>A Google Play purchase belongs to one online account at a time: the account that last showed it to our server. If another online account shows the same purchase, for example after you sign in to the game on another device, the purchase moves to that account and the old account loses the item. When you sign in or open the shop, the game automatically sends our server the purchase tokens of purchases Google Play reports for the Google account on that device. You never need a recovery code to buy something.</p>
 <p>Stars are earned by playing or by watching an optional ad. They are never sold. They open in-game gifts, and the game shows the odds before you open one. Stars can also unlock a gift look you choose. Every five matches you finish fill a free gift. Gifts, free gifts and Stars never give the items you can buy.</p>
 
 <h2 id="processors">9. Service providers and international transfers</h2>

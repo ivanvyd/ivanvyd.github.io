@@ -192,12 +192,15 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
 .stats { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 0 0 24px; }
 .stats li { padding: 6px 16px; border-radius: 999px; background: rgba(23, 10, 40, .72); border: 3px solid rgba(255, 250, 230, .28); font: var(--dw) 1.05rem/1.5 var(--display); }
 .stats b { color: var(--lemon); font-size: 1.2em; }
+.play-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 16px; }
+.browser-play { display: inline-flex; min-height: 52px; align-items: center; justify-content: center; padding: 8px 18px; border-radius: 12px; background: var(--lemon); color: var(--ink); font-weight: 700; text-align: center; text-decoration: none; }
+.browser-play:hover { text-decoration: underline; text-underline-offset: 3px; }
+.browser-note { margin: 12px 0 0; }
 .play-badge { display: inline-block; border-radius: 12px; line-height: 0; transition: transform .15s ease; }
 .play-badge img { display: block; width: auto; height: 60px; }
 .play-badge:hover { transform: translateY(-2px); }
 .play-badge:focus-visible { outline: 3px solid var(--lemon); outline-offset: 4px; }
-.finale .play-badge { display: block; width: fit-content; margin: 26px auto 0; }
-.finale .play-badge img { height: 68px; }
+.finale .play-actions { margin: 26px auto 0; }
 .fan { width: min(100%, 27rem); padding: 10px 0 18px; }
 .fan .main { position: relative; z-index: 3; width: 56%; margin: 0 auto; }
 .fan .side { position: absolute; z-index: 1; top: 12%; width: 44%; }
@@ -208,6 +211,7 @@ h3 { font-family: var(--display); font-weight: var(--dw); line-height: 1.15; }
   .hero-grid { grid-template-columns: 1.05fr .95fr; text-align: left; }
   .hero .lead { margin-left: 0; }
   .stats { justify-content: flex-start; }
+  .hero .play-actions { justify-content: flex-start; }
   .fan { width: min(100%, 31rem); }
 }
 
@@ -390,7 +394,11 @@ footer p a { padding-block: 12px; }
           <li><b>5</b><span>가지 모드</span></li>
           <li><b>92</b><span>종 꾸미기</span></li>
         </ul>
-        <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ko.png" width="646" height="192" decoding="async" alt="Google Play에서 다운로드"></a>
+        <div class="play-actions">
+          <a class="browser-play" href="https://play.compiletheory.com/play/">브라우저에서 플레이</a>
+          <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ko.png" width="646" height="192" decoding="async" alt="Google Play에서 다운로드"></a>
+        </div>
+        <p class="browser-note">설치 없이 Android 플레이어와 같은 경기에 참여할 수 있어요.</p>
       </div>
       <div class="stage fan">
         <div class="shot side left" style="--tilt:-9deg" aria-hidden="true"><img src="../img/ko/shot-5.jpg" width="540" height="960" decoding="async" alt=""></div>
@@ -798,7 +806,10 @@ footer p a { padding-block: 12px; }
       <img class="badge" src="../img/icon.png" width="96" height="96" loading="lazy" decoding="async" alt="Hamster Bounce 앱 아이콘.">
       <h2 class="title" id="finale-title"><span class="line" data-text="Google Play에서">Google Play에서</span> <span class="line hot" data-text="만나요!">만나요!</span></h2>
       <p class="pill">끝까지 남으면 승리!</p>
-      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ko.png" width="646" height="192" loading="lazy" decoding="async" alt="Google Play에서 다운로드"></a>
+      <div class="play-actions">
+        <a class="browser-play" href="https://play.compiletheory.com/play/">브라우저에서 플레이</a>
+        <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ivanvyd.hamsterbounce"><img src="../img/play-badge/ko.png" width="646" height="192" loading="lazy" decoding="async" alt="Google Play에서 다운로드"></a>
+      </div>
     </div>
   </section>
 </main>
